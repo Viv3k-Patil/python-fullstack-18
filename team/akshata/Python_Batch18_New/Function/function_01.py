@@ -5,8 +5,9 @@ def function_name():
 function_name()
 print(type(function_name))
 
+print("-------******************-------")
 def greet():
-   print("Welcome to Python Data")
+   print("Welcome to Python Course")
 
 greet()
 print(type(greet))

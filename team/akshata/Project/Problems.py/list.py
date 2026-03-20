@@ -114,6 +114,6 @@
 list = [1, 2, 3, 2, 4, 2]
 result = []
 for i in list:
-    if i !=2:
+    if i != 2:
         result.append(i)
 print(result)
