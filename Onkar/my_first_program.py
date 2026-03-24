@@ -1,0 +1,1 @@
+print("All Student Are Placement")
