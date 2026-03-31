@@ -38,7 +38,8 @@ print("Age of user:", age)
 # Show the calculated age
 print("Birth year of user:", yob)  
 # Show the birth year entered
-print("Current year:", current_year)  # Show today's year
+print("Current year:", current_year)  
+# Show today's year
 print("City of user:", city)  
 # Show the user's city
 print("Country of user:", country)  
