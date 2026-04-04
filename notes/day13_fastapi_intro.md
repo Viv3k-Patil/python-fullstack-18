@@ -134,19 +134,7 @@ http://127.0.0.1:8000/docs
 
 ---
 
-## 🔄 12. Request–Response Flow
-
-![Image](https://miro.medium.com/v2/resize%3Afit%3A1400/1%2AOMhE9T_tuC0pUoZyWKWSnQ.png)
-
-![Image](https://miro.medium.com/v2/resize%3Afit%3A1400/1%2ASFUzZdIUHyMXvclO5ykEhQ.png)
-
-![Image](https://www.producttalk.org/content/images/2025/08/how-rest-apis-work.png)
-
-![Image](https://miro.medium.com/v2/resize%3Afit%3A1400/1%2Au0SNIUZLaXkcb4qv6c9sxw.png)
-
----
-
-## ❤️ 13. Health API
+## ❤️ 12. Health API
 
 ```python
 @app.get("/health")
@@ -162,7 +150,7 @@ http://127.0.0.1:8000/health
 
 ---
 
-## 📦 14. Dependencies File
+## 📦 13. Dependencies File
 
 Create:
 
