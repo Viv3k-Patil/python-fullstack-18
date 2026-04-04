@@ -10,8 +10,8 @@ class Board:
     def make_move(self,row,col,symbol):
         self.board[row][col] = symbol
 
+
     def print_Board(self):
-        
         for row in self.board:
           print(" | ".join(row))
 
@@ -28,4 +28,4 @@ class Board:
            for row in range(3):
             col_values.append(self.board[row][col])
            if col_values[0] == col_values[1] == col_values[2] != "_":
-              return col_values[0]
+            return col_values[0]
