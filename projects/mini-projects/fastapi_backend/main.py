@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 
 app = FastAPI()
 
@@ -43,7 +43,6 @@ def create_user_with_query_param(name: str):
 def delete_user(id: int):
     users.pop(id)
     return {"status": "user deleted successfully"}
-
 
 
 # print(app.routes)
