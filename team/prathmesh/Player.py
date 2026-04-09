@@ -1,6 +1,7 @@
 class Player:
-   def __init__(self,player,symbol):
-      self.player=player
+   def __init__(self,name,symbol):
+      self.name=name
       self.symbol=symbol
+
 a=Player("vivek","O")
 print(a)
