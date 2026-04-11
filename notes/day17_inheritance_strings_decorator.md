@@ -334,3 +334,330 @@ class UserController(AuthMixin, LoggingMixin):
 * `super()` is used to call parent or next in MRO
 * Multiple inheritance follows MRO
 * Constructor is not automatically chained without `super()`
+
+
+---
+String Methods
+---
+
+# 🔤 Case Conversion
+
+### `capitalize()`
+
+```python
+"hello world".capitalize()   # 'Hello world'
+```
+
+### `casefold()`
+
+```python
+"HELLO".casefold()   # 'hello'
+```
+
+### `lower()`
+
+```python
+"HELLO".lower()   # 'hello'
+```
+
+### `upper()`
+
+```python
+"hello".upper()   # 'HELLO'
+```
+
+### `title()`
+
+```python
+"hello world".title()   # 'Hello World'
+```
+
+### `swapcase()`
+
+```python
+"HeLLo".swapcase()   # 'hEllO'
+```
+
+---
+
+# 🔍 Searching & Finding
+
+### `find()`
+
+```python
+"hello".find("l")   # 2
+```
+
+### `rfind()`
+
+```python
+"hello".rfind("l")   # 3
+```
+
+### `index()`
+
+```python
+"hello".index("e")   # 1
+```
+
+### `rindex()`
+
+```python
+"hello".rindex("l")   # 3
+```
+
+### `count()`
+
+```python
+"banana".count("a")   # 3
+```
+
+### `startswith()`
+
+```python
+"hello".startswith("he")   # True
+```
+
+### `endswith()`
+
+```python
+"hello".endswith("lo")   # True
+```
+
+---
+
+# ✂️ Modifying Strings
+
+### `replace()`
+
+```python
+"banana".replace("a", "x")   # 'bxnxnx'
+```
+
+### `strip()`
+
+```python
+"  hi  ".strip()   # 'hi'
+```
+
+### `lstrip()`
+
+```python
+"  hi".lstrip()   # 'hi'
+```
+
+### `rstrip()`
+
+```python
+"hi  ".rstrip()   # 'hi'
+```
+
+### `removeprefix()`
+
+```python
+"unhappy".removeprefix("un")   # 'happy'
+```
+
+### `removesuffix()`
+
+```python
+"file.txt".removesuffix(".txt")   # 'file'
+```
+
+---
+
+# 🔀 Splitting & Joining
+
+### `split()`
+
+```python
+"a,b,c".split(",")   # ['a', 'b', 'c']
+```
+
+### `rsplit()`
+
+```python
+"a,b,c".rsplit(",", 1)   # ['a,b', 'c']
+```
+
+### `splitlines()`
+
+```python
+"a\nb".splitlines()   # ['a', 'b']
+```
+
+### `join()`
+
+```python
+"-".join(["a", "b"])   # 'a-b'
+```
+
+### `partition()`
+
+```python
+"key=value".partition("=")   # ('key', '=', 'value')
+```
+
+### `rpartition()`
+
+```python
+"a=b=c".rpartition("=")   # ('a=b', '=', 'c')
+```
+
+---
+
+# 📐 Alignment & Formatting
+
+### `center()`
+
+```python
+"hi".center(6, "*")   # '**hi**'
+```
+
+### `ljust()`
+
+```python
+"hi".ljust(5, "-")   # 'hi---'
+```
+
+### `rjust()`
+
+```python
+"hi".rjust(5, "-")   # '---hi'
+```
+
+### `zfill()`
+
+```python
+"42".zfill(5)   # '00042'
+```
+
+### `expandtabs()`
+
+```python
+"a\tb".expandtabs(4)
+```
+
+---
+
+# 🔢 Checking Methods (Boolean)
+
+### `isalnum()`
+
+```python
+"abc123".isalnum()   # True
+```
+
+### `isalpha()`
+
+```python
+"abc".isalpha()   # True
+```
+
+### `isdigit()`
+
+```python
+"123".isdigit()   # True
+```
+
+### `isdecimal()`
+
+```python
+"123".isdecimal()   # True
+```
+
+### `isnumeric()`
+
+```python
+"123".isnumeric()   # True
+```
+
+### `islower()`
+
+```python
+"abc".islower()   # True
+```
+
+### `isupper()`
+
+```python
+"ABC".isupper()   # True
+```
+
+### `istitle()`
+
+```python
+"Hello World".istitle()   # True
+```
+
+### `isspace()`
+
+```python
+"   ".isspace()   # True
+```
+
+### `isidentifier()`
+
+```python
+"var_1".isidentifier()   # True
+```
+
+### `isprintable()`
+
+```python
+"abc".isprintable()   # True
+```
+
+### `isascii()`
+
+```python
+"abc".isascii()   # True
+```
+
+---
+
+# 🔄 Encoding / Decoding
+
+### `encode()`
+
+```python
+"hello".encode("utf-8")   # b'hello'
+```
+
+---
+
+# 🧩 Miscellaneous
+
+### `format()`
+
+```python
+"Hello {}".format("Vivek")   # 'Hello Vivek'
+```
+
+### `format_map()`
+
+```python
+"{name}".format_map({"name": "Vivek"})   # 'Vivek'
+```
+
+### `translate()`
+
+```python
+table = str.maketrans("a", "x")
+"apple".translate(table)   # 'xpple'
+```
+
+### `maketrans()` (used with translate)
+
+```python
+str.maketrans("a", "x")
+```
+
+---
+
+# 🧠 Final Summary
+
+* String methods are **immutable operations** → return new string
+* No method modifies original string
+
+---
