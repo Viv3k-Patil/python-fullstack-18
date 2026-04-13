@@ -9,7 +9,7 @@ teams = []
 # models
 class Team(BaseModel):
     id: int
-    name: str = Field(examples="My dream team", description="Enter team name", min_length=3, max_length=20)
+    name: str = Field(examples=["My dream team"], description="Enter team name", min_length=3, max_length=20)
     player: str
 
 
