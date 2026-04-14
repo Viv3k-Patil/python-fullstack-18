@@ -1,5 +1,3 @@
----
-
 # 🔥 1. What is Exception Handling?
 
 👉 Exception handling is:
