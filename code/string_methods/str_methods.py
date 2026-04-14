@@ -21,3 +21,12 @@ fals_valu = my_str.startswith("sdfadfasfd")
 tru_val = my_str.endswith("learn")
 # print(tru_val)
 
+str_new = "geeks_for_geeks"
+split_str = str_new.rsplit("_", 2)
+
+str_arr = ['one', 'two', 'three']
+output = "key=value".partition("=")   # ('key', '=', 'value')
+# print("".join(str_arr))
+print(output)
+
+print("hihhihi".center(6, "*"))   # '**hi**'
