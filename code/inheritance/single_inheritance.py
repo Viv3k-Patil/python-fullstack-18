@@ -1,13 +1,27 @@
 class A:
     def __init__(self):
         self.a_attribute = "a_attribute"
+        super().__init__()
         print("A")
 
-class B(A):
+    def print_b():
+        print("inside A class")
+
+class C:
     def __init__(self):
-        self.a_attribute = "b_attribute"
+        self.c_attribute = "c_attribute"
+        print("C")
+
+    def print_c():
+        print("inside C class")
+
+class B(A,C):
+    def __init__(self):
+        self.b_attribute = "b_attribute"
         super().__init__()
         print("B")
 
+
+
 a = B()
-print("somethingg")
+print(B.__mro__)
