@@ -1,7 +1,26 @@
 
 
+
+print("something")
+print("something")
+print("something")
+
 try:
-    # a = 1 / 0
-    a = int("abc")
-except (ZeroDivisionError, ValueError) as e:
-    print(f"An error occurred: {e}")
+    int("abc")
+except ValueError as e:
+    print(e)
+else:
+    print("code works!!")
+finally:
+    print("cleaning..")
+
+
+# print("something")
+# print("something")
+# print("something")
+# print("something")
+# print("something")
+# print("something")
+# print("something")
+# print("something")
+# print("something")
