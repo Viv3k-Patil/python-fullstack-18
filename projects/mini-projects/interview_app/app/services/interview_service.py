@@ -15,7 +15,7 @@ def create_interview(request: InterviewCreateRequest):
     
 
 # get all interview service method
-def get_all_interview():
+def get_all_interviews():
     return interviews
 
 # get interview by id

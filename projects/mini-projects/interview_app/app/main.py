@@ -10,8 +10,8 @@ app = FastAPI(
     docs_url="/docs",
 ) 
 
-app.include_router(interview_router)
 global_exception_handler(app)
+app.include_router(interview_router)
 
 
 
