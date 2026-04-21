@@ -3,7 +3,7 @@ from fastapi import FastAPI
 
 app = FastAPI()
 
-books = ["python","FastAPIS"]
+books = ["python","FastAPIs"]
 
 # health end point
 @app.get("/health")
@@ -36,8 +36,8 @@ def create_books(name : str):
 
 #delete books name using id
 @app.delete("/books/{id}")
-def delete_book_id(id : int):
+def delete_book_by_id(id : int):
     books.pop(id)
     return {
-        "Data": f"Delete books successfully"
+        "Data": f"Delete book successfully"
     }
