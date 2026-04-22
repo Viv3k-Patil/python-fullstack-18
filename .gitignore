@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -143,3 +144,27 @@ Thumbs.db
 # Node modules (if using any Node tools)
 node_modules/
 npm-debug.log
+=======
+venv/
+# .gitignore
+# team/mounika/fastapi_project/__pycache__
+
+
+# Virtual environments
+venv/
+interviewenv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Environment variables
+.env
+
+# VS Code
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+>>>>>>> 960a3398 (Updated .gitignore and removed unnecessary files)
