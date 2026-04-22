@@ -23,7 +23,7 @@ def create_interview(request: InterviewCreateRequest):
 # get all interviews
 @router.get("/")
 def get_all_interviews():
-    interview_list = interview_service.get_all_interview()
+    interview_list = interview_service.get_all_interviews()
     response_list = []
     for interview_python_dict in interview_list:
         pydantic_obj = InterviewResponse(**interview_python_dict)
