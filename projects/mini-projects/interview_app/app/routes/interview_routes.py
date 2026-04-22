@@ -1,3 +1,5 @@
+import datetime
+
 from fastapi import APIRouter
 from app.schemas.interview_request import InterviewCreateRequest, InterviewUpdateRequest
 from app.services import interview_service
@@ -28,6 +30,15 @@ def get_all_interviews():
         response_list.append(pydantic_obj)
     return interview_list
 
+# get interview by time ( start_time and end_time)
+@router.get("/by-time")
+def get_interview_by_time(start_time: datetime.datetime, end_time: datetime.datetime):
+    output_list = interview_service.get_interview_by_time(start_time,end_time)
+    response_list = []
+    for each_interview in output_list:
+        py_obj = InterviewResponse(**each_interview)
+        response_list.append(py_obj)
+    return response_list
 
 # get interview by id
 @router.get("/{interview_id}")
@@ -54,12 +65,3 @@ def delete_interview_by_id(interview_id: int):
     }
 
 
-# get interview by time ( start_time and end_time)
-@router.get("/by-time")
-def get_interview_by_time(start_time: str, end_time: str):
-    output_list = interview_service.get_interview_by_time(start_time,end_time)
-    response_list = []
-    for each_interview in output_list:
-        py_obj = InterviewResponse(**each_interview)
-        response_list.append(py_obj)
-    return response_list

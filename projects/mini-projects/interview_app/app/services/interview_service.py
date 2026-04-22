@@ -1,3 +1,4 @@
+import datetime
 from app.schemas.interview_request import InterviewUpdateRequest, InterviewCreateRequest
 from app.db.db import interviews
 from app.exceptions.custom_exceptions import InterviewNotFoundException
@@ -47,7 +48,7 @@ def delete_interview(interview_id: int):
     return False
 
 # get interview by time
-def get_interview_by_time(start_time: str, end_time: str):
+def get_interview_by_time(start_time: datetime.datetime, end_time: datetime.datetime):
     output_list = []
     for each_interview in interviews:
         interview_actual_time = each_interview["time"]

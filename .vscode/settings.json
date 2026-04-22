@@ -1,3 +1,4 @@
 {
-    "python-envs.defaultEnvManager": "ms-python.python:system"
+    "python-envs.defaultEnvManager": "ms-python.python:system",
+    "git.path": "D:\\softwares\\PortableGit\\cmd\\git.exe"
 }
