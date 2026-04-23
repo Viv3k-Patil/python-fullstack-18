@@ -1,28 +1,57 @@
-from app.schemas.interview_request import InterviewUpdateRequest
+import datetime
+from app.schemas.interview_request import InterviewUpdateRequest, InterviewCreateRequest
+from app.db.interview_db import interviews
+from app.exceptions.custom_exception import InterviewNotFoundException
 
-#Create  POST interview
-def create_interview():   
-  pass
+# create interview service method
+def create_interview(request: InterviewCreateRequest):
+    new_interview = {
+        "id": len(interviews) + 1,
+        "candidate_name": request.candidate_name,
+        "interviewer_name": request.interviewer_name,
+        "time": request.time
+    }
+    interviews.append(new_interview)
+    return new_interview
     
-#Create GET interview
 
-def show_interviews():
-  pass
+# get all interview service method
+def get_all_interviews():
+    return interviews
 
-#Create GET interview by id
-def get_interviews_by_id(id:int):
-   pass
+# get interview by id
+def get_interview_by_id(interview_id: int):
+    for each_interview in interviews:
+        if each_interview["id"] == interview_id:
+            return each_interview
+    raise InterviewNotFoundException(interview_id)
 
-#Create PUT / UPDTE interview{id=int , name=str}
-def update_interview(id:int,request:InterviewUpdateRequest):
-    pass
 
-# DELET interview by id
+# udpate interview by id
+def update_interview_by_id(interview_id: int, request: InterviewUpdateRequest):
+    for each_interview in interviews:
+        if each_interview["id"] == interview_id:
+            each_interview.update({
+                "candidate_name": request.candidate_name,
+                "interviewer_name" : request.interviewer_name,
+                "time": request.time
+            })
+            return each_interview
+    raise InterviewNotFoundException(interview_id)
 
-def delete_interviwe_by_id(interview_id:int):
-    pass
+# delete interview service method
+def delete_interview(interview_id: int):
+    for each_interview in interviews:
+        if each_interview["id"] == interview_id:
+            interviews.remove(each_interview)
+            return True
+    return False
 
-#get DATE AND TIME interviewm{time=IST,Date=int}
-
-def get_time(start_time:str,end_time:str):
-    pass
+# get interview by time
+def get_interview_by_time(start_time: datetime.datetime, end_time: datetime.datetime):
+    output_list = []
+    for each_interview in interviews:
+        interview_actual_time = each_interview["time"]
+        if start_time <= interview_actual_time < end_time:
+            output_list.append(each_interview)
+    return output_list

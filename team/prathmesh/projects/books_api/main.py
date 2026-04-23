@@ -15,7 +15,7 @@
 #         "today": str(date.today())
 #     }
 
-from fastapi import FastAPI
+from fastapi import FastAPI,HTTPException
 from pydantic import BaseModel
 
 app = FastAPI()
@@ -27,11 +27,19 @@ class User(BaseModel):
     teams: list[str]
 
 # in memory db
-user = [
-]
+user = []
 
 @app.get("/health")
 def health_check():
+    try:
+        1/0
+    except Exception as e:
+        print(f"this is an error {e}") 
+        return HTTPException(
+           status_code=400,
+           detail="server not found",
+           
+        )
     return {"status": "ok"}
 
 @app.get("/users")

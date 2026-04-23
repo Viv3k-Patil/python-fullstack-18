@@ -1,3 +1,3 @@
-#create a list of interviews
-
-interviews=[]
+# dicts for interviews
+# list of dict
+interviews = []

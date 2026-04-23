@@ -1,12 +1,13 @@
-from pydantic import BaseModel,field
+from pydantic import BaseModel, Field
 from datetime import datetime
 
 class InterviewCreateRequest(BaseModel):
-    candidatename:str=field(min_length=3,max_length=30,example="surname example")
-    interviver_name:str
-    time:datetime
+    candidate_name: str = Field(min_length=2, max_length=100, example="name surname")
+    interviewer_name: str
+    time: datetime
+
 
 class InterviewUpdateRequest(BaseModel):
-    candidatename:str=field(min_length=3,max_length=30,example="surname example")
-    interviver_name:str
-    time:datetime    
+    candidate_name: str = Field(min_length=2, max_length=100, example="name surname")
+    interviewer_name: str
+    time: datetime

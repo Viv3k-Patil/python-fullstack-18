@@ -1,13 +1,21 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from app.routes.interview_routes import router as interview_router
+from app.exceptions.handler import global_exception_handler
 
-app=FastAPI(
-    title="Interview-App",
-    description=" simple interview Application Build with FastApi",
-    version="1.1.0",
-    docs_url="/docs"
-    )
+
+app = FastAPI(
+    title="Interview App",
+    description="A simple interview application built with FastAPI.",
+    version="1.0.0",
+    docs_url="/docs",
+) 
+
+global_exception_handler(app)
+app.include_router(interview_router)
+
+
+
 @app.get("/health")
-def check_health():
-    return {
-        "msg" : "health is okk and server is running"
-    }
+def health_check():
+    return {"status": "ok"}
+

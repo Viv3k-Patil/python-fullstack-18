@@ -93,10 +93,15 @@
 
 # my_fun()
 
-try:
-    a=1/0
-except ZeroDivisionError:
-    print("takes as an error")
+
+    
+        
+  
+            
+
+    
+
+
    
 
    

@@ -1,0 +1,33 @@
+#simply try-catch
+try:
+    x=int("xyz")
+except ValueError:
+    print("Invalid number")
+        
+#generic exception
+try:
+    x=int("abc")
+except ValueError as e:
+    print(e)
+ 
+#Exception Chaning
+# try:
+#     x=int("abc")
+# except ValueError as e:
+#     raise RuntimeError ("Wrraped error") from e
+
+
+try:
+     x=str(123)
+     x=somethingg
+except ValueError:
+       print("this is error")
+except NameError:
+     print("take error")
+except Exception    :
+        print("some excption")
+raise IndentationError ("somethinghhhh")
+   
+          
+            
+            
