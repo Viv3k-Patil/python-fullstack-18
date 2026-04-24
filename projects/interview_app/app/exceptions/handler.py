@@ -9,7 +9,7 @@ def global_exception_handler(app):
         return JSONResponse(
             status_code= 400,
             content={
-                "message" : ex.msg
+                "message" : ex.msg   
             }
         )
     
@@ -26,3 +26,6 @@ def global_exception_handler(app):
                 "status":"hey there"
             }
         )
+        
+a=10
+print(a)
