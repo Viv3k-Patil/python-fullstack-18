@@ -27,5 +27,3 @@ def global_exception_handler(app):
             }
         )
         
-a=10
-print(a)
