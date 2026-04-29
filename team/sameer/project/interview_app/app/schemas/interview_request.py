@@ -6,6 +6,6 @@ class InterviewCreateRequest(BaseModel):
     time: datetime
 
 class InterviewUpdateRequest(BaseModel):
-    candidate_name :str = Field(min_length=2,max_length=100 example="sameer awate")
+    candidate_name :str = Field(min_length=2,max_length=100 ,example="sameer awate")
     interviewer_name: str
     time: datetime
