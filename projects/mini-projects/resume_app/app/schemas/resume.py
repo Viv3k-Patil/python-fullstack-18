@@ -1,43 +1,44 @@
 """
-Pyndatic schemas for request validtion and api response serialization.
+Pydantic schemas for request validation and API response serialization.
 """
 
 from datetime import datetime
-from pydantic import BaseModel
-from uuid import UUID, uuid4
+from uuid import UUID
+
+from pydantic import BaseModel, EmailStr, Field
 
 
-# --------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
 # Response schemas
-# --------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+
 class ResumeUploadResponse(BaseModel):
-    """Returned after a successful upload of a resume."""
+    """Returned after a successful upload."""
 
     id: UUID
     student_name: str
-    email: str
+    email: EmailStr
     original_filename: str
-    message: str = "resume uploaded successfully"
     file_size_bytes: int
     uploaded_at: datetime
+    message: str = "Resume uploaded successfully."
 
 class ResumeSummary(BaseModel):
-    """Lightweight summary used in list resposnes."""
+    """Lightweight summary used in list responses."""
 
     id: UUID
     student_name: str
-    email: str
+    email: EmailStr
     original_filename: str
     file_size_bytes: int
     uploaded_at: datetime
+
 
 class ResumeListResponse(BaseModel):
     total: int
-    resume: list[ResumeSummary]
+    resumes: list[ResumeSummary]
 
-class ResumeDeleteResponse(BaseModel):
-    id: UUID
+
+class DeleteResponse(BaseModel):
     message: str
-
-
-# Create ResumeUploadRequest schema
+    id: UUID

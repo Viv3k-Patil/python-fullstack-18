@@ -2,8 +2,14 @@ from fastapi import FastAPI, UploadFile, Form
 from fastapi.responses import Response, FileResponse
 from app.routers.resume_router import router as resume_router
 from fastapi.staticfiles import StaticFiles
+from app.exceptions.global_exception_handler import global_exception_handler
 
 app = FastAPI()
+
+# --------------------------------------------------------
+# Register global exception handler
+# --------------------------------------------------------
+global_exception_handler(app)
 
 app.include_router(resume_router)
 
