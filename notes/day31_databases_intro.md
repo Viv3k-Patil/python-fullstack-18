@@ -1,7 +1,3 @@
-Got it—structured, clean, and a bit of energy with emojis. Use this directly for teaching 👇
-
----
-
 # 📚 DATABASE FUNDAMENTALS (Structured Notes)
 
 ---
