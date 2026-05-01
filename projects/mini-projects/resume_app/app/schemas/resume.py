@@ -9,6 +9,17 @@ from pydantic import BaseModel, EmailStr, Field
 
 
 # ---------------------------------------------------------------------------
+# Request schemas
+# ---------------------------------------------------------------------------
+
+class ResumeUploadRequest(BaseModel):
+    """Validates the text fields from the upload form."""
+
+    student_name: str = Field(..., min_length=1, max_length=100, strip_whitespace=True)
+    email: EmailStr
+
+
+# ---------------------------------------------------------------------------
 # Response schemas
 # ---------------------------------------------------------------------------
 
@@ -22,6 +33,7 @@ class ResumeUploadResponse(BaseModel):
     file_size_bytes: int
     uploaded_at: datetime
     message: str = "Resume uploaded successfully."
+
 
 class ResumeSummary(BaseModel):
     """Lightweight summary used in list responses."""

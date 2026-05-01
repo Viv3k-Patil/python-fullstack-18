@@ -21,7 +21,7 @@ router = APIRouter()
 # POST /api/resumes/upload
 # ---------------------------------------------------------------------------
 @router.post(
-    "/resumes",
+    "/upload",
     response_model=ResumeUploadResponse,
     status_code=status.HTTP_201_CREATED,
     summary="Upload a student resume (PDF only)",
@@ -46,7 +46,7 @@ async def upload_resume(
 # GET /api/resumes/
 # ---------------------------------------------------------------------------
 @router.get(
-    "/resumes",
+    "/",
     response_model=ResumeListResponse,
     summary="List all uploaded resumes",
 )
@@ -57,10 +57,10 @@ def list_resumes() -> ResumeListResponse:
 
 
 # ---------------------------------------------------------------------------
-# GET /api/resumes/{resume_id}/
+# GET /api/resumes/{resume_id}/download
 # ---------------------------------------------------------------------------
 @router.get(
-    "resumes/{resume_id}",
+    "/{resume_id}/download",
     summary="Download a resume PDF by ID",
     response_class=Response,
     responses={
@@ -93,7 +93,7 @@ def download_resume(resume_id: UUID) -> Response:
 # DELETE /api/resumes/{resume_id}
 # ---------------------------------------------------------------------------
 @router.delete(
-    "resumes/{resume_id}",
+    "/{resume_id}",
     response_model=DeleteResponse,
     summary="Delete a resume by ID",
     status_code=status.HTTP_200_OK,
