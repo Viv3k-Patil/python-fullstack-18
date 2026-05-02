@@ -1,102 +1,101 @@
-from fastapi import FastAPI, UploadFile, Form
-from fastapi.responses import Response, FileResponse
+"""
+Resume Upload/Download Application
+Entry point for the FastAPI application.
+"""
+
+import logging
+import sys
+from contextlib import asynccontextmanager
+
+from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 
-app = FastAPI()
+from app.middleware.logging_middleware import LoggingMiddleware
+from app.routers import resume_router
+from app.exceptions.global_exception_handler import global_exception_handler
 
-# -----------------------------------------------------------
-# Fake databse
-# -----------------------------------------------------------
-resumes = {}
-
-# @app.get("/")
-# def root():
-#     return {
-#         "message":"Resume portal is running"
-#     }
-
-@app.get("/hello/{name}")
-def say_hello(name: str):
-    return {
-        "message": f"Hello, {name}"
-    }
-
-@app.post("/resumes")
-async def upload_resume(
-        student_name: str = Form(...),
-        email: str = Form(...),
-        uploaded_resume: UploadFile = None
-    ):
-    contents = await uploaded_resume.read()
-
-    # save to fake database CRUDI
-    resumes[uploaded_resume.filename] = {
-        "student_name": student_name,
-        "email": email,
-        "filename": uploaded_resume.filename,
-        "file": contents
-    }
-    print(resumes)
-
-    return {
-        "message": "upload successful",
-        "filename": f"file uploaded: {uploaded_resume.filename}"
-    }
+# ---------------------------------------------------------------------------
+# Logging configuration
+# ---------------------------------------------------------------------------
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s | %(levelname)-8s | %(name)s | %(message)s",
+    handlers=[
+        logging.StreamHandler(sys.stdout),
+    ],
+)
+logger = logging.getLogger(__name__)
 
 
-# see all resumes
-@app.get("/resumes")
-def list_resumes():
-    result = []
-    # email, studentname, filename, id
-    for key, resume in resumes.items():
-        result.append({
-            "id": key,
-            "student_name": resume["student_name"],
-            "email": resume["email"],
-            "filename": resume["filename"]
-        })
-    return {
-        "total": len(result),
-        "resumes": result
-    }
-
-# download resume
-@app.get("/resumes/{resume_id}")
-def download_resume(resume_id: str):
-    resume = resumes.get(resume_id)
-    return Response(
-        content=resume["file"],
-        media_type="application/pdf",
-        headers = {"Content-Disposition": f"attachment; filename={resume['filename']}"}
-    )
-
-# delete resume
-@app.delete("/resumes/{resume_id}")
-def delete_resume(resume_id: str):
-    # CRDUI
-    del resumes[resume_id]
-    return {
-        "msg": "deleted"
-    }
+# ---------------------------------------------------------------------------
+# Lifespan (startup / shutdown)
+# ---------------------------------------------------------------------------
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    logger.info("🚀 Resume API starting up...")
+    yield
+    logger.info("🛑 Resume API shutting down...")
 
 
-# # update resume
-# @app.put("/resumes/{resume_id}")
-# def udpate_resume(resume_id: str, )
+# ---------------------------------------------------------------------------
+# App factory
+# ---------------------------------------------------------------------------
+app = FastAPI(
+    title="Resume Portal API",
+    description="Industry-grade API for uploading and downloading student resumes (PDF only).",
+    version="1.0.0",
+    lifespan=lifespan,
+    docs_url="/api/docs",
+    redoc_url="/api/redoc",
+    openapi_url="/api/openapi.json",
+)
 
+# ---------------------------------------------------------------------------
+# Middleware
+# ---------------------------------------------------------------------------
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+app.add_middleware(LoggingMiddleware)
 
-# {
-#     'resume.pdf': {
-#                     'student_name': 'Vivek Patil',
-#                     'email': 'vivek.patil@gmail.com',
-#                     'filename': 'resume.pdf',
-#                     'file': b''
-#                 }
- 
-# }
+# ---------------------------------------------------------------------------
+# Static files (frontend)
+# ---------------------------------------------------------------------------
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
+# ---------------------------------------------------------------------------
+# Global exception handler
+# ---------------------------------------------------------------------------
+global_exception_handler(app)
+
+
+# ---------------------------------------------------------------------------
+# Routers
+# ---------------------------------------------------------------------------
+app.include_router(resume_router.router, prefix="/api/resumes", tags=["Resumes"])
+
+
+# ---------------------------------------------------------------------------
+# Health check
+# ---------------------------------------------------------------------------
+@app.get("/api/health", tags=["Health"])
+async def health_check():
+    logger.debug("Health check called.")
+    return {"status": "ok", "service": "Resume Portal API"}
+
+
+# ---------------------------------------------------------------------------
+# Root → serve index.html
+# ---------------------------------------------------------------------------
+from fastapi.responses import FileResponse  # noqa: E402
+
+
 @app.get("/", include_in_schema=False)
-def show_frontend():
+async def serve_frontend():
     return FileResponse("static/index.html")
