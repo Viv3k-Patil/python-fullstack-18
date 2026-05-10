@@ -1,6 +1,4 @@
----
-
-## Syllabus Overview — All 10 Sessions
+## Syllabus Overview — All 9 Sessions
 
 | Day | Topic | What They'll Be Able to Do |
 |-----|-------|---------------------------|
