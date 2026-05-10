@@ -509,3 +509,144 @@ That is why they are such an important topic in SQL.
 ## One-Sentence Summary
 
 Window functions let you calculate over related rows while keeping each original row visible.
+
+Yes — I missed the **frame clause** because I focused on the most commonly used beginner parts first: `PARTITION BY`, `ORDER BY`, and the basic window-function idea. The frame clause is more advanced, and in practice many simple window queries work without writing it explicitly because the database uses a default frame, so it is easy to accidentally leave it out when drafting notes.
+
+## Frame Clause
+
+A frame clause tells the database **exactly which rows inside the window** should be used for the calculation. It is the part that defines the moving “slice” of rows around the current row.
+
+The general form is:
+
+```sql
+... OVER (
+    PARTITION BY ...
+    ORDER BY ...
+    ROWS BETWEEN ... AND ...
+)
+```
+
+If `PARTITION BY` defines the group and `ORDER BY` defines the sequence, then the frame clause defines the **exact range** of rows to include for each calculation.
+
+## Why It Matters
+
+Without a frame clause, some functions use a default frame that may not match what you expect. That is especially important for running totals, moving averages, and functions like `LAST_VALUE()`.
+
+The frame clause helps answer questions like:
+
+- Should the calculation use only the current row?
+- Should it include previous rows?
+- Should it include future rows?
+- Should it use a fixed number of rows or a value range?
+
+## Main Frame Types
+
+### `ROWS`
+
+`ROWS` counts physical rows.
+
+```sql
+SUM(amount) OVER (
+    ORDER BY order_date
+    ROWS BETWEEN 2 PRECEDING AND CURRENT ROW
+)
+```
+
+This means: take the current row and the two rows before it.
+
+Use `ROWS` when you care about row positions.
+
+### `RANGE`
+
+`RANGE` works by value, not by physical row count.
+
+```sql
+SUM(amount) OVER (
+    ORDER BY order_date
+    RANGE BETWEEN INTERVAL '7' DAY PRECEDING AND CURRENT ROW
+)
+```
+
+This means: include all rows whose `order_date` falls within the last 7 days.
+
+Use `RANGE` when you care about values or time periods.
+
+## Common Frame Options
+
+| Frame Part | Meaning |
+|---|---|
+| `UNBOUNDED PRECEDING` | Start from the first row in the partition |
+| `CURRENT ROW` | Use the current row |
+| `n PRECEDING` | Use rows before the current row |
+| `n FOLLOWING` | Use rows after the current row |
+| `UNBOUNDED FOLLOWING` | Go all the way to the last row in the partition |
+
+## Running Total With Frame
+
+```sql
+SELECT
+    order_id,
+    order_date,
+    amount,
+    SUM(amount) OVER (
+        ORDER BY order_date
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+    ) AS running_total
+FROM orders;
+```
+
+This means the running total starts from the first row and grows until the current row.
+
+This is one of the most important frame patterns in SQL.
+
+## Moving Average With Frame
+
+```sql
+SELECT
+    order_date,
+    amount,
+    AVG(amount) OVER (
+        ORDER BY order_date
+        ROWS BETWEEN 2 PRECEDING AND CURRENT ROW
+    ) AS moving_avg_3
+FROM orders;
+```
+
+This calculates the average of the current row and the two rows before it.
+
+That is a classic example of a sliding window.
+
+## `LAST_VALUE()` Needs Special Care
+
+This function often surprises people.
+
+```sql
+SELECT
+    order_date,
+    amount,
+    LAST_VALUE(amount) OVER (
+        ORDER BY order_date
+    ) AS last_val
+FROM orders;
+```
+
+This may not return the last row in the whole table, because the default frame may stop at the current row.
+
+To get the true last value in the partition, write:
+
+```sql
+SELECT
+    order_date,
+    amount,
+    LAST_VALUE(amount) OVER (
+        ORDER BY order_date
+        ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+    ) AS last_val
+FROM orders;
+```
+
+That tells the database to look from the first row to the last row.
+
+## Important Note
+
+Not every window function needs a frame clause explicitly, but it is still an important part of the topic. It becomes essential when the calculation depends on how far the window stretches around the current row.
