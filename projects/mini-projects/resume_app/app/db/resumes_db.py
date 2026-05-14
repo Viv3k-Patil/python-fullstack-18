@@ -1,18 +1,57 @@
-#from app.models.resume import ResumeRecord
-class InMemoryDataBase:
-    def __init__(self):
-        self._resume_store={"record_id":"464545",
-                        "name":"pp"    
-                }
-        
-    def insert(self,record:ResumeRecord):
-        self._resume_store[record.id]=record 
+"""
+In-memory database for the Resume Portal.
+Simulates a database using a plain dict — students replace this with a real DB.
+"""
+
+import logging
+from typing import Optional
+from uuid import UUID
+
+from app.models.resume import ResumeRecord
+
+logger = logging.getLogger(__name__)
+
+
+class InMemoryDatabase:
+    """Thread-unsafe, in-process store (fine for dev / learning purposes)."""
+
+    def __init__(self) -> None:
+        self._store: dict[UUID, ResumeRecord] = {}
+        logger.info("InMemoryDatabase initialised.")
+
+    # ------------------------------------------------------------------
+    # CRUD helpers
+    # ------------------------------------------------------------------
+
+    def insert(self, record: ResumeRecord) -> ResumeRecord:
+        self._store[record.id] = record
+        logger.info("DB insert | id=%s | filename=%s", record.id, record.original_filename)
         return record
-    def get_all(self):
-        return list(self._resume_store.values())
-    
-    def delete(self,record_id):
-        del self._resume_store[record_id]
-        
-obj=InMemoryDataBase()        
-obj.get_all
+
+    def get(self, record_id: UUID) -> Optional[ResumeRecord]:
+        record = self._store.get(record_id)
+        if record:
+            logger.debug("DB get hit | id=%s", record_id)
+        else:
+            logger.debug("DB get miss | id=%s", record_id)
+        return record
+
+    def get_all(self) -> list[ResumeRecord]:
+        records = list(self._store.values())
+        logger.debug("DB get_all | count=%d", len(records))
+        return records
+
+    def delete(self, record_id: UUID) -> bool:
+        if record_id in self._store:
+            del self._store[record_id]
+            logger.info("DB delete | id=%s", record_id)
+            return True
+        logger.warning("DB delete miss | id=%s", record_id)
+        return False
+
+    def count(self) -> int:
+        return len(self._store)
+
+
+# Singleton instance — import this anywhere in the app
+db = InMemoryDatabase()

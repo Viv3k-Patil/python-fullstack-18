@@ -1,20 +1,23 @@
-"""DOMAIN MODEL / INTITY TO STORE resume in database"""
+"""
+Domain model / entity for a stored resume.
+"""
 
-from pydantic import BaseModel,Field
-from uuid import UUID , uuid4
-from datetime import datetime
+from datetime import datetime, timezone
+from uuid import UUID, uuid4
+
+from pydantic import BaseModel, Field
+
+
 class ResumeRecord(BaseModel):
-    """Represents a resume records in  memory-database"""
-    id:UUID= Field(default_factory=uuid4)
-    student_name:str
-    email:str
-    orignal_filename:str
-    filename:str    
-    conten_type:str="Application/pdf"
-    file_bytes:bytes
-    uploaded_at:datetime =Field(default_factory=lambda:datetime.now())
-    file_size_byte:int
-    
-    
-    model_config={"arbitrary_types_allowed":True} #bytes sathi use kela jata to read bytes 
-    
+    """Represents a resume stored in the in-memory database."""
+
+    id: UUID = Field(default_factory=uuid4)
+    student_name: str
+    email: str
+    original_filename: str
+    content_type: str = "application/pdf"
+    file_bytes: bytes  # raw PDF bytes held in memory
+    uploaded_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    file_size_bytes: int
+
+    model_config = {"arbitrary_types_allowed": True}
