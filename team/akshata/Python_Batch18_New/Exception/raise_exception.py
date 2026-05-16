@@ -1,6 +1,6 @@
 
 
-print("Inside main method program is running..!!")
+print("Inside main method, program is running..!!")
 def method1():
     print("Inside method 1")
     raise ValueError("An error occured")
