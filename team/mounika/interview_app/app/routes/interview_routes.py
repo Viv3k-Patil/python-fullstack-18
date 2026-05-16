@@ -1,12 +1,19 @@
-from fastapi import APIRoter  # instead of using @app im importing APIRouter
+from fastapi import APIRouter  # instead of using @app im importing APIRouter
+from app.schemas.interview_request import InterviewCreateRequest, InterviewUpdateRequest
+
+
+
 
 #creating a object for APIRouter
-router = APIRoter(prefix="/interviews")
+router = APIRouter(prefix="/interviews")
 
 #create interview
 @router.post("/")
-def create_interview(request: dict):
-    pass
+def create_interview(request: InterviewCreateRequest):
+     data = interview_service.create_interview(request)
+     response = InterviewResponse(**data)
+     return response
+
 
 #get all interviews
 @router.get("/")
@@ -24,7 +31,7 @@ def update_interview_by_id(interview_id: int):
     pass
 
 #delete interview by id
-@router.delte("/interview_id")
+@router.delete("/interview_id")
 def delete_interview_by_id(interview_id: int):
     pass
 
@@ -36,4 +43,4 @@ def get_interview_by_time(start_time: str, end_time: str): #We use string becaus
 
 
 
-@router.get("/interviews")
+#@router.get("/interviews")

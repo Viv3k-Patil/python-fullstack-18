@@ -108,11 +108,11 @@ import os
 ##deleting the txt file using function
 
 
-try:
-    def delete_file(name):
-    if os.path.exists(name):
-        os.remove(name)
-    print("file has been deleted")
-except:
+# try:
+#     def delete_file(name):
+#     if os.path.exists(name):
+#         os.remove(name)
+#     print("file has been deleted")
+# except:
 
-delete_file("new_file.txt")
+# delete_file("new_file.txt")
