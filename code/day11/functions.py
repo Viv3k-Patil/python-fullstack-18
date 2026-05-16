@@ -136,3 +136,56 @@
 # print(min_value)
 
 
+# tasks=["email","buy milkk"]
+
+# #insert
+# tasks.append("exercise")
+
+# #read
+# first_task=tasks[0]
+# for task in tasks:
+    
+    
+#  # update
+#     tasks[0]="khdhsd"
+
+# #delet
+# tasks.remove("exercise")
+# #del tasks[0]
+# print(tasks)
+
+student={
+        "name":"vivek patil",
+        "id":10,
+        "class":3,
+        "marks":99,
+        "sports":[
+            "cricket","football","volleyball"]
+        }
+
+#create
+student["subject"]="python"
+
+#read
+# print(student.get("sports"))
+
+# for key,values in student.items():
+#     print(f"{key}: {values}")
+    
+#update()
+
+a=student["marks"]="82"
+print(a)
+
+student.update({"id":"11"})
+    
+#delete
+#del student["class"]
+
+#student.pop("")
+student.popitem()
+
+print(student)
+
+for key,val in student.items():
+    print(f"{key}:-{val}")

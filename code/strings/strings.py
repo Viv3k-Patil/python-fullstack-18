@@ -47,3 +47,9 @@ expand_tabs=a.expandtabs()
 isalnum=a.isalnum()
 isapha=a.isalpha()
 #print(isapha)
+
+
+
+from datetime import datetime
+
+print(datetime.now())
