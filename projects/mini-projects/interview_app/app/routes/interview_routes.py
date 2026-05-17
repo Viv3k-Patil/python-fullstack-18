@@ -62,4 +62,5 @@ def delete_interview_by_id(interview_id: int):
     is_interview_deleted =  interview_service.delete_interview(interview_id)
     return {
         "status": f"Interview delete response: {is_interview_deleted}"
+
     }

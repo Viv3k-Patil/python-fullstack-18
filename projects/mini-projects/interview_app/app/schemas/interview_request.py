@@ -10,4 +10,5 @@ class InterviewCreateRequest(BaseModel):
 class InterviewUpdateRequest(BaseModel):
     candidate_name: str = Field(min_length=2, max_length=100, example="name surname")
     interviewer_name: str
+
     time: datetime

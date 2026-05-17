@@ -54,4 +54,5 @@ def get_interview_by_time(start_time: datetime.datetime, end_time: datetime.date
         interview_actual_time = each_interview["time"]
         if start_time <= interview_actual_time < end_time:
             output_list.append(each_interview)
+
     return output_list
