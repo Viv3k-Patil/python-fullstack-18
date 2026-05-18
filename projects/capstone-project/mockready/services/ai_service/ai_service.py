@@ -2,7 +2,6 @@ from fastapi import FastAPI
 
 app = FastAPI()
 
-users = []
 
 @app.get("/health")
 def health_check():
