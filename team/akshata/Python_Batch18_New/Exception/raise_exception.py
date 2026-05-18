@@ -1,6 +1,10 @@
 
 
+<<<<<<< HEAD
 print("Inside main method program is running..!!")
+=======
+print("Inside main method, program is running..!!")
+>>>>>>> 8ee2b4665817a3550d1895555cb83836724637f7
 def method1():
     print("Inside method 1")
     raise ValueError("An error occured")
