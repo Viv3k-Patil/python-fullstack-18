@@ -1,6 +1,6 @@
 
 """
-main.py — user-service entry point
+main.py — notification-service entry point
 
 """
 
@@ -26,8 +26,8 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="MockReady — User Service",
-    description="Manages students, trainers, admins, campuses and batches.",
+    title="MockReady — Notification Service",
+    description="Manages notification-related operations .",
     version=settings.app_version,
     docs_url="/docs",
     redoc_url="/redoc",
@@ -65,4 +65,3 @@ if __name__ == "__main__":
         reload=settings.is_development,
         log_level="debug" if settings.debug else "info",
     )
->>>>>>> 1cbf00331909a46a54aae8247e9731cb55397e45
