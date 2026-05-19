@@ -13,14 +13,14 @@ from functools import lru_cache
 
 class Settings(BaseSettings):
     # ── App ──────────────────────────────────────────────
-    app_name: str = "user-service"
+    app_name: str = "booking-service"
     app_version: str = "0.1.0"
     app_env: str = "development"
     debug: bool = True
 
     # ── Server ───────────────────────────────────────────
     host: str = "0.0.0.0"
-    port: int = 8001
+    port: int = 8040
 
     model_config = SettingsConfigDict(
         env_file=".env",
