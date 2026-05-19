@@ -22,6 +22,8 @@ wheels/
 
 # ── Virtual Environments ─────────────────────────────
 venv/
+ai_service_venv/
+.env
 env/
 ENV/
 env.bak/

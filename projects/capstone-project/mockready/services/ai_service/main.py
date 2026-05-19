@@ -1,5 +1,5 @@
 """
-main.py — user-service entry point
+main.py — ai-service entry point
 
 """
 
