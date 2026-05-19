@@ -1,3 +1,25 @@
+<<<<<<< HEAD
+from fastapi import FastAPI, UploadFile, Form
+from fastapi.responses import Response, FileResponse
+from app.routers.resume_router import router as resume_router
+from fastapi.staticfiles import StaticFiles
+from app.exceptions.global_exception_handler import global_exception_handler
+
+app = FastAPI()
+
+# --------------------------------------------------------
+# Register global exception handler
+# --------------------------------------------------------
+global_exception_handler(app)
+
+app.include_router(resume_router)
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+@app.get("/", include_in_schema=False)
+def show_frontend():
+    return FileResponse("static/index.html")
+=======
 """
 Resume Upload/Download Application
 Entry point for the FastAPI application.
@@ -99,3 +121,4 @@ from fastapi.responses import FileResponse  # noqa: E402
 @app.get("/", include_in_schema=False)
 async def serve_frontend():
     return FileResponse("static/index.html")
+>>>>>>> ea3141f4e13ba1afa5fb4513ad9ddaf7245c89d2
