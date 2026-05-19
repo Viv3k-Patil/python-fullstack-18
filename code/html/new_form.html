@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width", initial-scale="1.0">
+        <title>new_form</title>
+    </head>
+    <body>
+        <form action="/submit" method="post">
+        <h1>Name of candidate</h1>
+         <input type="text" name="username" placeholder="Enter your name" required><br>
+
+         <input type="email" name="username" required placeholder="Enter your email"   ><br>
+
+         <input type="number" name="username" placeholder="enter number" ><br>
+         <input type="url" name="username" placeholder="enter url" value="required"><br>
+
+         <label for="website">Enter your website URL:</label>
+            <input type="url" id="website" name="website" placeholder="https://example.com" required><br>
+
+         <label for="search-box">Enter you searchbox:</label><br>
+         <input type="search" id="search-box" name="search-box" placeholder="enter your answer"  ><br>
+
+         <!--date and time-->
+         <label for="date">enter date</label>
+         <input type="date" id="date" name="date" placeholder="enter todays date"><br>
+
+         <label for="time">Enter current time</label>
+         <input type="time" id="time" name="time" placeholder="enter time"><br>
+
+         <label for="datetime-local">enter datetime</label>
+         <input type="datetime-local" id="datetime-local" name="datetime-local" placeholder="enter date & time"><br>
+
+         <label for="month">enter month</label>
+         <input type="=month" id="month" name="month" placeholder="enter month"><br>
+
+         <label for="week" >enter weeks:-</label>
+         <input type="week" name="week" ><br>
+
+         <!--selection-->
+         <label for="checkbox" >Entet the answer</label><br>
+         <input type="checkbox" id="checkbox" name="checkbox" placeholder="select option"> one <br>
+         <input type="checkbox" id="checkbox" name="checkbox" placeholder="select option"> two <br>
+         <input type="checkbox" id="checkbox" name="checkbox" placeholder="select option"> three  <br>
+
+
+         <label for="group">enter your marks</label><br>
+         <input type="radio" id="group" name="group" >90<br>
+         <input type="radio" id="group" name="group" >80<br>
+         <input type="radio" id="group" name="group" >85
+
+         <label for="range">Enter the range</label><br>
+         <input type="range" id="range" name="range" value=""> <br>
+
+         <label for="color">enter color choice</label><br>
+         <input type="color" id="color" name="color" ><br>
+
+        <!--File and hidden-->
+        <label for="file">upload file here</label><br>
+        <input type="file" id="file" name="file"><br>
+
+        <label for="hidden">hidden here</label><br>
+        <input type="hidden" name="post_id" value="12345">
+
+        <!--Buttons-->
+         <label for="submit"></label><br>
+         <input type="button" id="submit" name="submit" value="send">
+
+         <label for="reset-botton"></label><br>
+         <input type="reset" name="reset-botton"><br>
+
+
+         <input type="submit" name="submit">
+         
+        </form>
+    </body>
+</html>
