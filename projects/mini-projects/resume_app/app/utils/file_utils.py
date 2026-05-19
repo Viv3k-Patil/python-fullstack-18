@@ -113,5 +113,9 @@ async def validate_pdf_file(file: UploadFile) -> bytes:
         raise InvalidFileTypeException()
 
     logger.info("File validation passed | size=%d bytes", len(file_bytes))
+<<<<<<< HEAD
 >>>>>>> 8ee2b4665817a3550d1895555cb83836724637f7
+=======
+>>>>>>> ea3141f4e13ba1afa5fb4513ad9ddaf7245c89d2
+>>>>>>> 1cbf00331909a46a54aae8247e9731cb55397e45
     return file_bytes

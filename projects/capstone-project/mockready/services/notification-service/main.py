@@ -1,9 +1,68 @@
+
+"""
+main.py — user-service entry point
+
+"""
+
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
-app = FastAPI()
+from app.core.settings import get_settings
+from app.routers import health
+
+settings = get_settings()
 
 
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # ── Startup ──────────────────────────────────────────
+    print(f"🚀 Starting {settings.app_name} v{settings.app_version} [{settings.app_env}]")
 
-@app.get("/health")
-def health_check():
-    return {"status": "healthy"}
+    yield
+
+    # ── Shutdown ─────────────────────────────────────────
+    print(f"🛑 Shutting down {settings.app_name}")
+
+
+app = FastAPI(
+    title="MockReady — User Service",
+    description="Manages students, trainers, admins, campuses and batches.",
+    version=settings.app_version,
+    docs_url="/docs",
+    redoc_url="/redoc",
+    lifespan=lifespan,
+)
+
+# ── Middleware ────────────────────────────────────────────
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"] if settings.is_development else [],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# ── Routers ──────────────────────────────────────────────
+app.include_router(health.router)
+
+@app.get("/", tags=["Root"])
+async def root():
+    return {
+        "service": settings.app_name,
+        "version": settings.app_version,
+        "docs": "/docs",
+        "health": "/health",
+    }
+
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(
+        "main:app",
+        host=settings.host,
+        port=settings.port,
+        reload=settings.is_development,
+        log_level="debug" if settings.debug else "info",
+    )
+>>>>>>> 1cbf00331909a46a54aae8247e9731cb55397e45
