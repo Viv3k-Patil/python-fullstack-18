@@ -21,15 +21,9 @@ router = APIRouter()
 # POST /api/resumes/upload
 # ---------------------------------------------------------------------------
 @router.post(
-<<<<<<< HEAD
-    "/resumes",
-=======
+
     "/upload",
-<<<<<<< HEAD
->>>>>>> 8ee2b4665817a3550d1895555cb83836724637f7
-=======
->>>>>>> ea3141f4e13ba1afa5fb4513ad9ddaf7245c89d2
->>>>>>> 1cbf00331909a46a54aae8247e9731cb55397e45
+
     response_model=ResumeUploadResponse,
     status_code=status.HTTP_201_CREATED,
     summary="Upload a student resume (PDF only)",
@@ -54,15 +48,9 @@ async def upload_resume(
 # GET /api/resumes/
 # ---------------------------------------------------------------------------
 @router.get(
-<<<<<<< HEAD
-    "/resumes",
-=======
+
     "/",
-<<<<<<< HEAD
->>>>>>> 8ee2b4665817a3550d1895555cb83836724637f7
-=======
->>>>>>> ea3141f4e13ba1afa5fb4513ad9ddaf7245c89d2
->>>>>>> 1cbf00331909a46a54aae8247e9731cb55397e45
+
     response_model=ResumeListResponse,
     summary="List all uploaded resumes",
 )
@@ -73,21 +61,12 @@ def list_resumes() -> ResumeListResponse:
 
 
 # ---------------------------------------------------------------------------
-<<<<<<< HEAD
-# GET /api/resumes/{resume_id}/
-# ---------------------------------------------------------------------------
-@router.get(
-    "resumes/{resume_id}",
-=======
+
 # GET /api/resumes/{resume_id}/download
 # ---------------------------------------------------------------------------
 @router.get(
     "/{resume_id}/download",
-<<<<<<< HEAD
->>>>>>> 8ee2b4665817a3550d1895555cb83836724637f7
-=======
->>>>>>> ea3141f4e13ba1afa5fb4513ad9ddaf7245c89d2
->>>>>>> 1cbf00331909a46a54aae8247e9731cb55397e45
+
     summary="Download a resume PDF by ID",
     response_class=Response,
     responses={
@@ -120,15 +99,10 @@ def download_resume(resume_id: UUID) -> Response:
 # DELETE /api/resumes/{resume_id}
 # ---------------------------------------------------------------------------
 @router.delete(
-<<<<<<< HEAD
-    "resumes/{resume_id}",
-=======
+
+
     "/{resume_id}",
-<<<<<<< HEAD
->>>>>>> 8ee2b4665817a3550d1895555cb83836724637f7
-=======
->>>>>>> ea3141f4e13ba1afa5fb4513ad9ddaf7245c89d2
->>>>>>> 1cbf00331909a46a54aae8247e9731cb55397e45
+
     response_model=DeleteResponse,
     summary="Delete a resume by ID",
     status_code=status.HTTP_200_OK,
