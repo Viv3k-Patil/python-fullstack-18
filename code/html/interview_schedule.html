@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width" initial-scale="1.0">
+    <title>Interview_schedule_form</title>
+
+</head>
+    <h1>Interview Schedule Form</h1>
+<body>
+    <form action="/submit" method="post">
+        <label for="campus:">  Campus you are join:</label><br>
+        <input type="text" id="campus" name="campus" placeholder="Enter here" value="required"><br><br>
+
+        <label for="students:"> student: </label><br>
+        <input type="text" id="students" name="students" placeholder="Enter name here" value="required"><br><br>
+
+        <label for="tranier:"> username:</label><br>
+        <input type="text" id="tranier" name="tranier" placeholder="Enter tranier name here" value="required"><br><br>
+
+        <label for="cabin:">Cabin:</label><br>
+        <input type="text" id="cabin" name="cabin" placeholder="Enter cabin here"><br><br>
+
+        <label for="booking_date">Booking date: </label><br>
+        <input type="date" id="booking_date" name="booking_date"><br><br>
+
+        <label for="avability">Available or Not:</label><br>
+        <select  id="available" name="avability">
+                <option value="None">None</option>
+                <option value="available">Available</option>
+                <option value="not_avialable">Not Available</option>
+        </select><br><br>
+
+        <label for="time" >Time:</label><br>
+        <input type="time" id="time" name="time"><br><br>
+
+        <input type="submit" id="submit" name="submit"><br>
+
+
+    </form>
+</body>
+</html>
