@@ -13,7 +13,7 @@ from functools import lru_cache
 
 class Settings(BaseSettings):
     # ── App ──────────────────────────────────────────────
-    app_name: str = "file-service"
+    app_name: str = "ai-service"
     app_version: str = "0.1.0"
     app_env: str = "development"
     debug: bool = True
