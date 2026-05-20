@@ -63,5 +63,3 @@ def update_team(team_id: int, updated_team: Team):
             return {
                 "message": "team has been successfully updated"
             }
-
-# get by name
