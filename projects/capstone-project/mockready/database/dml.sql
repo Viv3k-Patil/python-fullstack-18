@@ -31,7 +31,6 @@ VALUES
 select * from cabin;
 
 #--------------------------------------------------------------------------------------------------
-
 # Insert batch data
 INSERT INTO batch(campus_id, name, course, start_date, end_date, is_active)
 VALUES

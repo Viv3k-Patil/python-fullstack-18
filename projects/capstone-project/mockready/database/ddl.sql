@@ -47,7 +47,7 @@ CREATE TABLE batch(
          FOREIGN key (campus_id) REFERENCES campus(campus_id)
 );
 
-# Create student_profile
+# Create student_profile table
 CREATE TABLE student_profile (
     student_id serial PRIMARY KEY,
     user_id INT REFERENCES users(user_id),
@@ -56,7 +56,7 @@ CREATE TABLE student_profile (
     skills VARCHAR(200)
   );
 
-# Create trainer_profile
+# Create trainer_profile table
   CREATE TABLE trainer_profile (
     trainer_id serial PRIMARY KEY,
     user_id INT,
@@ -68,7 +68,7 @@ CREATE TABLE student_profile (
     FOREIGN KEY (user_id) REFERENCES users(user_id) 
 );
 
-# Create trainer_availability
+# Create trainer_availability table
 CREATE TABLE trainer_availability (
      trainer_availability_id serial PRIMARY KEY,
      trainer_id INT,
@@ -81,7 +81,7 @@ CREATE TABLE trainer_availability (
      FOREIGN key (campus_id) REFERENCES campus(campus_id)
 );
 
-# Create file_metadata
+# Create file_metadata table
 CREATE TABLE file_metadata(
           id serial PRIMARY KEY,
           student_id INT,
@@ -95,7 +95,7 @@ CREATE TABLE file_metadata(
           
 );
 
-# Create notification table
+# Create notification table 
 CREATE TABLE notification (
     notification_id serial PRIMARY KEY,
     user_id INT ,
@@ -109,7 +109,7 @@ CREATE TABLE notification (
     FOREIGN key (user_id) REFERENCES users(user_id)
 );
 
-# Create booking table
+# Create booking table 
 CREATE TABLE booking (
     booking_id serial PRIMARY KEY,
     student_id INT,
