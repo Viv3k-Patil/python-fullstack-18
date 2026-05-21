@@ -1,5 +1,5 @@
 """
-main.py — booking-service entry point
+main.py — ai-service entry point
 
 """
 
@@ -25,8 +25,8 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="MockReady — Booking Service",
-    description="Manages booking requests, availability, and related operations.",
+    title="MockReady — AI Service",
+    description="Provides AI-powered features and intelligent functionality.",
     version=settings.app_version,
     docs_url="/docs",
     redoc_url="/redoc",

@@ -45,7 +45,7 @@ app.add_middleware(
 # ── Routers ──────────────────────────────────────────────
 app.include_router(health.router)
 app.include_router(campus.router, prefix="/api/v1")
-app.include_router(batch.router,prefix="/batch")
+app.include_router(batch.router, prefix="/api/v1")
 
 
 @app.get("/", tags=["Root"])
