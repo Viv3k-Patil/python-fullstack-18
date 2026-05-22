@@ -8,11 +8,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.core.settings import get_settings
-<<<<<<< HEAD
+
 from app.routes import health
-=======
-from app.routers import health
->>>>>>> 1f68b2b4fcb50f3e1492c1817592d35670c583e5
 
 settings = get_settings()
 
@@ -29,13 +26,8 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-<<<<<<< HEAD
-    title="MockReady — file Service",
-    description="Manages students, trainers, campuses and batches.",
-=======
     title="MockReady — File Service",
     description="Manages file uploads, downloads, and related operations.",
->>>>>>> 1f68b2b4fcb50f3e1492c1817592d35670c583e5
     version=settings.app_version,
     docs_url="/docs",
     redoc_url="/redoc",
@@ -53,11 +45,6 @@ app.add_middleware(
 
 # ── Routers ──────────────────────────────────────────────
 app.include_router(health.router)
-
-<<<<<<< HEAD
-=======
-
->>>>>>> 1f68b2b4fcb50f3e1492c1817592d35670c583e5
 @app.get("/", tags=["Root"])
 async def root():
     return {
