@@ -8,7 +8,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.core.settings import get_settings
-from app.routers import health, campus
+from app.routers import health, campus, student_profile
 
 settings = get_settings()
 
@@ -45,7 +45,7 @@ app.add_middleware(
 # ── Routers ──────────────────────────────────────────────
 app.include_router(health.router)
 app.include_router(campus.router, prefix="/api/v1")
-
+app.include_router(student_profile.router, prefix="/api/v1")
 @app.get("/", tags=["Root"])
 async def root():
     return {
