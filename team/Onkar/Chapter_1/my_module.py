@@ -49,10 +49,7 @@ print("Email of user:", email)
 print("Phone number of user:", phone) 
  # Show the user's phone number
 print("Profession of user:", profession)  
-<<<<<<< HEAD
-# Show the user's profession
-=======
-# Show the user's profession
+
 
 
 #write a program the addition of two number from user
@@ -71,4 +68,4 @@ user_age = input("Please Enter Your Age: ")
 
 #print name and age 
 print("Hello "+ user_name + ", you are "+ user_age + " years old")
->>>>>>> ea3141f4e13ba1afa5fb4513ad9ddaf7245c89d2
+
