@@ -8,8 +8,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.core.settings import get_settings
-from app.routers import health
-
+from app.routers import health, trainer
 settings = get_settings()
 
 
@@ -25,8 +24,8 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="MockReady — User Service",
-    description="Manages students, trainers, admins, campuses and batches.",
+    title="MockReady — Trainer Service",
+    description="Manages trainers, admins, campuses and batches.",
     version=settings.app_version,
     docs_url="/docs",
     redoc_url="/redoc",
@@ -44,6 +43,7 @@ app.add_middleware(
 
 # ── Routers ──────────────────────────────────────────────
 app.include_router(health.router)
+app.include_router(trainer.router, prefix="/api/v1")
 
 @app.get("/", tags=["Root"])
 async def root():
