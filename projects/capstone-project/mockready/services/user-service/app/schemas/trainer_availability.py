@@ -19,16 +19,16 @@ from datetime import datetime,time,date
 from typing import Optional
 
 class Trainer_AvailabilityCreate(BaseModel):
-        tainer_id : UUID = Field(..., ge=1)
-        campus_id : UUID = Field(..., ge=1)
+        tainer_id : UUID = Field(...)
+        campus_id : UUID = Field(...)
         date : date
         start_time : time
         end_time : time
         is_booked : bool
 
 class Trainer_AvailabilityUpdate(BaseModel):
-        trainer_id: UUID | None = Field(None, ge=1)
-        campus_id: UUID| None = Field(None, ge=1)
+        trainer_id: UUID | None = Field(None)
+        campus_id: UUID| None = Field(None)
         date: Optional[date] = None
         start_time: Optional[date] = None
         end_time: Optional[date] = None
