@@ -1,0 +1,17 @@
+
+#write a program to find lagrgest three number
+
+x = 10
+y = 20
+z = 30
+
+if x>y and x>z:
+    print("x is largest number")
+
+if y>x and y>z:
+    print("y is largest number")
+
+if z>x and z>y:
+    print("z is largest number")
+
+

@@ -1,0 +1,12 @@
+
+#write a program even and odd number
+
+#take input from the user
+number = int(input("Please enter number: "))
+
+#check if number is even or odd 
+
+if number%2 ==0:
+    print("The number is even: "+ str(number))
+else:
+    print("The number is odd: "+ str(number))
