@@ -8,9 +8,7 @@ from uuid import UUID
 from pydantic import BaseModel, EmailStr, Field
 
 
-# ---------------------------------------------------------------------------
-<<<<<<< HEAD
-=======
+# --------------------------------------------------------------------------
 # Request schemas
 # ---------------------------------------------------------------------------
 
@@ -22,7 +20,6 @@ class ResumeUploadRequest(BaseModel):
 
 
 # ---------------------------------------------------------------------------
->>>>>>> ea3141f4e13ba1afa5fb4513ad9ddaf7245c89d2
 # Response schemas
 # ---------------------------------------------------------------------------
 
@@ -37,10 +34,6 @@ class ResumeUploadResponse(BaseModel):
     uploaded_at: datetime
     message: str = "Resume uploaded successfully."
 
-<<<<<<< HEAD
-=======
-
->>>>>>> ea3141f4e13ba1afa5fb4513ad9ddaf7245c89d2
 class ResumeSummary(BaseModel):
     """Lightweight summary used in list responses."""
 

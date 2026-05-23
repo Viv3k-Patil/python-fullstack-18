@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 import logging
 from app.db.resume_db import db
 from app.schemas.resume import ResumeUploadResponse, ResumeListResponse, DeleteResponse
@@ -40,18 +40,18 @@ class ResumeService:
 
         return ResumeUploadResponse(
             id= record.id,
-=======
+            student_name=record.student_name,   
+            email=record.email,
+            original_filename=record.original_file_name,   
+            file_size_bytes=record.file_size_bytes,
+            uploaded_at=record.uploaded_at
+        )
+
 """
 Service layer — all business logic lives here.
 Routers call services; services call the DB and utilities.
 """
 
-import logging
-from uuid import UUID
-
-from fastapi import UploadFile
-
-from app.db.db import db
 from app.models.resume import ResumeRecord
 from app.schemas.resume import (
     DeleteResponse,
@@ -110,12 +110,11 @@ class ResumeService:
 
         return ResumeUploadResponse(
             id=record.id,
->>>>>>> ea3141f4e13ba1afa5fb4513ad9ddaf7245c89d2
+
             student_name=record.student_name,
             email=record.email,
             original_filename=record.original_filename,
             file_size_bytes=record.file_size_bytes,
-<<<<<<< HEAD
             uploaded_at=record.uploaded_at
         )
     
@@ -152,9 +151,8 @@ class ResumeService:
             id=resume_id
         )
 
-=======
-            uploaded_at=record.uploaded_at,
-        )
+          
+        
 
     # ------------------------------------------------------------------
     # List
@@ -203,5 +201,5 @@ class ResumeService:
 
 
 # Singleton
->>>>>>> ea3141f4e13ba1afa5fb4513ad9ddaf7245c89d2
+
 resume_service = ResumeService()

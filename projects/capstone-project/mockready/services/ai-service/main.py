@@ -1,5 +1,5 @@
 """
-main.py — user-service entry point
+main.py — ai-service entry point
 
 """
 
@@ -8,8 +8,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.core.settings import get_settings
-from app.routers import health, campus, batch, cabin, trainer_profile
-from app.routers import trainer_availability, student_profile
+from app.routers import health
+
 settings = get_settings()
 
 
@@ -25,8 +25,8 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="MockReady — User Service",
-    description="Manages students, trainers, admins, campuses and batches.",
+    title="MockReady — AI Service",
+    description="Provides AI-powered features and intelligent functionality.",
     version=settings.app_version,
     docs_url="/docs",
     redoc_url="/redoc",
@@ -44,12 +44,6 @@ app.add_middleware(
 
 # ── Routers ──────────────────────────────────────────────
 app.include_router(health.router)
-app.include_router(campus.router, prefix="/api/v1")
-app.include_router(batch.router, prefix="/api/v1")
-app.include_router(cabin.router, prefix="/api/v1")
-app.include_router(trainer_profile.router, prefix="/api/v1")
-app.include_router(trainer_availability.router, prefix="/api/v1")
-app.include_router(student_profile.router, prefix="/api/v1")
 
 
 @app.get("/", tags=["Root"])
