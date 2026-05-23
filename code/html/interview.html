@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview Schedule Form</title>
+</head>
+<body>
+
+    <!-- Heading Tags -->
+    <h1>Interview Schedule Form</h1>
+    <h2>Candidate Information</h2>
+    <h3>Fill All Details Carefully</h3>
+
+    <!-- Paragraph -->
+    <p>
+        Welcome to the interview scheduling portal. Please fill in all the required
+        details to schedule your interview successfully.
+    </p>
+
+    <!-- HTML Entity Examples -->
+    <p>
+        Company Name: Tech Solutions &copy; 2026 <br>
+        Salary Package: 5 LPA &amp; Above <br>
+        Location: Pune &lt; Maharashtra &gt;
+    </p>
+
+    <!-- Unordered List -->
+    <h3>Required Documents</h3>
+    <ul>
+        <li>Updated Resume</li>
+        <li>Government ID Proof</li>
+        <li>Passport Size Photo</li>
+    </ul>
+
+    <!-- Ordered List -->
+    <h3>Interview Process</h3>
+    <ol>
+        <li>Technical Round</li>
+        <li>Managerial Round</li>
+        <li>HR Round</li>
+    </ol>
+
+    <!-- Links -->
+    <p>
+        Visit our website:
+        <a href="https://www.google.com" target="_blank">
+            Click Here
+        </a>
+    </p>
+
+    <!-- Interview Form -->
+    <form>
+
+        <!-- Input with attributes -->
+        <label for="fullname">Full Name:</label><br>
+        <input type="text" id="fullname" name="fullname"
+               placeholder="Enter your full name" required><br><br>
+
+        <label for="email">Email ID:</label><br>
+        <input type="email" id="email" name="email"
+               placeholder="Enter your email" required><br><br>
+
+        <label for="phone">Phone Number:</label><br>
+        <input type="tel" id="phone" name="phone"
+               maxlength="10" placeholder="Enter mobile number"><br><br>
+
+        <label for="date">Interview Date:</label><br>
+        <input type="date" id="date" name="date"><br><br>
+
+        <label for="time">Interview Time:</label><br>
+        <input type="time" id="time" name="time"><br><br>
+
+        <!-- Radio Buttons -->
+        <p>Select Interview Mode:</p>
+
+        <input type="radio" id="online" name="mode" value="Online">
+        <label for="online">Online</label>
+
+        <input type="radio" id="offline" name="mode" value="Offline">
+        <label for="offline">Offline</label><br><br>
+
+        <!-- Checkbox -->
+        <p>Skills:</p>
+
+        <input type="checkbox" id="java" name="skills" value="Java">
+        <label for="java">Java</label>
+
+        <input type="checkbox" id="HTML" name="skills" value="HTML">
+        <label for="HTML"><HTML></HTML></label>
+
+        <input type="checkbox" id="database" name="skills" value="Database">
+        <label for="Database">DATABSE</label><br><br>
+
+        <!-- Dropdown -->
+        <label for="experience">Experience:</label><br>
+        <select id="experience" name="experience">
+            <option value="">--Select Experience--</option>
+            <option value="1">1 Year</option>
+            <option value="2">2 Years</option>
+            <option value="3">3+ Years</option>
+        </select><br><br>
+
+        <!-- Textarea -->
+        <label for="message">Additional Notes:</label><br>
+        <textarea id="message" name="message"
+                  rows="4" cols="40"
+                  placeholder="Enter your message here"></textarea><br><br>
+
+        <!-- Buttons -->
+        <input type="submit" value="Schedule Interview">
+        <input type="reset" value="Clear Form">
+
+    </form>
+
+    <!-- Footer -->
+    <hr>
+
+    <footer>
+        <p>
+            Thank you for applying! &hearts; <br>
+            Contact us at:
+            <a href="mailto:hr@techsolutions.com">
+                hr@techsolutions.com
+            </a>
+        </p>
+    </footer>
+
+</body>
+</html>

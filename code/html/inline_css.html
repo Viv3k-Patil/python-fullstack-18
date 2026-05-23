@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Inline, Internal and External CSS Example</title>
+
+    <!-- External CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Internal CSS -->
+    <style>
+        h2{
+            color: white;
+            background-color: blue;
+            padding: 9px;
+        }
+
+        .internal-box{
+            background-color: orange;
+            color: black;
+            padding: 10px;
+        }
+
+        #internal-id{
+            color: white;
+            background-color: green;
+            padding: 9px;
+        }
+    </style>
+</head>
+
+<body style="background-color: lightgray;">
+
+    <!-- Inline CSS -->
+    <h1 style="color:white; background-color:red; padding:10px;">
+        Inline CSS Heading
+    </h1>
+
+    <!-- Internal CSS using Element Selector -->
+    <h2>
+        Internal CSS using Element 
+    </h2>
+
+    <!-- Internal CSS using Class Selector -->
+    <div class="internal-box">
+        Internal CSS using Class
+    </div>
+
+    <br>
+
+    <!-- Internal CSS using ID Selector -->
+    <p id="internal-id">
+        Internal CSS using ID
+    </p>
+
+    <!-- External CSS -->
+    <h3 class="external-heading">
+        External CSS Heading
+    </h3>
+
+    <button class="external-button">
+        External Button
+    </button>
+
+</body>
+</html>
