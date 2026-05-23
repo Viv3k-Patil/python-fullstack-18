@@ -1,5 +1,7 @@
 # ── Python ──────────────────────────────────────────
+services/user-service/*.pyc
 __pycache__/
+*.pyc
 *.py[cod]
 *$py.class
 *.so
@@ -22,12 +24,11 @@ wheels/
 
 # ── Virtual Environments ─────────────────────────────
 venv/
-ai_service_venv/
-.env
 env/
 ENV/
 env.bak/
 venv.bak/
+
 
 # ── IDE & Editors ────────────────────────────────────
 .vscode/
@@ -67,3 +68,8 @@ Thumbs.db
 *.tmp
 *.temp
 *.backup
+dist/
+__pycache__/
+.env
+*.pyc
+*.py[cod]
