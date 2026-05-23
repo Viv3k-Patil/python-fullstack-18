@@ -46,3 +46,6 @@ class Trainer_AvailabilityResponse(BaseModel):
 
 
         model_config = {"from_attributes": True}
+
+
+
