@@ -66,3 +66,7 @@ Thumbs.db
 *.tmp
 *.temp
 *.backup
+dist/
+__pycache__/
+.env
+*.pyc
