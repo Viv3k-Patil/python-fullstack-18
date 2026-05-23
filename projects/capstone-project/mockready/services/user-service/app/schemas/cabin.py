@@ -18,7 +18,7 @@ from uuid import UUID
 
 class CreateCabin(BaseModel):
     campus_id:UUID
-    cabin_number:int
+    cabin_number:int=1
     is_active:bool
     
 class UpdateCabin(BaseModel):    
@@ -28,5 +28,5 @@ class UpdateCabin(BaseModel):
 class CabinResponse(BaseModel):
     id:UUID
     campus_id:UUID
-    cabin_number:int
+    cabin_number:int=1
     is_active:bool        
