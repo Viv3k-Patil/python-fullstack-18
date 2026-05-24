@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 """
 main.py — ai-service entry point
@@ -66,3 +67,12 @@ if __name__ == "__main__":
         reload=settings.is_development,
         log_level="debug" if settings.debug else "info",
     )
+    
+from fastapi import FastAPI
+
+app = FastAPI()
+
+
+@app.get("/health")
+def health_check():
+    return {"status":"server is ok"}
