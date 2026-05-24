@@ -1,7 +1,7 @@
 
 # Create users table
 CREATE TABLE users(
-	user_id Serial PRIMARY KEY ,
+	  user_id Serial PRIMARY KEY ,
     NAME VARCHAR(50) not null,
     email VARCHAR(50) UNIQUE,
   	hashed_passward BIGINT not NULL,
