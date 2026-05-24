@@ -1,3 +1,4 @@
+
 """
 main.py — notification-service entry point
 
@@ -25,8 +26,9 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="MockReady — notification Service",
-    description="get notification of interview",
+
+    title="MockReady — Notification Service",
+    description="Manages notification-related operations .",
     version=settings.app_version,
     docs_url="/docs",
     redoc_url="/redoc",
