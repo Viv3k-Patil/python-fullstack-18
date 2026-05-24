@@ -19,17 +19,17 @@ from pydantic import BaseModel
 
 
 class BookingCreate(BaseModel):
-    student_id: UUID
-    trainer_id: UUID
-    cabin_id: UUID
-    campus_id: UUID
+    student_id: int
+    trainer_id: int
+    cabin_id: int
+    campus_id: int
     interview_type: str
     status: str
 
 
 class BookingUpdate(BaseModel):
-    trainer_id: UUID | None = None
-    cabin_id: UUID | None = None
+    trainer_id: int | None = None
+    cabin_id: int | None = None
     interview_type: str | None = None
     status: str | None = None
     schedule_at: datetime | None = None
@@ -37,16 +37,16 @@ class BookingUpdate(BaseModel):
 
 
 class BookingResponse(BaseModel):
-    id: UUID
-    student_id: UUID
-    trainer_id: UUID
-    cabin_id: UUID
-    campus_id: UUID
+    booking_id: int
+    student_id: int
+    trainer_id: int
+    cabin_id: int
+    campus_id: int
     interview_type: str
     status: str
     schedule_at: datetime | None
     decline_count: int
     created_at: datetime
 
-    class Config:
-        from_attributes = True
+class Config:
+    from_attributes = True

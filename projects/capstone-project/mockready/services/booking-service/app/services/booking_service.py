@@ -17,7 +17,7 @@ from uuid import UUID
 from sqlalchemy.orm import Session
 
 from app.models.booking import Booking
-from app.schemas.booking import BookingCreate, BookingUpdate, BookingResponse
+from app.schemas.booking_schemas import BookingCreate, BookingUpdate, BookingResponse
 
 
 class BookingService:
@@ -44,7 +44,7 @@ class BookingService:
         return db.query(Booking).all()
 
     @staticmethod
-    def get_booking_by_id(db: Session, booking_id: UUID):
+    def get_booking_by_id(db: Session, booking_id: int):
         return (
             db.query(Booking)
             .filter(Booking.id == booking_id)
@@ -54,7 +54,7 @@ class BookingService:
     @staticmethod
     def update_booking(
         db: Session,
-        booking_id: UUID,
+        booking_id: int,
         payload: BookingUpdate
     ):
         booking = (
@@ -77,7 +77,7 @@ class BookingService:
         return booking
 
     @staticmethod
-    def delete_booking(db: Session, booking_id: UUID):
+    def delete_booking(db: Session, booking_id: int):
 
         booking = (
             db.query(Booking)

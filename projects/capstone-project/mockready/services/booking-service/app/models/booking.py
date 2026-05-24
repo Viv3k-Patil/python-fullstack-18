@@ -15,7 +15,7 @@ from sqlalchemy import (
     DateTime
 )
 
-from sqlalchemy.dialects.postgresql import UUID
+#from sqlalchemy.dialects.postgresql import UUID
 
 from datetime import datetime
 
@@ -27,29 +27,29 @@ class Booking(Base):
     # Table name in database
     __tablename__ = "booking"
 
-    id = Column(
-        UUID(as_uuid=True),
+    booking_id = Column(
+        Integer,
         primary_key=True,
-        default=uuid4
+        autoincrement=True
     )
 
     student_id = Column(
-        UUID(as_uuid=True),
+        Integer,
         nullable=False
     )
 
     trainer_id = Column(
-        UUID(as_uuid=True),
+        Integer,
         nullable=False
     )
 
     cabin_id = Column(
-        UUID(as_uuid=True),
+        Integer,
         nullable=False
     )
 
     campus_id = Column(
-        UUID(as_uuid=True),
+        Integer,
         nullable=False
     )
 

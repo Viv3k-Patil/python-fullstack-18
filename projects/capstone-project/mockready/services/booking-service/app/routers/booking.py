@@ -19,7 +19,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app.db.session import get_db
-from app.schemas.booking import (
+from app.schemas.booking_schemas import (
     BookingCreate,
     BookingUpdate,
     BookingResponse
@@ -50,7 +50,7 @@ def get_all_bookings(
 
 @router.get("/{booking_id}", response_model=BookingResponse)
 def get_booking_by_id(
-    booking_id: UUID,
+    booking_id: int,
     db: Session = Depends(get_db)
 ):
     booking = BookingService.get_booking_by_id(
@@ -69,7 +69,7 @@ def get_booking_by_id(
 
 @router.put("/{booking_id}", response_model=BookingResponse)
 def update_booking(
-    booking_id: UUID,
+    booking_id: int,
     payload: BookingUpdate,
     db: Session = Depends(get_db)
 ):
@@ -90,7 +90,7 @@ def update_booking(
 
 @router.delete("/{booking_id}")
 def delete_booking(
-    booking_id: UUID,
+    booking_id: int,
     db: Session = Depends(get_db)
 ):
     booking = BookingService.delete_booking(
