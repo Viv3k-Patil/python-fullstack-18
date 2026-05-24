@@ -25,7 +25,7 @@ class FileCreate(BaseModel):
     file_type: str = Field(..., min_length=2, max_length=100)
     size: int = Field(..., gt=0)
     uploaded_at: datetime
-
+    is_active:bool
 
 class FileUpdate(BaseModel):
     original_name: str | None = Field(None, min_length=2, max_length=100)
@@ -43,6 +43,7 @@ class FileResponse(BaseModel):
     file_type: str
     size: int
     uploaded_at: datetime
+    is_active:bool
 
     model_config = {
         "from_attributes": True

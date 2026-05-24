@@ -26,14 +26,15 @@ class FileMetaDataServices:
             "file_type": data.file_type,
             "size": data.size,
             "uploaded_at": datetime.now(timezone.utc),
+            "is_active":True
         }
 
         _metadata[file["id"]] = file
-        
+     
         return FileResponse(**file)
 
     def file_list(self,page:int,size:int)->tuple[list[FileResponse],int]:
-        active=[m for m in _metadata.values() if m["id"]]
+        active=[m for m in _metadata.values() if m["is_active"]]
         total=len(active)
         start=(page-1)*size
         chunks=active[start:start+size]
@@ -41,26 +42,27 @@ class FileMetaDataServices:
 
     def get_by_id(self,file_id:UUID):
        file= _metadata.get(file_id)
-       if not file or not file["id"]:
+       if not file or not file["is_active"]:
            raise NotFoundException(f"file {file_id} is not found")
        return FileResponse(**file)
    
     def update(self,file_id:UUID,data:FileUpdate):
        file =_metadata.get(file_id)
-       if not file or not file["original_name"]:
+       if not file or not file["is_active"]:
            raise NotFoundException(f"file id {file_id} is not found")
        
        updates=data.model_dump(exclude_none=True)
-       _metadata.update(updates)
+       file.update(updates)
        _metadata[file_id]=file
        return FileResponse(**file)
    
     def delete(self,file_id:UUID):
        file=_metadata.get(file_id)
-       if not file or not file["id"]:
+       if not file or not file["is_active"]:
            raise NotFoundException(f"file id {file_id} is not found")
-    
-       _metadata[file_id]=file 
+        
+       file["is_active"]=False
+       _metadata[id]=file 
        return FileResponse(**file)
        
 
