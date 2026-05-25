@@ -5,6 +5,10 @@ from sqlalchemy.ext.asyncio import (
 )
 from sqlalchemy.orm import DeclarativeBase
 from app.core.settings import get_settings
+from sqlalchemy.orm import declarative_base
+
+
+Base = declarative_base()
 
 settings = get_settings()
 # connection factory
