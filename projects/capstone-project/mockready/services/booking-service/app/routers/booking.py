@@ -14,11 +14,11 @@ Responsibilities:
 NO business logic here.
 """
 
-from uuid import UUID
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from app.db.session import get_db
+from app.core.database import get_db
 from app.schemas.booking_schemas import (
     BookingCreate,
     BookingUpdate,

@@ -13,7 +13,7 @@ NO HTTP logic here.
 NO router logic here.
 """
 
-from uuid import UUID
+
 from sqlalchemy.orm import Session
 
 from app.models.booking import Booking
