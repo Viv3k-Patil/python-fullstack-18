@@ -14,16 +14,16 @@ NO router logic here.
 """
 
 
-from sqlalchemy.orm import Session
-
+from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
 from app.models.booking import Booking
-from app.schemas.booking_schemas import BookingCreate, BookingUpdate, BookingResponse
+from app.schemas.booking_schemas import BookingCreate, BookingUpdate
 
 
 class BookingService:
 
     @staticmethod
-    def create_booking(db: Session, payload: BookingCreate):
+    async def create_booking(db: AsyncSession, payload: BookingCreate):
         booking = Booking(
             student_id=payload.student_id,
             trainer_id=payload.trainer_id,
@@ -34,61 +34,76 @@ class BookingService:
         )
 
         db.add(booking)
-        db.commit()
-        db.refresh(booking)
+        await db.commit()
+        await db.refresh(booking)
 
         return booking
 
     @staticmethod
-    def get_all_bookings(db: Session):
-        return db.query(Booking).all()
-
-    @staticmethod
-    def get_booking_by_id(db: Session, booking_id: int):
-        return (
-            db.query(Booking)
-            .filter(Booking.id == booking_id)
-            .first()
+    async def get_all_bookings(db: AsyncSession):
+        result = await db.excute(
+            select(Booking)
         )
+        return result.scalars().all()
 
     @staticmethod
-    def update_booking(
-        db: Session,
+    async def get_booking_by_id(db: AsyncSession, booking_id: int):
+        result = await db.execute(
+            select(Booking).where(
+                Booking.id == booking_id
+            )
+        )
+        return result.scalar_one_or_none()
+
+    @staticmethod
+    async def update_booking(
+        db: AsyncSession,
         booking_id: int,
         payload: BookingUpdate
     ):
-        booking = (
-            db.query(Booking)
-            .filter(Booking.id == booking_id)
-            .first()
+
+        result = await db.execute(
+            select(Booking).where(
+                Booking.id == booking_id
+            )
         )
+
+        booking = result.scalar_one_or_none()
 
         if not booking:
             return None
 
-        update_data = payload.model_dump(exclude_unset=True)
+        update_data = payload.model_dump(
+            exclude_unset=True
+        )
 
         for key, value in update_data.items():
             setattr(booking, key, value)
 
-        db.commit()
-        db.refresh(booking)
+        await db.commit()
+        await db.refresh(booking)
 
         return booking
 
     @staticmethod
-    def delete_booking(db: Session, booking_id: int):
+    async def delete_booking(
+        db: AsyncSession,
+        booking_id: int
+    ):
 
-        booking = (
-            db.query(Booking)
-            .filter(Booking.id == booking_id)
-            .first()
+        result = await db.execute(
+            select(Booking).where(
+                Booking.id == booking_id
+            )
         )
+
+        booking = result.scalar_one_or_none()
 
         if not booking:
             return None
 
-        db.delete(booking)
-        db.commit()
+        await db.delete(booking)
+
+        await db.commit()
 
         return booking
