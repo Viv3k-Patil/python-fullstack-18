@@ -23,7 +23,7 @@ class Settings(BaseSettings):
     port: int = 8001
 
     # ── Database ───────────────────────────────────────────
-    database_url = "postgresql://neondb_owner:npg_W3cyKHnXL9dl@ep-quiet-voice-aplrv8k0-pooler.c-7.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+    database_url = f"postgresql://${DATABASE_USER}:${DATABASE_PASSWORD}@ep-quiet-voice-aplrv8k0-pooler.c-7.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
 
     model_config = SettingsConfigDict(
         env_file=".env",
