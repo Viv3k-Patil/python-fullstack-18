@@ -1000,3 +1000,60 @@ result = await session.execute(
 )
 updated = result.scalar_one()
 ```
+
+---
+
+# 📊 SQLAlchemy (FastAPI) — Complete Cheat Sheet
+
+## 🔥 1. Session Methods (DO actions on DB)
+
+| Method               | Purpose                | Example                         | Notes                |
+| -------------------- | ---------------------- | ------------------------------- | -------------------- |
+| `session.add()`      | Insert one row         | `session.add(user)`             | Needs commit         |
+| `session.add_all()`  | Insert multiple        | `session.add_all([...])`        | Batch insert         |
+| `session.get()`      | Get by PK              | `session.get(User, 1)`          | 🔥 Fastest for PK    |
+| `session.delete()`   | Delete row             | `session.delete(user)`          | Needs commit         |
+| `session.commit()`   | Save changes           | `session.commit()`              | Ends transaction     |
+| `session.rollback()` | Undo changes           | `session.rollback()`            | On error             |
+| `session.flush()`    | Push to DB (no commit) | `session.flush()`               | Get generated IDs    |
+| `session.refresh()`  | Reload from DB         | `session.refresh(user)`         | Sync state           |
+| `session.execute()`  | Run query/raw SQL      | `session.execute(select(User))` | Low-level            |
+| `session.scalars()`  | Direct ORM fetch       | `session.scalars(select(User))` | Cleaner than execute |
+
+---
+
+## 🔥 2. Query Clauses (BUILD the query)
+
+👉 These are **NOT session methods**
+👉 These are used inside `select()`
+
+| Clause         | Purpose               | Example                            |
+| -------------- | --------------------- | ---------------------------------- |
+| `select()`     | Start query           | `select(User)`                     |
+| `.where()`     | Filter                | `select(User).where(User.id == 1)` |
+| `.filter()`    | Same as where (alias) | `filter(User.name == "Vivek")`     |
+| `.order_by()`  | Sorting               | `.order_by(User.name)`             |
+| `.limit()`     | Limit rows            | `.limit(10)`                       |
+| `.offset()`    | Skip rows             | `.offset(20)`                      |
+| `.join()`      | Join tables           | `.join(Address)`                   |
+| `.outerjoin()` | Left join             | `.outerjoin(Address)`              |
+| `.group_by()`  | Grouping              | `.group_by(User.role)`             |
+| `.having()`    | Filter groups         | `.having(func.count() > 1)`        |
+| `.distinct()`  | Unique rows           | `.distinct()`                      |
+
+---
+
+## 🔥 3. Result Methods (READ the result)
+
+👉 Applied on result of `execute()` or `scalars()`
+
+| Method           | Returns     | Example             | Notes            |
+| ---------------- | ----------- | ------------------- | ---------------- |
+| `.all()`         | List        | `.all()`            | All rows         |
+| `.first()`       | One or None | `.first()`          | No error         |
+| `.one()`         | Exactly one | `.one()`            | ❌ Error if not 1 |
+| `.one_or_none()` | 0 or 1      | `.one_or_none()`    | Safe             |
+| `.scalars()`     | ORM objects | `.scalars().all()`  | 🔥 Most used     |
+| `.mappings()`    | Dicts       | `.mappings().all()` | API-friendly     |
+
+---
