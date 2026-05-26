@@ -53,17 +53,24 @@
 # print(duplicate)
 
 
-list = [1,9,2,8,3,9,1]
+#list = [1,9,2,8,3,9,1]
 
 duplicate = []
 
-for i in list:
-   if list.count(i)> 1 and i not in duplicate:
-      duplicate.append(i)
+#for i in list:
+#   if list.count(i)> 1 and i not in duplicate:
+ #     duplicate.append(i)
 
-print(duplicate)
+#print(duplicate)
 
+
+l = [1,1,2,9,5,4]
+m = [2,3,3,5,4,8,9,9]
+
+result =list(set(l + m))
+print(result)
     
     
-    
+l.extend(m)  
+print(list(set(l)))
     
