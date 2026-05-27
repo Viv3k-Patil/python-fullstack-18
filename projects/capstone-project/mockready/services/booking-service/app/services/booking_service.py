@@ -1,109 +1,133 @@
+# services/booking_service.py
 
 """
-services/booking_service.py
+All business logic lives here. NEVER in the router.
 
-Business logic layer.
-
-Responsibilities:
-1. Database operations
-2. Business rules
-3. Data manipulation
-
-NO HTTP logic here.
-NO router logic here.
+The router calls this. This calls the repository (Phase 2).
+When we switch to Postgres in Phase 2 — only this file
+changes. The router stays exactly the same.
+That is the entire point of this layer.
 """
 
 
-from sqlalchemy import select
-from sqlalchemy.ext.asyncio import AsyncSession
-from app.models.booking import Booking
-from app.schemas.booking_schemas import BookingCreate, BookingUpdate
+from datetime import datetime, timezone
+
+from app.schemas.booking_schemas import (
+    BookingCreate,
+    BookingUpdate,
+    BookingResponse
+)
+from app.core.exceptions import (
+    NotFoundException,
+    ConflictException
+)
+
+# ── Temporary in-memory store ─────────────────────────────
+# Replaced 100% by BookingRepository in Phase 2.
+# Do not add any logic that depends on this being a dict.
+_bookings: dict[int, dict] = {}
 
 
 class BookingService:
 
-    @staticmethod
-    async def create_booking(db: AsyncSession, payload: BookingCreate):
-        booking = Booking(
-            student_id=payload.student_id,
-            trainer_id=payload.trainer_id,
-            cabin_id=payload.cabin_id,
-            campus_id=payload.campus_id,
-            interview_type=payload.interview_type,
-            status=payload.status
+    def create(self, data: BookingCreate) -> BookingResponse:
+
+        # business rule:
+        # same student cannot book same slot twice
+        for booking in _bookings.values():
+
+            if (
+                booking["student_id"] == data.student_id
+                and booking["slot_time"] == data.slot_time
+                and booking["is_active"]
+            ):
+                raise ConflictException(
+                    "Booking already exists for this slot"
+                )
+
+        booking = {
+            "id": int,
+            "student_id": data.student_id,
+            "campus_id": data.campus_id,
+            "interviewer_id": data.interviewer_id,
+            "slot_time": data.slot_time,
+            "status": "scheduled",
+            "feedback": None,
+            "score": None,
+            "is_active": True,
+            "created_at": datetime.now(timezone.utc),
+        }
+
+        _bookings[booking["id"]] = booking
+
+        return BookingResponse(**booking)
+
+    def get_all(
+        self,
+        page: int,
+        size: int
+    ) -> tuple[list[BookingResponse], int]:
+
+        active = [
+            booking
+            for booking in _bookings.values()
+            if booking["is_active"]
+        ]
+
+        total = len(active)
+
+        start = (page - 1) * size
+
+        chunk = active[start: start + size]
+
+        return (
+            [BookingResponse(**booking) for booking in chunk],
+            total
         )
 
-        db.add(booking)
-        await db.commit()
-        await db.refresh(booking)
+    def get_by_id(self, booking_id: int) -> BookingResponse:
 
-        return booking
+        booking = _bookings.get(booking_id)
 
-    @staticmethod
-    async def get_all_bookings(db: AsyncSession):
-        result = await db.excute(
-            select(Booking)
-        )
-        return result.scalars().all()
-
-    @staticmethod
-    async def get_booking_by_id(db: AsyncSession, booking_id: int):
-        result = await db.execute(
-            select(Booking).where(
-                Booking.id == booking_id
+        if not booking or not booking["is_active"]:
+            raise NotFoundException(
+                f"Booking {booking_id} not found"
             )
-        )
-        return result.scalar_one_or_none()
 
-    @staticmethod
-    async def update_booking(
-        db: AsyncSession,
+        return BookingResponse(**booking)
+
+    def update(
+        self,
         booking_id: int,
-        payload: BookingUpdate
-    ):
+        data: BookingUpdate
+    ) -> BookingResponse:
 
-        result = await db.execute(
-            select(Booking).where(
-                Booking.id == booking_id
+        booking = _bookings.get(booking_id)
+
+        if not booking or not booking["is_active"]:
+            raise NotFoundException(
+                f"Booking {booking_id} not found"
             )
-        )
 
-        booking = result.scalar_one_or_none()
+        # only update fields client sent
+        updates = data.model_dump(exclude_none=True)
 
-        if not booking:
-            return None
+        booking.update(updates)
 
-        update_data = payload.model_dump(
-            exclude_unset=True
-        )
+        _bookings[booking_id] = booking
 
-        for key, value in update_data.items():
-            setattr(booking, key, value)
+        return BookingResponse(**booking)
 
-        await db.commit()
-        await db.refresh(booking)
+    def delete(self, booking_id:int) -> BookingResponse:
 
-        return booking
+        booking = _bookings.get(booking_id)
 
-    @staticmethod
-    async def delete_booking(
-        db: AsyncSession,
-        booking_id: int
-    ):
-
-        result = await db.execute(
-            select(Booking).where(
-                Booking.id == booking_id
+        if not booking or not booking["is_active"]:
+            raise NotFoundException(
+                f"Booking {booking_id} not found"
             )
-        )
 
-        booking = result.scalar_one_or_none()
+        # soft delete only
+        booking["is_active"] = False
 
-        if not booking:
-            return None
-
-        await db.delete(booking)
-
-        await db.commit()
-
-        return booking
+        return BookingResponse(**booking)

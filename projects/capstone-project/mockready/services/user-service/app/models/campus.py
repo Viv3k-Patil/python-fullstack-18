@@ -2,6 +2,7 @@
 
 from io import DEFAULT_BUFFER_SIZE
 from sqlalchemy.orm import Mapped, mapped_column
+from app.core.database import Base
 
 class Campus(Base):
     __tablename__ = "campus"

@@ -27,10 +27,7 @@ from app.schemas.booking_schemas import (
 from app.services.booking_service import BookingService
 
 
-router = APIRouter(
-    prefix="/bookings",
-    tags=["Bookings"]
-)
+router = APIRouter(prefix="/bookings",tags=["Bookings"])
 
 
 @router.post("/", response_model=BookingResponse)

@@ -16,19 +16,20 @@ from uuid import UUID
 from fastapi import APIRouter, HTTPException, Query
 
 from app.schemas.campus import CampusCreate, CampusUpdate
-from app.services.campus_service import campus_service
+from app.services.campus_service import CampusService
 from app.core.responses import success, paginated
 from app.core.exceptions import NotFoundException, ConflictException
+from app.core.database import get_db
 
 router = APIRouter(prefix="/campuses", tags=["Campuses"])
 
 
 @router.post("", status_code=201)
-async def create_campus(data: CampusCreate):
+async def create_campus(data: CampusCreate, db: AsyncSession = Depends(get_db)):
     try:
-        campus = campus_service.create(data)
+        campus = CampusService(db).create(data)
         return success(
-            data=campus.model_dump(),
+            data=campus,
             message="Campus created successfully",
         )
     except ConflictException as e:

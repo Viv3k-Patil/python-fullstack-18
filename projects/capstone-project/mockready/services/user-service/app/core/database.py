@@ -3,6 +3,7 @@ from sqlalchemy.ext.asyncio import (
     async_sessionmaker,
     AsyncSession
 )
+from sqlalchemy.orm import DeclarativeBase
 from app.core.settings import get_settings
 from sqlalchemy.orm import declarative_base
 
@@ -17,6 +18,9 @@ engine = create_async_engine(
     pool_pre_ping = True,
     echo=settings.is_development
 )
+# base declaration
+class Base(DeclarativeBase):
+    pass
 
 # session factory
 AsyncSessionLocal = async_sessionmaker(

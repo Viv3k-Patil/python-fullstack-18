@@ -12,11 +12,8 @@ Pydantic handles:
 - Response serialization
 - Type checking
 """
-
-
 from datetime import datetime
 from pydantic import BaseModel
-
 
 class BookingCreate(BaseModel):
     student_id: int
