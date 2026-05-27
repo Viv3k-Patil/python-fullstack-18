@@ -12,23 +12,24 @@ If you find yourself writing if/else logic here
 that isn't about HTTP — move it to the service.
 """
 
-from uuid import UUID
 from fastapi import APIRouter, HTTPException, Query
 
 from app.schemas.campus import CampusCreate, CampusUpdate
-from app.services.campus_service import campus_service
+from app.services.campus_service import CampusService
 from app.core.responses import success, paginated
 from app.core.exceptions import NotFoundException, ConflictException
-
+from app.core.database import get_db
+from fastapi import Depends
+from sqlalchemy.ext.asyncio import AsyncSession
 router = APIRouter(prefix="/campuses", tags=["Campuses"])
 
 
 @router.post("", status_code=201)
-async def create_campus(data: CampusCreate):
+async def create_campus(data: CampusCreate, db: AsyncSession = Depends(get_db)):
     try:
-        campus = campus_service.create(data)
+        campus = await CampusService(db).create(data)
         return success(
-            data=campus.model_dump(),
+            data=campus,
             message="Campus created successfully",
         )
     except ConflictException as e:
@@ -39,8 +40,9 @@ async def create_campus(data: CampusCreate):
 async def list_campuses(
     page: int = Query(1, ge=1, description="Page number"),
     size: int = Query(20, ge=1, le=100, description="Items per page"),
+    db: AsyncSession = Depends(get_db)
 ):
-    campuses, total = campus_service.get_all(page=page, size=size)
+    campuses, total = await CampusService(db).get_all(page=page, size=size)
     return paginated(
         data=[c.model_dump() for c in campuses],
         total=total,
@@ -51,9 +53,9 @@ async def list_campuses(
 
 
 @router.get("/{campus_id}")
-async def get_campus(campus_id: UUID):
+async def get_campus(campus_id: int, db: AsyncSession = Depends(get_db)):
     try:
-        campus = campus_service.get_by_id(campus_id)
+        campus = await CampusService(db).get_by_id(campus_id)
         return success(
             data=campus.model_dump(),
             message="Campus retrieved successfully",
@@ -63,9 +65,9 @@ async def get_campus(campus_id: UUID):
 
 
 @router.put("/{campus_id}")
-async def update_campus(campus_id: UUID, data: CampusUpdate):
+async def update_campus(campus_id: int, data: CampusUpdate, db: AsyncSession = Depends(get_db)):
     try:
-        campus = campus_service.update(campus_id, data)
+        campus = await CampusService(db).update(campus_id, data)
         return success(
             data=campus.model_dump(),
             message="Campus updated successfully",
@@ -75,11 +77,11 @@ async def update_campus(campus_id: UUID, data: CampusUpdate):
 
 
 @router.delete("/{campus_id}")
-async def delete_campus(campus_id: UUID):
+async def delete_campus(campus_id: int, db: AsyncSession = Depends(get_db)):
     try:
-        campus = campus_service.delete(campus_id)
+        is_deleted = await CampusService(db).delete(campus_id)
         return success(
-            data=campus.model_dump(),
+            data=is_deleted,
             message="Campus deactivated successfully",
         )
     except NotFoundException as e:
