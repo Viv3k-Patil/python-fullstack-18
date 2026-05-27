@@ -1,5 +1,5 @@
 """
-routers/campus.py
+routers/booking_history.py
 
 HTTP layer only. Zero business logic here.
 This file's only jobs:
@@ -14,75 +14,75 @@ that isn't about HTTP — move it to the service.
 
 from fastapi import APIRouter, HTTPException, Query
 
-from app.schemas.campus import CampusCreate, CampusUpdate
-from app.services.campus_service import CampusService
+from app.schemas.booking_history import BookingHistoryCreate, BookingHistoryUpdate
+from app.services.booking_history_service import BookingHistoryService
 from app.core.responses import success, paginated
 from app.core.exceptions import NotFoundException, ConflictException
 from app.core.database import get_db
 from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
-router = APIRouter(prefix="/campuses", tags=["Campuses"])
 
+router = APIRouter(prefix="/booking-histories", tags=["Booking Histories"])
 
 @router.post("", status_code=201)
-async def create_campus(data: CampusCreate, db: AsyncSession = Depends(get_db)):
+async def create_booking(data: BookingHistoryCreate, db: AsyncSession = Depends(get_db)):
     try:
-        campus = await CampusService(db).create(data)
+        booking = await BookingHistoryService(db).create(data)
         return success(
-            data=campus,
-            message="Campus created successfully",
+            data=booking,
+            message="Booking created successfully",
         )
     except ConflictException as e:
         raise HTTPException(status_code=409, detail=e.message)
 
 
 @router.get("")
-async def list_campuses(
+async def list_bookings(
     page: int = Query(1, ge=1, description="Page number"),
     size: int = Query(20, ge=1, le=100, description="Items per page"),
     db: AsyncSession = Depends(get_db)
 ):
-    campuses, total = await CampusService(db).get_all(page=page, size=size)
+    bookings, total = await BookingHistoryService(db).get_all(page=page, size=size)
     return paginated(
-        data=[c.model_dump() for c in campuses],
+        data=[b.model_dump() for b in bookings],
         total=total,
         page=page,
         size=size,
-        message="Campuses retrieved successfully",
+        message="Bookings retrieved successfully",
     )
 
 
-@router.get("/{campus_id}")
-async def get_campus(campus_id: int, db: AsyncSession = Depends(get_db)):
+@router.get("/{booking_id}")
+async def get_booking(booking_id: int, db: AsyncSession = Depends(get_db)):
     try:
-        campus = await CampusService(db).get_by_id(campus_id)
+        booking = await BookingHistoryService(db).get_by_id(booking_id)
         return success(
-            data=campus.model_dump(),
-            message="Campus retrieved successfully",
+            data=booking.model_dump(),
+            message="Booking retrieved successfully",
         )
     except NotFoundException as e:
         raise HTTPException(status_code=404, detail=e.message)
 
 
-@router.put("/{campus_id}")
-async def update_campus(campus_id: int, data: CampusUpdate, db: AsyncSession = Depends(get_db)):
+@router.put("/{booking_id}")
+async def update_booking(booking_id: int, data: BookingHistoryUpdate, db: AsyncSession = Depends(get_db)):
     try:
-        campus = await CampusService(db).update(campus_id, data)
+        booking = await BookingHistoryService(db).update(booking_id, data)
         return success(
-            data=campus.model_dump(),
-            message="Campus updated successfully",
+            data=booking.model_dump(),
+            message="Booking updated successfully",
         )
     except NotFoundException as e:
         raise HTTPException(status_code=404, detail=e.message)
 
 
-@router.delete("/{campus_id}")
-async def delete_campus(campus_id: int, db: AsyncSession = Depends(get_db)):
+@router.delete("/{booking_id}")
+async def delete_booking(booking_id: int, db: AsyncSession = Depends(get_db)):
     try:
-        is_deleted = await CampusService(db).delete(campus_id)
+        is_deleted = await BookingHistoryService(db).delete(booking_id)
         return success(
             data=is_deleted,
-            message="Campus deactivated successfully",
+            message="Booking deactivated successfully",
         )
     except NotFoundException as e:
         raise HTTPException(status_code=404, detail=e.message)

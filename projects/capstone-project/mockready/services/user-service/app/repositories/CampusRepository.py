@@ -37,12 +37,18 @@ class CampusRepository:
         result = await self.db.execute(select(Campus).where(Campus.name.ilike(name)))
         return result.scalar_one_or_none()
     
-    async def soft_delete(self, campus:Campus) -> bool:
+    async def soft_delete(self, campus_id: int) -> bool:
+        result = await self.db.execute(
+            select(Campus).where(Campus.campus_id == campus_id)
+        )
+        campus = result.scalar_one_or_none()
+        if not campus:
+            return False
         campus.is_active = False
         await self.db.flush()
-        return not campus.is_active
+        return True
     
-    async def update(self, campus: Campus: data: CampusUpdate) -> Campus:
+    async def update(self, campus: Campus, data: CampusUpdate) -> Campus:
         for key, value in data.model_dump().items():
             # campus[key] = value
             setattr(campus, key, value)
@@ -50,3 +56,14 @@ class CampusRepository:
         await self.db.refresh(campus)
         return campus
         
+    async def get_all(self, page: int, size: int) -> tuple[list[Campus], int]:
+        result = await self.db.execute(
+            select(Campus).where(Campus.is_active == True).offset((page-1)*size).limit(size)
+        )
+        campuses = result.scalars().all()
+
+        count_result = await self.db.execute(
+            select(Campus).where(Campus.is_active == True)
+        )
+        total = len(count_result.scalars().all())
+        return campuses, total

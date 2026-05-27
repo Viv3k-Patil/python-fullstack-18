@@ -29,7 +29,7 @@ class BookingUpdate(BaseModel):
     cabin_id: int | None = None
     interview_type: str | None = None
     status: str | None = None
-    schedule_at: datetime | None = None
+    scheduled_at: datetime | None = None
     decline_count: int | None = None
 
 
@@ -41,9 +41,9 @@ class BookingResponse(BaseModel):
     campus_id: int
     interview_type: str
     status: str
-    schedule_at: datetime | None
+    scheduled_at: datetime | None
     decline_count: int
     created_at: datetime
 
-    class Config:
-        from_attributes = True
+   
+    model_config = {"from_attributes": True}

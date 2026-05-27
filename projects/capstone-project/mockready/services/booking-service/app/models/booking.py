@@ -9,16 +9,16 @@ inside PostgreSQL database.
 
 
 from sqlalchemy import (
-    Column,
+    Boolean,
     String,
     Integer,
     DateTime
 )
 
-from datetime import datetime , date
-from sqlalchemy.orm import Mapped, mapped_column
+from datetime import  date, datetime
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.core.database import Base
-
+from sqlalchemy import ForeignKey
 
 class Booking(Base):
 
@@ -31,47 +31,55 @@ class Booking(Base):
         autoincrement=True
     )
 
-    student_id = Mapped[int] = mapped_column(
-        Integer,
+    student_id : Mapped[int] = mapped_column(
+        ForeignKey("student_profile.student_id"),
+        nullable=False
+
+    )
+
+    trainer_id : Mapped[int] = mapped_column(
+        ForeignKey("trainer_profile.trainer_id"),
         nullable=False
     )
 
-    trainer_id = Mapped[int] = mapped_column(
-        Integer,
+    cabin_id : Mapped[int] = mapped_column(
+        ForeignKey("cabin.cabin_id"),
         nullable=False
     )
 
-    cabin_id = Mapped[int] = mapped_column(
-        Integer,
+    campus_id : Mapped[int] = mapped_column(
+        ForeignKey("campus.campus_id"),
         nullable=False
     )
 
-    campus_id = Mapped[int] = mapped_column(
-        Integer,
-        nullable=False
-    )
-
-    interview_type = Mapped[str] = mapped_column(
+    interview_type : Mapped[str] = mapped_column(
         String,
         nullable=False
     )
 
-    status = Mapped[str] = mapped_column(
+    status : Mapped[str] = mapped_column(
         String,
         nullable=False
     )
 
-    schedule_at = Mapped[date] = mapped_column(
+    scheduled_at : Mapped[date] = mapped_column(
         DateTime,
         nullable=True
     )
 
-    decline_count = Mapped[int] = mapped_column(
+    decline_count : Mapped[int] = mapped_column(
         Integer,
         default=0
     )
 
-    created_at = Mapped[date] = mapped_column(
+    created_at : Mapped[date] = mapped_column(
         DateTime,
         default=datetime.utcnow
     )
+    is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
+
+    #relationships
+    # student_profile = relationship("StudentProfile", back_populates="bookings")
+    # trainer_profile = relationship("TrainerProfile", back_populates="bookings")
+    # cabin = relationship("Cabin", back_populates="bookings")
+    # campus = relationship("Campus", back_populates="bookings")

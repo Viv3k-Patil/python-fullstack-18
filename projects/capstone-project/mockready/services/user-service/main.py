@@ -6,7 +6,6 @@ main.py — user-service entry point
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
 from app.core.settings import get_settings
 from app.routers import health, campus, batch, cabin, trainer_profile
 from app.routers import trainer_availability, student_profile
