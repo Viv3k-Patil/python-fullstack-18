@@ -15,8 +15,8 @@ from sqlalchemy import (
     DateTime
 )
 
-from datetime import datetime
-
+from datetime import datetime , date
+from sqlalchemy.orm import Mapped, mapped_column
 from app.core.database import Base
 
 
@@ -25,53 +25,53 @@ class Booking(Base):
     # Table name in database
     __tablename__ = "booking"
 
-    booking_id = Column(
+    booking_id: Mapped[int] = mapped_column(
         Integer,
         primary_key=True,
         autoincrement=True
     )
 
-    student_id = Column(
+    student_id = Mapped[int] = mapped_column(
         Integer,
         nullable=False
     )
 
-    trainer_id = Column(
+    trainer_id = Mapped[int] = mapped_column(
         Integer,
         nullable=False
     )
 
-    cabin_id = Column(
+    cabin_id = Mapped[int] = mapped_column(
         Integer,
         nullable=False
     )
 
-    campus_id = Column(
+    campus_id = Mapped[int] = mapped_column(
         Integer,
         nullable=False
     )
 
-    interview_type = Column(
+    interview_type = Mapped[str] = mapped_column(
         String,
         nullable=False
     )
 
-    status = Column(
+    status = Mapped[str] = mapped_column(
         String,
         nullable=False
     )
 
-    schedule_at = Column(
+    schedule_at = Mapped[date] = mapped_column(
         DateTime,
         nullable=True
     )
 
-    decline_count = Column(
+    decline_count = Mapped[int] = mapped_column(
         Integer,
         default=0
     )
 
-    created_at = Column(
+    created_at = Mapped[date] = mapped_column(
         DateTime,
         default=datetime.utcnow
     )
