@@ -76,12 +76,13 @@
 
 
 # campus_service = CampusService()
-from app.schemas.campus import CampusResponse
+from app.schemas.campus import CampusResponse, CampusCreate
 from app.repositories.CampusRepository import CampusRepository
+from sqlalchemy.ext.asyncio import AsyncSession
 
 class CampusService:
 
-    def __init__(self):
+    def __init__(self, db: AsyncSession):
         self.campus_repo = CampusRepository(db)
     
     async def create(self, data: CampusCreate) -> CampusResponse:
@@ -92,4 +93,10 @@ class CampusService:
         campus = await self.campus_repo.get_by_id(campus_id)
         return CampusResponse.model_validate(campus)
     
+    async def get_all(self, page: int, size: int) -> tuple[list[CampusResponse], int]:
+        campuses, total = await self.campus_repo.get_all(page, size)
+        return [CampusResponse.model_validate(c) for c in campuses], total
+    
+    async def delete(self, campus_id: int):
+        return await self.campus_repo.soft_delete(campus_id)
     
