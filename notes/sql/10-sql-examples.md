@@ -342,7 +342,10 @@ VALUES
 (1, 'science', 75),
 (1, 'history', 89),
 (2, 'history', 46),
-(2, 'science', 76);
+(2, 'science', 76),
+(1,'maths', 87);
+
+
 
 
 select * from students;
