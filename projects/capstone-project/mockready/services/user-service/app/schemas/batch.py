@@ -18,11 +18,13 @@ from datetime import datetime
 
 class BatchCreate(BaseModel):
     name: str = Field(..., min_length=2, max_length=100)
+    course:str = Field(..., min_length=2, max_length=100)
     campus_id: UUID 
 
 
 class BatchUpdate(BaseModel):
     name: str | None = Field(None, min_length=2, max_length=100)
+    course:str | None = Field(None, min_length=2, max_length=100)
     campus_id: UUID | None = None
     is_active: bool | None = None   
      
@@ -30,8 +32,11 @@ class BatchUpdate(BaseModel):
 class BatchResponse(BaseModel):
     id: UUID
     name: str
+    course:str
     campus_id: UUID
     is_active: bool
     created_at: datetime
+    start_time:datetime
+    end_time:datetime
 
     model_config = {"from_attributes": True}  # ready for ORM in Phase 2    

@@ -7,8 +7,9 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+
 from app.core.settings import get_settings
-from app.routers import health
+from app.routers import health,file_metadata
 
 settings = get_settings()
 
@@ -17,7 +18,6 @@ settings = get_settings()
 async def lifespan(app: FastAPI):
     # ── Startup ──────────────────────────────────────────
     print(f"🚀 Starting {settings.app_name} v{settings.app_version} [{settings.app_env}]")
-
     yield
 
     # ── Shutdown ─────────────────────────────────────────
@@ -44,6 +44,7 @@ app.add_middleware(
 
 # ── Routers ──────────────────────────────────────────────
 app.include_router(health.router)
+app.include_router(file_metadata.router)
 
 
 @app.get("/", tags=["Root"])

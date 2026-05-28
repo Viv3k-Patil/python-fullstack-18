@@ -1,8 +1,3 @@
-
-
-
-
-
 from uuid import UUID, uuid4
 from datetime import datetime, timezone
 
@@ -17,9 +12,12 @@ class BatchService:
         batch = {
             "id": uuid4(),
             "name": data.name,
+            "course":data.course,
             "campus_id": data.campus_id,
             "is_active": True,
             "created_at": datetime.now(timezone.utc),
+            "start_time":datetime.now(timezone.utc),
+            "end_time":datetime.now(timezone.utc)
         }
         batches[batch["id"]] = batch
         return BatchResponse(**batch)
