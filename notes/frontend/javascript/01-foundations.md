@@ -1,470 +1,522 @@
-# JavaScript — Day 1: Foundations, Types, Scope & Closures
+---
+
+## Before We Write Any Code — Setting Up
+
+### What is JavaScript?
+
+JavaScript is the language that makes websites *do things*. HTML is the skeleton, CSS is the clothes, and JavaScript is the muscles. It started in browsers but now runs everywhere — including your computer directly, thanks to **Node.js**.
+
+### Step 1 — Install Node.js
+
+Node.js lets you run JavaScript on your computer without a browser.
+
+1. Go to **https://nodejs.org**
+2. Download the **LTS version** (the one that says "Recommended For Most Users")
+3. Run the installer — keep clicking Next, nothing tricky
+4. Open your **Terminal** (Mac/Linux) or **Command Prompt** (Windows)
+5. Type this and press Enter:
+
+```
+node --version
+```
+
+If you see something like `v20.11.0` — you're good. Node is installed. 🎉
 
 ---
 
-## 1. How JavaScript Executes Code
+### Step 2 — Install VS Code (your code editor)
 
-JavaScript is **single-threaded** and uses a **call stack** to manage execution. Before any code runs, the JS engine does two things:
+VS Code is where you'll write your code. Think of it like Microsoft Word, but for code.
 
-1. **Memory creation phase** — variables are allocated (`undefined`), functions are stored in full.
-2. **Execution phase** — code runs line by line.
+1. Go to **https://code.visualstudio.com**
+2. Download and install it (just keep clicking Next)
 
-```js
-console.log(a); // undefined (not ReferenceError)
-var a = 10;
-console.log(a); // 10
-```
+#### Useful VS Code extensions for beginners
 
-This is **hoisting** — declarations are lifted to the top of their scope during the memory phase.
+Once VS Code is open, click the **Extensions icon** on the left sidebar (looks like 4 squares). Search and install these:
 
----
-
-## 2. Data Types
-
-### Primitives (passed by value)
-
-| Type        | Example                    |
-|-------------|----------------------------|
-| `number`    | `42`, `3.14`, `NaN`, `Infinity` |
-| `string`    | `"hello"`, `` `world` ``   |
-| `boolean`   | `true`, `false`            |
-| `null`      | `null`                     |
-| `undefined` | `undefined`                |
-| `symbol`    | `Symbol('id')`             |
-| `bigint`    | `9007199254740991n`        |
-
-### Objects (passed by reference)
-
-Everything else — arrays, functions, objects, dates, regex.
-
-```js
-// Primitives: copy by value
-let a = 5;
-let b = a;
-b = 99;
-console.log(a); // 5 — unchanged
-
-// Objects: copy by reference
-let obj1 = { x: 1 };
-let obj2 = obj1;
-obj2.x = 99;
-console.log(obj1.x); // 99 — mutated!
-```
-
-**Analogy:** Primitives are like handing someone a photocopy of a document. Objects are like handing them a key to a shared locker.
+| Extension | Why you need it |
+|---|---|
+| **Prettier** | Auto-formats your code so it looks clean |
+| **ESLint** | Warns you about mistakes before you run code |
+| **JavaScript (ES6) code snippets** | Helpful shortcuts for common code |
 
 ---
 
-## 3. `typeof` Quirks
+### Step 3 — Run your first JavaScript file
+
+1. Create a folder on your Desktop called `js-practice`
+2. Open VS Code → File → Open Folder → select `js-practice`
+3. Create a new file called `day1.js`
+4. Type this inside:
 
 ```js
-typeof 42           // "number"
-typeof "hello"      // "string"
-typeof true         // "boolean"
-typeof undefined    // "undefined"
-typeof null         // "object"   ← famous bug, never fixed
-typeof {}           // "object"
-typeof []           // "object"
-typeof function(){} // "function"
-typeof Symbol()     // "symbol"
-typeof 1n           // "bigint"
+console.log("Hello, World!");
 ```
 
-To check for `null`:
-```js
-value === null // only reliable way
+5. Open the **Terminal inside VS Code** (View → Terminal)
+6. Type:
+
+```
+node day1.js
 ```
 
-To check for array:
-```js
-Array.isArray([1, 2, 3]); // true
+You should see:
+
 ```
+Hello, World!
+```
+
+**`console.log()`** is how JavaScript prints/shows something. Think of it as JavaScript saying something out loud. You'll use it constantly.
 
 ---
 
-## 4. Type Coercion
+## Chapter 1 — Variables: Storing Information
 
-JS converts types automatically in certain situations. This is a major source of bugs.
-
-### Implicit coercion
+A variable is like a **labelled box**. You put something in it, give it a name, and use that name later to get it back.
 
 ```js
-"5" + 3        // "53"  — number coerced to string
-"5" - 3        // 2     — string coerced to number
-"5" * "3"      // 15
-true + 1       // 2
-false + 1      // 1
-null + 1       // 1
-undefined + 1  // NaN
-[] + []        // ""
-[] + {}        // "[object Object]"
-{} + []        // 0  (in some contexts)
+let playerName = "Arjun";
+let score = 0;
+let isGameOver = false;
 ```
 
-### `==` vs `===`
-
-`==` performs type coercion. `===` does not.
+### Three ways to create a variable
 
 ```js
-0 == false    // true
-0 === false   // false
-null == undefined   // true
-null === undefined  // false
-NaN == NaN    // false  ← NaN is never equal to itself
+var oldWay = "avoid this";   // old, causes weird bugs — don't use
+let changeable = "I can change"; // use this when the value will change
+const fixed = "I won't change";  // use this when the value stays the same
 ```
 
-**Rule:** Always use `===` unless you explicitly want coercion.
+**Rule of thumb:** Always reach for `const` first. If you need to change the value later, switch to `let`. Forget `var` exists.
+
+```js
+const myName = "Priya";
+myName = "Rahul"; // ❌ Error! You can't change a const
+
+let age = 20;
+age = 21; // ✅ Fine, let can be changed
+```
+
+**Analogy:** `const` is like carving your name in stone. `let` is like writing it on a whiteboard.
 
 ---
 
-## 5. `var`, `let`, `const`
+## Chapter 2 — Data Types: What Kind of Thing Is It?
 
-| Feature          | `var`        | `let`        | `const`      |
-|------------------|--------------|--------------|--------------|
-| Scope            | Function     | Block        | Block        |
-| Hoisted          | Yes (undefined) | Yes (TDZ) | Yes (TDZ)  |
-| Re-declarable    | Yes          | No           | No           |
-| Re-assignable    | Yes          | Yes          | No           |
+Every piece of data in JavaScript has a *type*. Like how in real life, "42" is a number but "hello" is text — JavaScript cares about the difference.
 
-### Temporal Dead Zone (TDZ)
-
-`let` and `const` are hoisted but not initialized. Accessing them before their declaration throws a `ReferenceError`.
+### The main types you'll use daily
 
 ```js
-console.log(x); // ReferenceError: Cannot access 'x' before initialization
-let x = 5;
+// 1. Number — any number, with or without decimals
+let temperature = 36.6;
+let appleCount = 5;
+
+// 2. String — text, always in quotes
+let greeting = "Namaste!";
+let city = 'Mumbai';
+let message = `Hello, ${greeting}`; // backticks let you embed variables!
+
+// 3. Boolean — only two values: true or false
+let isRaining = false;
+let isLoggedIn = true;
+
+// 4. Undefined — a variable that exists but has no value yet
+let futureValue;
+console.log(futureValue); // undefined
+
+// 5. Null — intentionally empty (you set it to nothing on purpose)
+let selectedItem = null;
 ```
 
-**Analogy:** `var` is a whiteboard that's wiped clean (set to `undefined`) before class starts. `let`/`const` are locked lockers — they exist, but you can't open them until you get the key (declaration line).
+### Check the type of something with `typeof`
 
 ```js
-// Classic var trap in loops
-for (var i = 0; i < 3; i++) {
-  setTimeout(() => console.log(i), 100);
-}
-// Prints: 3, 3, 3
-
-// Fix with let
-for (let i = 0; i < 3; i++) {
-  setTimeout(() => console.log(i), 100);
-}
-// Prints: 0, 1, 2
+typeof 42          // "number"
+typeof "hello"     // "string"
+typeof true        // "boolean"
+typeof undefined   // "undefined"
+typeof null        // "object"  ← this is a famous old bug, just know it
 ```
 
 ---
 
-## 6. Scope
+## Chapter 3 — Operators: Doing Things With Values
 
-Scope defines where a variable is accessible.
+Operators are the **action words** of JavaScript. They let you do math, compare things, and combine logic.
 
-### Types of scope
-
-- **Global scope** — accessible everywhere
-- **Function scope** — accessible only inside the function
-- **Block scope** — accessible only inside `{}` (with `let`/`const`)
-- **Module scope** — accessible only in the module
+### 3.1 Arithmetic Operators (Math)
 
 ```js
-let globalVar = "I'm global";
+let a = 10;
+let b = 3;
 
-function outer() {
-  let outerVar = "I'm in outer";
-
-  function inner() {
-    let innerVar = "I'm in inner";
-    console.log(globalVar); // ✅
-    console.log(outerVar);  // ✅
-    console.log(innerVar);  // ✅
-  }
-
-  console.log(innerVar); // ❌ ReferenceError
-}
+a + b   // 13  → addition
+a - b   // 7   → subtraction
+a * b   // 30  → multiplication
+a / b   // 3.33... → division
+a % b   // 1   → remainder (modulo) — "10 divided by 3 leaves remainder 1"
+a ** b  // 1000 → power (10 to the power of 3)
 ```
 
-### Scope chain
+**The `%` operator is super useful.** It tells you the remainder after division.
 
-When JS looks up a variable, it searches the current scope, then the outer scope, then further out — all the way to global. This chain is called the **scope chain**.
+```js
+10 % 2  // 0 → even number! (no remainder)
+11 % 2  // 1 → odd number!
+15 % 5  // 0 → divisible by 5!
+```
 
-**Analogy:** Imagine you're in a room inside a house inside a neighborhood. If you need a tool, you check your room first. Not there? Check the house. Not there? Check the neighborhood. This lookup chain is the scope chain.
+### 3.2 Assignment Operators (Updating values)
+
+```js
+let score = 0;
+
+score = score + 10; // long way
+score += 10;        // short way (same thing) ✅
+
+score -= 5;   // score = score - 5
+score *= 2;   // score = score * 2
+score /= 2;   // score = score / 2
+
+// Increment and Decrement (add/subtract 1)
+score++;  // score = score + 1
+score--;  // score = score - 1
+```
+
+### 3.3 String Operators (Joining text)
+
+The `+` operator joins strings together. This is called **concatenation**.
+
+```js
+let firstName = "Rahul";
+let lastName = "Sharma";
+
+let fullName = firstName + " " + lastName;
+console.log(fullName); // "Rahul Sharma"
+```
+
+But there's a better way — **template literals** (backtick strings):
+
+```js
+let name = "Priya";
+let age = 25;
+
+// Old way (messy)
+console.log("Hello, my name is " + name + " and I am " + age + " years old.");
+
+// New way (clean) ✅
+console.log(`Hello, my name is ${name} and I am ${age} years old.`);
+```
+
+Inside backticks, anything inside `${ }` gets treated as code — it runs and the result is placed in the string.
+
+### 3.4 Comparison Operators (Asking yes/no questions)
+
+These always return `true` or `false`.
+
+```js
+5 > 3    // true  — is 5 greater than 3?
+5 < 3    // false — is 5 less than 3?
+5 >= 5   // true  — is 5 greater than or equal to 5?
+5 <= 4   // false — is 5 less than or equal to 4?
+
+// Equality — THE MOST IMPORTANT ONE TO GET RIGHT
+5 == "5"   // true  ← dangerous! JS converts types to match (called coercion)
+5 === "5"  // false ← safe! checks value AND type
+
+5 != "5"   // false ← loose (with coercion)
+5 !== "5"  // true  ← strict ✅
+```
+
+**Golden rule: Always use `===` and `!==`.** The double-equals `==` tries to be helpful and converts types — this causes sneaky bugs.
+
+```js
+// Why == is dangerous:
+0 == false    // true  ← confusing!
+0 === false   // false ← correct and expected
+"" == false   // true  ← wait, what?
+"" === false  // false ← makes sense
+```
+
+**Analogy:** `==` is like a lazy security guard who accepts a photocopy of your ID. `===` is the strict one who wants the original.
+
+### 3.5 Logical Operators (Combining conditions)
+
+```js
+// && → AND: both sides must be true
+true && true   // true
+true && false  // false
+false && true  // false
+
+// || → OR: at least one side must be true
+true || false  // true
+false || false // false
+true || true   // true
+
+// ! → NOT: flips true to false and vice versa
+!true   // false
+!false  // true
+```
+
+Real example:
+
+```js
+let age = 20;
+let hasTicket = true;
+
+// Can this person enter a concert?
+let canEnter = age >= 18 && hasTicket;
+console.log(canEnter); // true — they're 18+ AND have a ticket
+```
 
 ---
 
-## 7. Closures
+## Chapter 4 — Conditionals: Making Decisions
 
-A **closure** is a function that remembers the variables from its outer scope even after that scope has finished executing.
+Code needs to make decisions. "If it's raining, take an umbrella. Otherwise, wear sunglasses." That's what conditionals do.
 
-```js
-function makeCounter() {
-  let count = 0;
-
-  return function () {
-    count++;
-    return count;
-  };
-}
-
-const counter = makeCounter();
-counter(); // 1
-counter(); // 2
-counter(); // 3
-```
-
-`count` is captured by the inner function. Even after `makeCounter()` returns, the inner function has a reference to `count` in its closure.
-
-**Analogy:** A closure is like a backpack. When you leave a place (the outer function finishes), you still carry the backpack (closed-over variables) with you.
-
-### Practical use cases
-
-**1. Data privacy (module pattern)**
-```js
-function createBankAccount(initialBalance) {
-  let balance = initialBalance; // private
-
-  return {
-    deposit(amount) { balance += amount; },
-    withdraw(amount) { balance -= amount; },
-    getBalance() { return balance; }
-  };
-}
-
-const account = createBankAccount(1000);
-account.deposit(500);
-console.log(account.getBalance()); // 1500
-console.log(account.balance);      // undefined — can't access directly
-```
-
-**2. Memoization**
-```js
-function memoize(fn) {
-  const cache = {};
-  return function (...args) {
-    const key = JSON.stringify(args);
-    if (cache[key] !== undefined) return cache[key];
-    cache[key] = fn(...args);
-    return cache[key];
-  };
-}
-
-const expensiveAdd = memoize((a, b) => {
-  console.log("Computing...");
-  return a + b;
-});
-
-expensiveAdd(2, 3); // Computing... 5
-expensiveAdd(2, 3); // 5 (cached)
-```
-
-**3. Partial application**
-```js
-function multiply(factor) {
-  return (number) => number * factor;
-}
-
-const double = multiply(2);
-const triple = multiply(3);
-
-double(5); // 10
-triple(5); // 15
-```
-
----
-
-## 8. Hoisting in Depth
-
-### `var` hoisting
+### 4.1 `if` statement
 
 ```js
-console.log(name); // undefined
-var name = "Alice";
-// Treated as:
-// var name; ← hoisted
-// console.log(name); // undefined
-// name = "Alice";
-```
+let temperature = 38;
 
-### Function declaration hoisting
-
-```js
-greet(); // "Hello!" — works because the whole function is hoisted
-
-function greet() {
-  console.log("Hello!");
+if (temperature > 35) {
+  console.log("It's very hot today! Stay hydrated.");
 }
 ```
 
-### Function expression — NOT hoisted
+The code inside `{ }` only runs **if** the condition in `( )` is `true`.
+
+### 4.2 `if...else` statement
 
 ```js
-greet(); // TypeError: greet is not a function
+let isRaining = true;
 
-var greet = function () {
-  console.log("Hello!");
-};
+if (isRaining) {
+  console.log("Carry an umbrella ☂️");
+} else {
+  console.log("Enjoy the sunshine ☀️");
+}
 ```
 
-The variable `greet` is hoisted as `undefined`, so calling it before assignment throws a TypeError.
+### 4.3 `if...else if...else` — Multiple choices
+
+```js
+let score = 72;
+
+if (score >= 90) {
+  console.log("Grade: A");
+} else if (score >= 75) {
+  console.log("Grade: B");
+} else if (score >= 60) {
+  console.log("Grade: C");
+} else {
+  console.log("Grade: F");
+}
+// Output: "Grade: C"
+```
+
+JavaScript checks from top to bottom and stops at the **first** condition that's true.
+
+### 4.4 `switch` statement — When you have many exact matches
+
+When you're comparing one value against many specific options, `switch` is cleaner than a long chain of `else if`.
+
+```js
+let day = "Monday";
+
+switch (day) {
+  case "Monday":
+    console.log("Start of the week 😩");
+    break;
+  case "Friday":
+    console.log("Almost weekend! 🎉");
+    break;
+  case "Saturday":
+  case "Sunday":
+    console.log("Weekend! 🥳");
+    break;
+  default:
+    console.log("It's a regular weekday.");
+}
+```
+
+⚠️ Don't forget `break`! Without it, JavaScript will fall through to the next case and keep running.
+
+### 4.5 Ternary Operator — One-line if/else
+
+Great for simple yes/no choices in one line.
+
+```js
+// Syntax: condition ? "if true" : "if false"
+
+let age = 20;
+let status = age >= 18 ? "Adult" : "Minor";
+console.log(status); // "Adult"
+
+// Instead of:
+let status2;
+if (age >= 18) {
+  status2 = "Adult";
+} else {
+  status2 = "Minor";
+}
+```
+
+**Only use ternary for simple cases.** If the logic gets complicated, write a proper `if/else` — don't be clever at the cost of readability.
+
+### 4.6 Truthy and Falsy — What counts as "true"?
+
+In a condition, JavaScript converts the value to true or false. Some values are naturally "false-ish":
+
+**Falsy values** (treated as `false` in conditions):
+```js
+false
+0
+""          // empty string
+null
+undefined
+NaN
+```
+
+**Everything else is truthy** (treated as `true`).
+
+```js
+let username = "";
+
+if (username) {
+  console.log("Welcome, " + username);
+} else {
+  console.log("Please enter a username."); // This runs — empty string is falsy
+}
+```
+
+```js
+let items = [1, 2, 3];
+
+if (items.length) {
+  console.log("You have items!"); // runs — 3 is truthy
+}
+```
 
 ---
 
-## 9. IIFE — Immediately Invoked Function Expression
+## Chapter 5 — Putting It Together: Small Practice Programs
 
-An IIFE runs immediately after it's defined. Used to create isolated scope (pre-ES6 modules).
+### Practice 1 — Grade Calculator
 
 ```js
-(function () {
-  let secret = "hidden";
-  console.log("Runs immediately");
-})();
+let marks = 85;
+let subject = "Maths";
 
-console.log(secret); // ReferenceError
+if (marks >= 90) {
+  console.log(`${subject}: Distinction`);
+} else if (marks >= 75) {
+  console.log(`${subject}: First Class`);  // This runs
+} else if (marks >= 60) {
+  console.log(`${subject}: Second Class`);
+} else {
+  console.log(`${subject}: Fail`);
+}
 ```
 
-Arrow function IIFE:
-```js
-(() => {
-  console.log("Also an IIFE");
-})();
-```
-
----
-
-## 10. `this` Keyword
-
-`this` refers to the **execution context** — what object the function is running in the context of.
-
-| Context                  | `this` value          |
-|--------------------------|-----------------------|
-| Global (non-strict)      | `window` / `global`   |
-| Global (strict mode)     | `undefined`           |
-| Object method            | The object            |
-| Arrow function           | Inherits from outer   |
-| Constructor (`new`)      | New instance          |
-| `call`, `apply`, `bind`  | Manually set          |
+### Practice 2 — Basic Calculator
 
 ```js
-const person = {
-  name: "Alice",
-  greet() {
-    console.log(`Hi, I'm ${this.name}`);
-  }
-};
-person.greet(); // Hi, I'm Alice
+let num1 = 15;
+let num2 = 4;
+let operator = "+";
 
-const greet = person.greet;
-greet(); // Hi, I'm undefined (lost context)
-```
+let result;
 
-### Arrow functions and `this`
-
-Arrow functions don't have their own `this`. They inherit it from the surrounding lexical scope.
-
-```js
-const obj = {
-  name: "Alice",
-  regularFn: function () {
-    setTimeout(function () {
-      console.log(this.name); // undefined — 'this' is window/undefined
-    }, 100);
-  },
-  arrowFn: function () {
-    setTimeout(() => {
-      console.log(this.name); // "Alice" — arrow captures outer 'this'
-    }, 100);
-  }
-};
-
-obj.regularFn();
-obj.arrowFn();
-```
-
-### `call`, `apply`, `bind`
-
-```js
-function introduce(greeting, punctuation) {
-  console.log(`${greeting}, I'm ${this.name}${punctuation}`);
+if (operator === "+") {
+  result = num1 + num2;
+} else if (operator === "-") {
+  result = num1 - num2;
+} else if (operator === "*") {
+  result = num1 * num2;
+} else if (operator === "/") {
+  result = num1 / num2;
+} else {
+  result = "Unknown operator";
 }
 
-const user = { name: "Bob" };
-
-introduce.call(user, "Hello", "!");     // Hello, I'm Bob!
-introduce.apply(user, ["Hey", "..."]);  // Hey, I'm Bob...
-
-const boundFn = introduce.bind(user, "Hi");
-boundFn("?"); // Hi, I'm Bob?
+console.log(`${num1} ${operator} ${num2} = ${result}`);
+// Output: 15 + 4 = 19
 ```
 
-**`call`** — invoke immediately, args spread
-**`apply`** — invoke immediately, args as array
-**`bind`** — returns new function with fixed `this`
+### Practice 3 — Odd or Even
+
+```js
+let number = 17;
+
+if (number % 2 === 0) {
+  console.log(`${number} is Even`);
+} else {
+  console.log(`${number} is Odd`); // This runs
+}
+```
 
 ---
 
-## 11. Strict Mode
+## Chapter 6 — Common Beginner Mistakes
 
 ```js
-"use strict";
+// ❌ Using = instead of === in conditions
+if (age = 18) { }  // This assigns 18 to age! Not a comparison.
+if (age === 18) { } // ✅ This compares
 
-x = 10; // ReferenceError: x is not defined
+// ❌ Forgetting quotes around strings
+let name = Priya;  // ❌ Error — JS thinks Priya is a variable
+let name = "Priya"; // ✅
 
-function fn() {
-  console.log(this); // undefined (not window)
+// ❌ Forgetting break in switch
+switch(x) {
+  case 1:
+    console.log("one"); // falls through to case 2!
+  case 2:
+    console.log("two");
 }
 
-// Prevents:
-// - undeclared variables
-// - deleting variables/functions
-// - duplicate parameter names
-// - writing to read-only properties
-```
+// ❌ Using == instead of ===
+if (score == "10") { } // might work but unsafe
+if (score === 10)  { } // ✅ correct and clear
 
-ES6 modules are strict by default.
-
----
-
-## 12. Nullish Coalescing & Optional Chaining
-
-### `??` — Nullish Coalescing
-
-Returns the right side only if the left side is `null` or `undefined` (not falsy).
-
-```js
-const name = null ?? "Default";     // "Default"
-const age = 0 ?? 25;                // 0  ← 0 is not null/undefined
-const score = undefined ?? 100;     // 100
-
-// vs ||
-const age2 = 0 || 25;              // 25  ← 0 is falsy
-```
-
-### `?.` — Optional Chaining
-
-Safely access nested properties without throwing if an intermediate value is null/undefined.
-
-```js
-const user = {
-  profile: {
-    address: {
-      city: "Mumbai"
-    }
-  }
-};
-
-console.log(user?.profile?.address?.city);   // "Mumbai"
-console.log(user?.settings?.theme);          // undefined (no error)
-console.log(user?.getName?.());              // undefined (no error)
+// ❌ Typos in variable names (JS is case-sensitive)
+let myScore = 100;
+console.log(myscore); // ❌ ReferenceError — not the same as myScore
+console.log(myScore); // ✅
 ```
 
 ---
 
-## Quick Reference Cheatsheet — Day 1
+## Day 1 Cheat Sheet
 
 ```
-Primitives       → value copy    | Objects → reference copy
-typeof null      → "object"      | NaN !== NaN
-== coerces       → use ===       | TDZ for let/const
-var → function scope | let/const → block scope
-Hoisting: var=undefined, function=full, let/const=TDZ
-Closure = function + its outer scope's variables
-this = depends on call site (arrow fn inherits lexically)
-?? checks null/undefined | ?. prevents property access errors
+Setup:        node --version → check Node | node filename.js → run file
+Print:        console.log("hello")
+
+Variables:    const (won't change) | let (will change) | forget var
+Types:        number, string, boolean, null, undefined
+
+Operators:
+  Math:       + - * / % **
+  Update:     += -= *= /= ++ --
+  Compare:    === !== > < >= <=   ← always use === not ==
+  Logic:      && (AND)  || (OR)  ! (NOT)
+
+Conditionals:
+  if (condition) { }
+  if (condition) { } else { }
+  if (cond1) { } else if (cond2) { } else { }
+  switch (value) { case x: ... break; }
+  condition ? "yes" : "no"   ← ternary
+
+Falsy values: false, 0, "", null, undefined, NaN
+Everything else is truthy.
 ```
+
+---
