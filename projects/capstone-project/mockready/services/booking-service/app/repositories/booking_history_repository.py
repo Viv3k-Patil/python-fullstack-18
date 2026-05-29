@@ -24,7 +24,7 @@ class BookingHistoryRepository:
     
     async def get_by_id(self,booking_history_id : int) -> BookingHistory | None:
         result = await self.db.execute(
-         select(BookingHistory).where(BookingHistory.booking_history_id == booking_history_id, BookingHistory.is_active == True)
+            select(BookingHistory).where(BookingHistory.booking_history_id == booking_history_id, BookingHistory.is_active == True)
         )
         return result.scalar_one_or_none()
     
@@ -35,10 +35,18 @@ class BookingHistoryRepository:
         booking_history = result.scalar_one_or_none()
         if not booking_history:
             return False
-        booking_history.is_active == False
+        booking_history.is_active = False
         await self.db.flush()
         return True
     
+    async def update(self, booking_History: BookingHistory, data: BookingHistoryUpdate) -> BookingHistory:
+        for key, value in data.model_dump().items():
+            # booking[key] = value
+            setattr(booking_History, key, value)
+        await self.db.flush()
+        await self.db.refresh(booking_History)
+        return booking_History
+
     async def get_all(self, page: int, size: int) -> tuple[list[BookingHistory], int]:
         result = await self.db.execute(
             select(BookingHistory).where(BookingHistory.is_active == True).offset((page-1)*size).limit(size)

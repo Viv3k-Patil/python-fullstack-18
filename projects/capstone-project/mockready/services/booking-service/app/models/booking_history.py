@@ -15,7 +15,7 @@ from sqlalchemy import (
 from app.core.database import Base
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy import ForeignKey
-from datetime import  date
+from datetime import  date, datetime
 
 
 class BookingHistory(Base):
@@ -48,3 +48,4 @@ class BookingHistory(Base):
         DateTime,
         nullable= True
     )
+    is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)

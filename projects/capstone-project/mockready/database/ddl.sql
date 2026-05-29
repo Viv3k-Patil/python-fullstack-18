@@ -1,14 +1,14 @@
 
 # Create users table
 CREATE TABLE users(
-	user_id Serial PRIMARY KEY ,
+  user_id Serial PRIMARY KEY ,
   NAME VARCHAR(50) not null,
   email VARCHAR(50) UNIQUE,
   hashed_passward BIGINT not NULL,
   ROLE TEXT not NULL,
   campus_id INTEGER,
- 	is_active BOOLEAN,
- 	at_created BOOLEAN,
+  is_active BOOLEAN,
+  at_created BOOLEAN,
   
   FOREIGN key (campus_id) REFERENCES campus(campus_id)
 );
@@ -121,6 +121,7 @@ CREATE TABLE booking (
         scheduled_at DATE,
         decline_count INT,
         created_at DATE,
+        
 
         -- Foreign Keys
         FOREIGN KEY (student_id) REFERENCES student_profile(student_id),
