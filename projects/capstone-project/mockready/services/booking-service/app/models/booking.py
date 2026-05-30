@@ -32,23 +32,27 @@ class Booking(Base):
     )
 
     student_id : Mapped[int] = mapped_column(
-        ForeignKey("student_profile.student_id"),
+       # ForeignKey("student_profile.student_id"),
+        Integer,
         nullable=False
 
     )
 
     trainer_id : Mapped[int] = mapped_column(
-        ForeignKey("trainer_profile.trainer_id"),
+        #ForeignKey("trainer_profile.trainer_id"),
+        Integer,
         nullable=False
     )
 
     cabin_id : Mapped[int] = mapped_column(
-        ForeignKey("cabin.cabin_id"),
+        #ForeignKey("cabin.cabin_id"),
+        Integer,
         nullable=False
     )
 
     campus_id : Mapped[int] = mapped_column(
-        ForeignKey("campus.campus_id"),
+        #oreignKey("campus.campus_id"),
+        Integer,
         nullable=False
     )
 
@@ -62,7 +66,7 @@ class Booking(Base):
         nullable=False
     )
 
-    scheduled_at : Mapped[date] = mapped_column(
+    scheduled_at : Mapped[datetime] = mapped_column(
         DateTime,
         nullable=True
     )

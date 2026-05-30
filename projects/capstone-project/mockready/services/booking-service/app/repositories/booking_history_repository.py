@@ -30,7 +30,7 @@ class BookingHistoryRepository:
     
     async def soft_delete(self, booking_history_id : int) -> bool:
         result = await self.db.execute(
-            select(BookingHistory.where(BookingHistory.booking_history_id == booking_history_id))
+            select(BookingHistory).where(BookingHistory.booking_history_id == booking_history_id)
         )
         booking_history = result.scalar_one_or_none()
         if not booking_history:

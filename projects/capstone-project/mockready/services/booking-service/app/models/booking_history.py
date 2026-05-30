@@ -10,7 +10,7 @@ from sqlalchemy import (
     Integer,
     String,
     Boolean,
-    DateTime
+    Date
 )
 from app.core.database import Base
 from sqlalchemy.orm import Mapped, mapped_column
@@ -28,12 +28,14 @@ class BookingHistory(Base):
     )
 
     booking_id : Mapped[int] = mapped_column(
-        ForeignKey("booking.booking_id"),
+       # ForeignKey("booking.booking_id"),
+        Integer,
         nullable= False
     )
 
     trainer_id : Mapped[int] = mapped_column(
-        ForeignKey("trainer_profile.trainer_id"),
+        #ForeignKey("trainer_profile.trainer_id"),
+        Integer,
         nullable= False
     )
     action_data : Mapped[str] = mapped_column(
@@ -45,7 +47,7 @@ class BookingHistory(Base):
         nullable= False
     )
     actioned_at : Mapped[date] = mapped_column(
-        DateTime,
+        Date,
         nullable= True
     )
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
