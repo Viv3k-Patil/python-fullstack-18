@@ -23,6 +23,7 @@ class CampusCreate(BaseModel):
     city: str = Field(..., min_length=2, max_length=100)
     address: str = Field(..., min_length=5, max_length=255)
     cabin_count: int = Field(..., ge=1, le=50)
+    created_at: datetime = Field(default_factory=datetime.utcnow)
 
 
 class CampusUpdate(BaseModel):
@@ -34,7 +35,7 @@ class CampusUpdate(BaseModel):
 
 
 class CampusResponse(BaseModel):
-    id: UUID
+    campus_id: int
     name: str
     city: str
     address: str
@@ -42,4 +43,4 @@ class CampusResponse(BaseModel):
     is_active: bool
     created_at: datetime
 
-    model_config = {"from_attributes": True}  # ready for ORM in Phase 2
+    model_config = {"from_attributes": True} 
