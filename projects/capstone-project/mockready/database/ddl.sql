@@ -4,11 +4,11 @@ CREATE TABLE users(
   user_id Serial PRIMARY KEY ,
   NAME VARCHAR(50) not null,
   email VARCHAR(50) UNIQUE,
-  hashed_passward BIGINT not NULL,
+  hashed_password VARCHAR(250) Not NULL,
   ROLE TEXT not NULL,
   campus_id INTEGER,
   is_active BOOLEAN,
-  at_created BOOLEAN,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
   
   FOREIGN key (campus_id) REFERENCES campus(campus_id)
 );
@@ -90,7 +90,7 @@ CREATE TABLE file_metadata(
         file_type VARCHAR(100),
         size_bytes INT,
         uploaded_at DATE,
-        
+        is_active BOOLEAN,
         FOREIGN key (student_id) REFERENCES student_profile(student_id)
           
 );
