@@ -1,48 +1,31 @@
-"""
-schemas/trainer_availability.py
-
-These are NOT database models.
-They define what the API accepts and returns.
-
-Rule:
-  schemas/  → what the API sees   (Pydantic)
-  models/   → what the DB sees    (SQLAlchemy) ← Phase 2
-
-trainer_availability_Update uses all Optional fields — client sends
-only what they want to change. model_dump(exclude_none=True)
-strips the rest in the service layer.
-"""
-
 from pydantic import BaseModel, Field
-from uuid import UUID, uuid4
-from datetime import datetime,time,date
-from typing import Optional
-
-class Trainer_AvailabilityCreate(BaseModel):
-        tainer_id : UUID = Field(...)
-        campus_id : UUID = Field(...)
-        date : date
-        start_time : time
-        end_time : time
-        is_booked : bool
-
-class Trainer_AvailabilityUpdate(BaseModel):
-        trainer_id: UUID | None = Field(None)
-        campus_id: UUID| None = Field(None)
-        date: Optional[date] = None
-        start_time: Optional[date] = None
-        end_time: Optional[date] = None
-        is_active: bool | None = None
+from datetime import datetime, time, date
 
 
-class Trainer_AvailabilityResponse(BaseModel):
-        id : UUID
-        tainer_id : UUID
-        campus_id : UUID
-        date : date
-        start_time : time
-        end_time : time
-        is_booked : bool
+class TrainerAvailabilityCreate(BaseModel):
+    trainer_id: int = Field(..., ge=1)
+    date: date
+    start_time: time
+    end_time: time
+    is_booked: bool = False
+    created_at: datetime = Field(default_factory=datetime.utcnow)
 
 
-        model_config = {"from_attributes": True}
+class TrainerAvailabilityUpdate(BaseModel):
+    trainer_id: int | None = None
+    date: date | None = None
+    start_time: time | None = None
+    end_time: time | None = None
+    is_booked: bool | None = None
+
+
+class TrainerAvailabilityResponse(BaseModel):
+    id: int
+    trainer_id: int
+    date: date
+    start_time: time
+    end_time: time
+    is_booked: bool
+    created_at: datetime
+
+    model_config = {"from_attributes": True}
