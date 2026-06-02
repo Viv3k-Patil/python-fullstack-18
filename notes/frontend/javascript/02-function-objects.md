@@ -1,660 +1,614 @@
-# JavaScript — Day 2: Functions, Arrays, Objects & Prototypes
+# JavaScript — Day 2: Functions, Loops, Arrays & Objects
+
+> You've got variables and conditionals down. Today we learn how to *organise* code and work with collections of data. This is where JavaScript starts feeling like a real tool.
 
 ---
 
-## 1. Functions — Every Variation
+## Chapter 1 — Functions: Reusable Blocks of Code
 
-### Function Declaration
+A function is a **named recipe**. You write it once, then call it by name whenever you need it. Without functions, you'd copy-paste the same code everywhere — a nightmare to fix later.
+
+```js
+// Without functions — messy
+console.log("Welcome, Rahul! You have 3 messages.");
+console.log("Welcome, Priya! You have 7 messages.");
+console.log("Welcome, Amit! You have 0 messages.");
+
+// With a function — clean ✅
+function showWelcome(name, messageCount) {
+  console.log(`Welcome, ${name}! You have ${messageCount} messages.`);
+}
+
+showWelcome("Rahul", 3);
+showWelcome("Priya", 7);
+showWelcome("Amit", 0);
+```
+
+### 1.1 Anatomy of a function
+
+```js
+function greet(name) {         // 'name' is a parameter (input placeholder)
+  let message = `Hello, ${name}!`;
+  return message;              // return sends a value back to the caller
+}
+
+let result = greet("Arjun");   // 'Arjun' is the argument (actual value)
+console.log(result);           // "Hello, Arjun!"
+```
+
+- **Parameters** = variables listed in the function definition (the placeholders)
+- **Arguments** = actual values you pass when calling the function
+- **`return`** = sends a value back. Without it, functions return `undefined`
+
 ```js
 function add(a, b) {
   return a + b;
 }
-```
-Hoisted fully. Can be called before declaration.
 
-### Function Expression
+let sum = add(5, 3);   // sum = 8
+console.log(sum + 2);  // 10 — you can use the returned value directly
+```
+
+### 1.2 Three ways to write functions
+
+**1. Function Declaration** — hoisted, can be called before it's defined
+
 ```js
-const add = function (a, b) {
-  return a + b;
+sayHello(); // ✅ Works — declarations are hoisted
+
+function sayHello() {
+  console.log("Hello!");
+}
+```
+
+**2. Function Expression** — stored in a variable, NOT hoisted
+
+```js
+const sayHello = function() {
+  console.log("Hello!");
 };
-```
-Not hoisted. Stored in variable.
 
-### Arrow Function
+sayHello(); // ✅ Works only after this line
+```
+
+**3. Arrow Function** — modern, shorter syntax (ES6+)
+
 ```js
+// Regular function
+const add = function(a, b) { return a + b; };
+
+// Arrow function — same thing
+const add = (a, b) => { return a + b; };
+
+// Even shorter — if single expression, drop the braces and return
 const add = (a, b) => a + b;
 
-// With body
-const greet = (name) => {
-  const msg = `Hello, ${name}`;
-  return msg;
-};
-
-// Single param — no parens needed
+// Single parameter — can drop parentheses
 const double = n => n * 2;
 
-// No params
-const greet = () => "Hello!";
+// No parameters — empty parens required
+const greet = () => console.log("Hi!");
 ```
 
-Arrow functions:
-- No `this`, `arguments`, `super`, or `new.target`
-- Cannot be used as constructors
-- Best for callbacks and short functions
+**Analogy:** Arrow functions are like texting shorthand — same meaning, fewer characters.
 
-### Default Parameters
+### 1.3 Default Parameters
+
 ```js
-function greet(name = "World", greeting = "Hello") {
-  return `${greeting}, ${name}!`;
+function createUser(name, role = "viewer") {
+  console.log(`${name} joined as ${role}`);
 }
 
-greet();              // "Hello, World!"
-greet("Alice");       // "Hello, Alice!"
-greet("Bob", "Hey");  // "Hey, Bob!"
+createUser("Priya", "admin");  // "Priya joined as admin"
+createUser("Rahul");           // "Rahul joined as viewer" ← default kicks in
 ```
 
-### Rest Parameters
-Collects remaining arguments into an array.
+### 1.4 Rest Parameters — accept unlimited arguments
 
 ```js
-function sum(...numbers) {
-  return numbers.reduce((acc, n) => acc + n, 0);
+function sum(...numbers) {     // ...numbers collects all arguments into an array
+  let total = 0;
+  for (let n of numbers) {
+    total += n;
+  }
+  return total;
 }
 
-sum(1, 2, 3, 4); // 10
+sum(1, 2, 3);        // 6
+sum(10, 20, 30, 40); // 100
 ```
 
-### Spread Operator
-Expands an array into individual elements.
+### 1.5 Functions are values — pass them around
+
+In JavaScript, functions are "first-class citizens" — you can store them in variables, pass them to other functions, and return them from functions.
 
 ```js
-const nums = [1, 2, 3];
-Math.max(...nums); // 3
+function runTwice(fn) {     // fn is a function passed as an argument
+  fn();
+  fn();
+}
 
-function add(a, b, c) { return a + b + c; }
-add(...nums); // 6
+function sayHi() {
+  console.log("Hi!");
+}
 
-const merged = [...[1, 2], ...[3, 4]]; // [1, 2, 3, 4]
+runTwice(sayHi);
+// Hi!
+// Hi!
 ```
 
-**Analogy:** Rest is a funnel — many arguments pour into one array. Spread is the opposite — one array fans out into many arguments.
+A function passed to another function is called a **callback**. You'll see this constantly.
 
 ---
 
-## 2. Higher-Order Functions
+## Chapter 2 — Loops: Doing Things Repeatedly
 
-A **higher-order function** is a function that takes another function as an argument or returns one.
+**Analogy:** Imagine you have to stamp "Paid" on 100 invoices. Instead of writing 100 stamp actions, you write one and say "do this 100 times." That's a loop.
+
+### 2.1 `for` loop — when you know how many times
 
 ```js
-// Takes a function
-function applyTwice(fn, value) {
-  return fn(fn(value));
+for (let i = 0; i < 5; i++) {
+  console.log(`Step ${i}`);
 }
-applyTwice(x => x * 2, 3); // 12
+// Step 0
+// Step 1
+// Step 2
+// Step 3
+// Step 4
+```
 
-// Returns a function
-function multiplier(factor) {
-  return n => n * factor;
+The three parts: `let i = 0` (start) | `i < 5` (keep going while true) | `i++` (do this after each round)
+
+```js
+// Count backwards
+for (let i = 5; i >= 1; i--) {
+  console.log(i);
 }
-const triple = multiplier(3);
-triple(5); // 15
+// 5, 4, 3, 2, 1
+
+// Count by 2s
+for (let i = 0; i <= 10; i += 2) {
+  console.log(i);
+}
+// 0, 2, 4, 6, 8, 10
+```
+
+### 2.2 `while` loop — when you don't know how many times
+
+```js
+let password = "";
+
+while (password !== "secret123") {
+  password = "secret123"; // In real code, you'd get this from user input
+  console.log("Checking password...");
+}
+
+console.log("Access granted!");
+```
+
+⚠️ **Watch out for infinite loops!** If the condition never becomes false, your program hangs forever.
+
+```js
+// ❌ Infinite loop — don't run this!
+while (true) {
+  console.log("Help I'm stuck");
+}
+```
+
+### 2.3 `do...while` — runs at least once
+
+```js
+let count = 0;
+
+do {
+  console.log(`Count: ${count}`);
+  count++;
+} while (count < 3);
+// Count: 0
+// Count: 1
+// Count: 2
+```
+
+### 2.4 `break` and `continue`
+
+```js
+// break — exit the loop early
+for (let i = 0; i < 10; i++) {
+  if (i === 5) break;         // stop when i hits 5
+  console.log(i);
+}
+// 0, 1, 2, 3, 4
+
+// continue — skip this iteration, go to next
+for (let i = 0; i < 6; i++) {
+  if (i === 3) continue;      // skip 3
+  console.log(i);
+}
+// 0, 1, 2, 4, 5
 ```
 
 ---
 
-## 3. Array Methods — The Core Toolkit
+## Chapter 3 — Arrays: Ordered Lists
 
-All these methods are **pure** — they don't mutate the original array.
-
-### `map` — Transform each element
+An array is an **ordered list** of values. Like a numbered shelf — slot 0, slot 1, slot 2...
 
 ```js
-const nums = [1, 2, 3, 4];
-const doubled = nums.map(n => n * 2);
-// [2, 4, 6, 8]
+let fruits = ["mango", "banana", "apple"];
+//              [0]       [1]      [2]
 
-const users = [{ name: "Alice" }, { name: "Bob" }];
-const names = users.map(u => u.name);
-// ["Alice", "Bob"]
+console.log(fruits[0]);  // "mango"   ← index starts at 0!
+console.log(fruits[2]);  // "apple"
+console.log(fruits.length); // 3
 ```
 
-### `filter` — Keep elements that pass a test
+**Analogy:** An array is like a train. Each coach (element) has a seat number (index) starting from 0.
+
+### 3.1 Common array methods
 
 ```js
-const nums = [1, 2, 3, 4, 5, 6];
-const evens = nums.filter(n => n % 2 === 0);
-// [2, 4, 6]
+let items = ["a", "b", "c"];
 
-const adults = users.filter(u => u.age >= 18);
+// Add/Remove at end
+items.push("d");       // ["a", "b", "c", "d"] — add to end
+items.pop();           // ["a", "b", "c"]       — remove from end
+
+// Add/Remove at start
+items.unshift("z");    // ["z", "a", "b", "c"] — add to start
+items.shift();         // ["a", "b", "c"]       — remove from start
+
+// Find something
+items.indexOf("b");    // 1  — returns position, or -1 if not found
+items.includes("b");   // true
+
+// Copy a portion
+items.slice(0, 2);     // ["a", "b"] — from index 0, up to (not including) 2
+
+// Remove/replace items
+items.splice(1, 1);    // removes 1 item at index 1 → ["a", "c"]
+items.splice(1, 0, "X"); // insert "X" at index 1 without removing
+
+// Join into a string
+["hello", "world"].join(" ");  // "hello world"
+["a", "b", "c"].join(", ");   // "a, b, c"
 ```
 
-### `reduce` — Collapse array to a single value
-
-**Analogy:** `reduce` is like a snowball rolling downhill — it starts small (initial value) and accumulates as it rolls through the array.
+### 3.2 Looping over arrays
 
 ```js
-const nums = [1, 2, 3, 4, 5];
+let scores = [85, 72, 91, 68, 95];
 
-const sum = nums.reduce((acc, n) => acc + n, 0);
-// 15
+// Classic for loop
+for (let i = 0; i < scores.length; i++) {
+  console.log(scores[i]);
+}
 
-const product = nums.reduce((acc, n) => acc * n, 1);
-// 120
+// for...of — cleaner, preferred when you don't need the index
+for (let score of scores) {
+  console.log(score);
+}
 
-// Flatten with reduce
-const nested = [[1, 2], [3, 4], [5]];
-const flat = nested.reduce((acc, arr) => [...acc, ...arr], []);
-// [1, 2, 3, 4, 5]
+// forEach — callback style
+scores.forEach(function(score) {
+  console.log(score);
+});
 
-// Group by
-const people = [
-  { name: "Alice", dept: "Engineering" },
-  { name: "Bob", dept: "Design" },
-  { name: "Carol", dept: "Engineering" }
+// Arrow function version
+scores.forEach(score => console.log(score));
+```
+
+### 3.3 Powerful array methods — map, filter, reduce
+
+These are the three most important array methods. Every JS developer uses them daily.
+
+**`map`** — transform every item, returns new array (same length)
+
+```js
+let prices = [100, 200, 300];
+
+// Add 18% GST to all prices
+let withGST = prices.map(price => price * 1.18);
+console.log(withGST); // [118, 236, 354]
+
+// The original is unchanged!
+console.log(prices);  // [100, 200, 300]
+```
+
+**Analogy:** `map` is like a conveyor belt with a stamping machine. Every item goes through and comes out changed.
+
+**`filter`** — keep only items that pass a test, returns new array (shorter or equal length)
+
+```js
+let ages = [15, 22, 17, 30, 16, 25];
+
+let adults = ages.filter(age => age >= 18);
+console.log(adults); // [22, 30, 25]
+```
+
+**`reduce`** — boil an array down to a single value
+
+```js
+let numbers = [1, 2, 3, 4, 5];
+
+let total = numbers.reduce((accumulator, current) => {
+  return accumulator + current;
+}, 0); // 0 is the starting value
+
+console.log(total); // 15
+```
+
+Think of `accumulator` as a running total and `current` as each item you process.
+
+**Chaining them together** — this is where they shine:
+
+```js
+let products = [
+  { name: "Shirt", price: 800, inStock: true },
+  { name: "Shoes", price: 2500, inStock: false },
+  { name: "Belt", price: 400, inStock: true },
+  { name: "Watch", price: 5000, inStock: true },
 ];
 
-const byDept = people.reduce((acc, person) => {
-  const key = person.dept;
-  acc[key] = acc[key] || [];
-  acc[key].push(person);
-  return acc;
-}, {});
-// { Engineering: [...], Design: [...] }
+// Get total value of in-stock items over ₹500
+let total = products
+  .filter(p => p.inStock && p.price > 500)   // Shirt filtered out (≤500), Shoes filtered out (not in stock)
+  .map(p => p.price)                          // [2500 filtered, 5000] → [800 filtered too] → [5000]
+  .reduce((sum, price) => sum + price, 0);
+
+// Actually: filter keeps Shirt(800,inStock) and Watch(5000,inStock)
+// map → [800, 5000]
+// reduce → 5800
+
+console.log(total); // 5800
 ```
 
-### `find` and `findIndex`
+### 3.4 Other useful array methods
 
 ```js
-const users = [{ id: 1, name: "Alice" }, { id: 2, name: "Bob" }];
+let nums = [3, 1, 4, 1, 5, 9, 2, 6];
 
-users.find(u => u.id === 2);      // { id: 2, name: "Bob" }
-users.findIndex(u => u.id === 2); // 1
-```
+// Sort (careful — sorts as strings by default!)
+nums.sort((a, b) => a - b);  // [1, 1, 2, 3, 4, 5, 6, 9] ascending
+nums.sort((a, b) => b - a);  // [9, 6, 5, 4, 3, 2, 1, 1] descending
 
-### `some` and `every`
+// Find
+nums.find(n => n > 4);       // 5 — returns first match
+nums.findIndex(n => n > 4);  // returns index of first match
 
-```js
-const nums = [1, 2, 3, 4, 5];
+// Check if any/all pass a test
+nums.some(n => n > 8);       // true — at least one is > 8
+nums.every(n => n > 0);      // true — all are > 0
 
-nums.some(n => n > 4);  // true  — at least one passes
-nums.every(n => n > 0); // true  — all pass
-nums.every(n => n > 3); // false — not all pass
-```
-
-### `flat` and `flatMap`
-
-```js
-[1, [2, [3, [4]]]].flat();    // [1, 2, [3, [4]]]
-[1, [2, [3, [4]]]].flat(Infinity); // [1, 2, 3, 4]
-
-// flatMap = map + flat(1)
-const sentences = ["hello world", "foo bar"];
-sentences.flatMap(s => s.split(" "));
-// ["hello", "world", "foo", "bar"]
-```
-
-### Mutating methods (use carefully)
-
-```js
-const arr = [1, 2, 3];
-
-arr.push(4);       // [1, 2, 3, 4] — add to end
-arr.pop();         // removes last
-arr.unshift(0);    // add to start
-arr.shift();       // remove from start
-arr.splice(1, 2);  // remove 2 elements at index 1
-arr.sort();        // sorts in-place (lexicographic by default!)
-arr.reverse();     // reverses in-place
-```
-
-### Sorting correctly
-
-```js
-// ❌ Wrong — sorts as strings
-[10, 1, 21, 2].sort(); // [1, 10, 2, 21]
-
-// ✅ Correct — numeric sort
-[10, 1, 21, 2].sort((a, b) => a - b); // [1, 2, 10, 21]
-
-// Sort objects
-const users = [{ age: 30 }, { age: 22 }, { age: 25 }];
-users.sort((a, b) => a.age - b.age);
+// Flatten nested arrays
+[1, [2, 3], [4, [5]]].flat();    // [1, 2, 3, 4, [5]]
+[1, [2, 3], [4, [5]]].flat(2);   // [1, 2, 3, 4, 5]  — depth 2
 ```
 
 ---
 
-## 4. Destructuring
+## Chapter 4 — Objects: Structured Data
 
-### Array destructuring
+An array stores a list. An **object** stores related data with named labels (called **keys** or **properties**).
 
 ```js
-const [a, b, c] = [1, 2, 3];
-// a=1, b=2, c=3
+let person = {
+  name: "Priya",
+  age: 28,
+  city: "Pune",
+  isEmployee: true
+};
+
+// Access with dot notation
+console.log(person.name);  // "Priya"
+console.log(person.age);   // 28
+
+// Access with bracket notation (useful when key is dynamic)
+let key = "city";
+console.log(person[key]);  // "Pune"
+
+// Add or update
+person.email = "priya@example.com";  // adds new property
+person.age = 29;                     // updates existing
+
+// Delete
+delete person.isEmployee;
+```
+
+**Analogy:** An array is a numbered shelf. An object is a filing cabinet — each drawer has a label (key) and contains something (value).
+
+### 4.1 Objects with methods
+
+Objects can also store functions — these are called **methods**.
+
+```js
+let calculator = {
+  value: 0,
+
+  add(n) {
+    this.value += n;    // 'this' refers to the calculator object
+    return this;        // return 'this' enables chaining
+  },
+
+  subtract(n) {
+    this.value -= n;
+    return this;
+  },
+
+  result() {
+    return this.value;
+  }
+};
+
+calculator.add(10).add(5).subtract(3);
+console.log(calculator.result()); // 12
+```
+
+### 4.2 Destructuring — pull values out cleanly
+
+**Array destructuring:**
+
+```js
+let [first, second, third] = ["red", "green", "blue"];
+console.log(first);  // "red"
+console.log(third);  // "blue"
 
 // Skip elements
-const [first, , third] = [1, 2, 3];
+let [, , last] = [1, 2, 3];
+console.log(last); // 3
 
-// Rest
-const [head, ...tail] = [1, 2, 3, 4];
-// head=1, tail=[2,3,4]
-
-// Default values
-const [x = 0, y = 0] = [10];
-// x=10, y=0
-
-// Swap variables
-let p = 1, q = 2;
-[p, q] = [q, p];
+// Rest in destructuring
+let [head, ...tail] = [1, 2, 3, 4, 5];
+console.log(head); // 1
+console.log(tail); // [2, 3, 4, 5]
 ```
 
-### Object destructuring
+**Object destructuring:**
 
 ```js
-const user = { name: "Alice", age: 30, city: "Mumbai" };
+let user = { name: "Rahul", age: 25, city: "Delhi" };
 
-const { name, age } = user;
+let { name, age } = user;
+console.log(name); // "Rahul"
+console.log(age);  // 25
 
 // Rename while destructuring
-const { name: userName, age: userAge } = user;
+let { name: fullName, age: years } = user;
+console.log(fullName); // "Rahul"
 
 // Default values
-const { score = 100, level = 1 } = user;
+let { name: n, email = "not provided" } = user;
+console.log(email); // "not provided" — wasn't in object
 
-// Nested destructuring
-const { address: { city, zip } } = { address: { city: "Pune", zip: "411001" } };
-
-// Rest
-const { name: n, ...rest } = user;
-// n = "Alice", rest = { age: 30, city: "Mumbai" }
-```
-
-### In function parameters
-
-```js
-function display({ name, age = 0, role = "user" }) {
-  console.log(`${name} (${age}) — ${role}`);
+// In function parameters (very common pattern)
+function greetUser({ name, city }) {
+  console.log(`Hello ${name} from ${city}!`);
 }
 
-display({ name: "Alice", age: 30 }); // Alice (30) — user
+greetUser(user); // "Hello Rahul from Delhi!"
+```
+
+### 4.3 Spread Operator `...`
+
+Spread "unpacks" an array or object.
+
+```js
+// Copying arrays
+let original = [1, 2, 3];
+let copy = [...original];       // independent copy
+copy.push(4);
+console.log(original);          // [1, 2, 3] — unchanged
+
+// Merging arrays
+let a = [1, 2, 3];
+let b = [4, 5, 6];
+let merged = [...a, ...b];      // [1, 2, 3, 4, 5, 6]
+
+// Copying objects
+let user = { name: "Priya", age: 28 };
+let updatedUser = { ...user, age: 29, city: "Pune" };
+// { name: "Priya", age: 29, city: "Pune" }
+// Later properties overwrite earlier ones
+```
+
+### 4.4 Looping over objects
+
+```js
+let scores = { maths: 90, science: 85, english: 78 };
+
+// Get all keys
+Object.keys(scores);    // ["maths", "science", "english"]
+
+// Get all values
+Object.values(scores);  // [90, 85, 78]
+
+// Get key-value pairs
+Object.entries(scores); // [["maths", 90], ["science", 85], ["english", 78]]
+
+// Loop over entries
+for (let [subject, score] of Object.entries(scores)) {
+  console.log(`${subject}: ${score}`);
+}
 ```
 
 ---
 
-## 5. Objects — Deep Dive
+## Chapter 5 — Putting It All Together
 
-### Shorthand syntax
-
-```js
-const name = "Alice";
-const age = 30;
-
-// Old
-const user = { name: name, age: age };
-
-// Shorthand
-const user = { name, age };
-```
-
-### Computed property names
+### Practice — Student Report System
 
 ```js
-const key = "dynamicKey";
-const obj = {
-  [key]: "value",
-  [`${key}_extra`]: "extra"
-};
-// { dynamicKey: "value", dynamicKey_extra: "extra" }
-```
+const students = [
+  { name: "Arjun", marks: [85, 92, 78, 90] },
+  { name: "Priya", marks: [72, 68, 80, 75] },
+  { name: "Rahul", marks: [95, 98, 92, 97] },
+  { name: "Sneha", marks: [55, 62, 58, 60] },
+];
 
-### Object spread and `Object.assign`
+function getGrade(average) {
+  if (average >= 90) return "A";
+  if (average >= 75) return "B";
+  if (average >= 60) return "C";
+  return "F";
+}
 
-```js
-const defaults = { theme: "light", lang: "en" };
-const userPrefs = { theme: "dark" };
+function generateReport(students) {
+  return students.map(student => {
+    const total = student.marks.reduce((sum, mark) => sum + mark, 0);
+    const average = total / student.marks.length;
+    const grade = getGrade(average);
 
-const config = { ...defaults, ...userPrefs };
-// { theme: "dark", lang: "en" }  — right side wins
+    return {
+      name: student.name,
+      average: average.toFixed(2),  // round to 2 decimal places
+      grade
+    };
+  });
+}
 
-// Deep clone? No! Spread is SHALLOW
-const original = { a: { b: 1 } };
-const copy = { ...original };
-copy.a.b = 99;
-console.log(original.a.b); // 99 — still shared!
-```
+const report = generateReport(students);
 
-### Object methods
+report.forEach(({ name, average, grade }) => {
+  console.log(`${name}: ${average} — Grade ${grade}`);
+});
+// Arjun: 86.25 — Grade B
+// Priya: 73.75 — Grade C
+// Rahul: 95.50 — Grade A
+// Sneha: 58.75 — Grade F
 
-```js
-const obj = { a: 1, b: 2, c: 3 };
-
-Object.keys(obj);    // ["a", "b", "c"]
-Object.values(obj);  // [1, 2, 3]
-Object.entries(obj); // [["a",1], ["b",2], ["c",3]]
-
-// Convert entries back to object
-Object.fromEntries([["a", 1], ["b", 2]]); // { a: 1, b: 2 }
-
-// Check property
-"a" in obj;                    // true
-obj.hasOwnProperty("a");      // true
-
-// Freeze — prevent modification
-const frozen = Object.freeze({ x: 1 });
-frozen.x = 99; // silently fails (throws in strict mode)
-
-// Seal — prevent add/delete, allow modify
-const sealed = Object.seal({ x: 1 });
-sealed.x = 99; // ✅ works
-sealed.y = 2;  // ❌ fails
+// Who passed?
+const passedStudents = report.filter(s => s.grade !== "F");
+console.log(`Passed: ${passedStudents.length}/${students.length}`);
 ```
 
 ---
 
-## 6. Prototypes — The Real Inheritance System
-
-**Analogy:** Prototypes are like a family recipe book. You check your own book first. If the recipe isn't there, you borrow from your parent's book. If they don't have it either, you check their parent's book — all the way up to the original cookbook.
-
-Every object in JavaScript has an internal link to another object called its **prototype**. When you access a property, JS walks up this chain.
-
-```js
-const animal = {
-  breathe() {
-    return "breathing";
-  }
-};
-
-const dog = Object.create(animal);
-dog.bark = function () { return "woof"; };
-
-dog.bark();    // "woof"    — found on dog
-dog.breathe(); // "breathing" — found on animal (prototype)
-
-Object.getPrototypeOf(dog) === animal; // true
-```
-
-### `prototype` vs `__proto__`
-
-- `obj.__proto__` — the prototype of an instance (non-standard, but works)
-- `Fn.prototype` — the object that will be set as `__proto__` for instances created by `new Fn()`
-
-```js
-function Person(name) {
-  this.name = name;
-}
-
-Person.prototype.greet = function () {
-  return `Hi, I'm ${this.name}`;
-};
-
-const alice = new Person("Alice");
-alice.greet(); // "Hi, I'm Alice"
-
-alice.__proto__ === Person.prototype; // true
-Person.prototype.constructor === Person; // true
-```
-
-### Prototype chain
-
-```js
-alice.__proto__             // Person.prototype
-alice.__proto__.__proto__   // Object.prototype
-alice.__proto__.__proto__.__proto__ // null  ← end of chain
-```
-
----
-
-## 7. Classes — Syntactic Sugar over Prototypes
-
-Classes don't change the underlying prototype system — they're just a cleaner syntax.
-
-```js
-class Animal {
-  constructor(name) {
-    this.name = name;
-  }
-
-  speak() {
-    return `${this.name} makes a sound.`;
-  }
-
-  toString() {
-    return `Animal: ${this.name}`;
-  }
-}
-
-class Dog extends Animal {
-  constructor(name, breed) {
-    super(name); // Must call super before using 'this'
-    this.breed = breed;
-  }
-
-  speak() {
-    return `${this.name} barks!`;
-  }
-}
-
-const dog = new Dog("Rex", "Labrador");
-dog.speak();               // "Rex barks!"
-dog instanceof Dog;        // true
-dog instanceof Animal;     // true
-```
-
-### Static methods and properties
-
-```js
-class MathUtils {
-  static PI = 3.14159;
-
-  static circleArea(r) {
-    return MathUtils.PI * r * r;
-  }
-}
-
-MathUtils.circleArea(5); // 78.53...
-// Static methods aren't on instances
-new MathUtils().circleArea; // undefined
-```
-
-### Private fields (ES2022)
-
-```js
-class BankAccount {
-  #balance; // private field
-
-  constructor(initialBalance) {
-    this.#balance = initialBalance;
-  }
-
-  deposit(amount) {
-    this.#balance += amount;
-  }
-
-  get balance() {
-    return this.#balance;
-  }
-}
-
-const account = new BankAccount(1000);
-account.deposit(500);
-account.balance;  // 1500
-account.#balance; // SyntaxError — truly private
-```
-
-### Getters and Setters
-
-```js
-class Temperature {
-  #celsius;
-
-  constructor(celsius) {
-    this.#celsius = celsius;
-  }
-
-  get fahrenheit() {
-    return this.#celsius * 9 / 5 + 32;
-  }
-
-  set fahrenheit(f) {
-    this.#celsius = (f - 32) * 5 / 9;
-  }
-}
-
-const temp = new Temperature(0);
-temp.fahrenheit;      // 32
-temp.fahrenheit = 212;
-temp.fahrenheit;      // 212  (now 100°C internally)
-```
-
----
-
-## 8. Object Cloning — Shallow vs Deep
-
-### Shallow clone
-
-```js
-const obj = { a: 1, b: { c: 2 } };
-
-const clone1 = { ...obj };
-const clone2 = Object.assign({}, obj);
-
-clone1.a = 99;     // obj.a unchanged
-clone1.b.c = 99;   // obj.b.c also changes! (shallow)
-```
-
-### Deep clone
-
-```js
-// Simple (loses functions, symbols, dates become strings)
-const deep = JSON.parse(JSON.stringify(obj));
-
-// Modern
-const deep2 = structuredClone(obj); // ES2022 — handles more types
-```
-
----
-
-## 9. Map and Set
-
-### `Map` — Key-value pairs with any key type
-
-```js
-const map = new Map();
-
-map.set("name", "Alice");
-map.set(42, "the answer");
-map.set({ id: 1 }, "object key");
-
-map.get("name");    // "Alice"
-map.has(42);        // true
-map.size;           // 3
-map.delete(42);
-
-// Iterate
-for (const [key, value] of map) {
-  console.log(key, value);
-}
-
-// From object
-const obj = { a: 1, b: 2 };
-const map2 = new Map(Object.entries(obj));
-```
-
-**When to use Map over Object:**
-- Keys that aren't strings/symbols
-- Need insertion-order guarantee
-- Frequent add/delete operations
-- Need `.size` quickly
-
-### `Set` — Collection of unique values
-
-```js
-const set = new Set([1, 2, 3, 2, 1]);
-// Set(3) { 1, 2, 3 } — duplicates removed
-
-set.add(4);
-set.has(3);    // true
-set.delete(1);
-set.size;      // 3
-
-// Array from set
-[...set]; // [2, 3, 4]
-
-// Remove duplicates from array
-const unique = [...new Set([1, 1, 2, 3, 3])];
-// [1, 2, 3]
-
-// Set operations
-const a = new Set([1, 2, 3]);
-const b = new Set([2, 3, 4]);
-
-const union = new Set([...a, ...b]);       // {1,2,3,4}
-const intersection = new Set([...a].filter(x => b.has(x))); // {2,3}
-const difference = new Set([...a].filter(x => !b.has(x)));  // {1}
-```
-
-### `WeakMap` and `WeakSet`
-
-Hold **weak references** — if the key object has no other references, it can be garbage collected. Not iterable.
-
-```js
-const cache = new WeakMap();
-
-function process(obj) {
-  if (!cache.has(obj)) {
-    cache.set(obj, expensiveComputation(obj));
-  }
-  return cache.get(obj);
-}
-// When obj is garbage collected, cache entry disappears automatically
-```
-
----
-
-## 10. Symbols
-
-Symbols are unique, immutable primitive values — useful as unique property keys.
-
-```js
-const id = Symbol("id");
-const id2 = Symbol("id");
-
-id === id2; // false — always unique
-
-const user = {
-  [id]: 123,
-  name: "Alice"
-};
-
-user[id];        // 123
-user["id"];      // undefined — can't access with string
-Object.keys(user); // ["name"] — symbols excluded
-```
-
-**Use case:** Library authors use symbols to add non-conflicting properties to objects they don't own.
-
----
-
-## Quick Reference Cheatsheet — Day 2
+## Day 2 Cheat Sheet
 
 ```
-map       → transform all      | filter → keep matching
-reduce    → collapse to one    | find   → first match
-some      → any passes?        | every  → all pass?
-flat      → flatten nested     | flatMap → map + flat(1)
+Functions:
+  function name(params) { return value; }
+  const name = (params) => expression;
+  Default params: fn(x, y = "default")
+  Rest params: fn(...args)
 
-Destructuring:
-  const { a, b } = obj     → object
-  const [x, y] = arr       → array
-  const { a: renamed } = obj  → rename
-  const { a = default } = obj → default
+Loops:
+  for (let i = 0; i < n; i++) { }
+  for (let item of array) { }
+  while (condition) { }
+  break → exit | continue → skip
 
-Prototype chain: instance → Constructor.prototype → Object.prototype → null
-class = syntactic sugar over prototypes
-#field = truly private (ES2022)
+Arrays:
+  push/pop (end) | unshift/shift (start)
+  indexOf | includes | slice | splice
+  map → transform all
+  filter → keep some
+  reduce → combine into one
+  find | findIndex | some | every | sort | flat
 
-Map  → any key type, ordered, has .size
-Set  → unique values, fast .has()
-WeakMap/WeakSet → garbage-collectible keys, no iteration
-
-structuredClone(obj) → deep clone (ES2022)
+Objects:
+  { key: value }  dot/bracket access
+  Destructuring: const { a, b } = obj
+  Spread: { ...obj, newKey: val }
+  Object.keys() | .values() | .entries()
 ```
