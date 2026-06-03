@@ -26,6 +26,10 @@ class FileToLargeException(MockReadyException):
 class  UnsupportedFileTypeError(MockReadyException):
     def __init__(self, message=str):
         super().__init__(message, code="ERROR")
+        
+class InvalidFileTypeException(MockReadyException):
+    def __init__(self, message=str):
+        super().__init__(message, code = "ERROR")        
            
              
 #------Add user releted exceptions here-------
@@ -47,4 +51,8 @@ class ForbiddenException(MockReadyException):
 
 class ValidationException(MockReadyException):
     def __init__(self, message: str):
-        super().__init__(message, code="VALIDATION_ERROR")        
+        super().__init__(message, code="VALIDATION_ERROR")   
+        
+class IntegrityError(MockReadyException):
+    def __init__(self, message:str):
+        super().__init__(message, code="INTIGRARE_ERROR")                

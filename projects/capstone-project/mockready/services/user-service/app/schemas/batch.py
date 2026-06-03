@@ -13,30 +13,29 @@ only what they want to change. model_dump(exclude_none=True)
 strips the rest in the service layer.
 """
 from pydantic import BaseModel, Field
-from uuid import UUID, uuid4
-from datetime import datetime
+from datetime import date
+from typing import Optional
 
 class BatchCreate(BaseModel):
     name: str = Field(..., min_length=2, max_length=100)
     course:str = Field(..., min_length=2, max_length=100)
-    campus_id: UUID 
+    campus_id: int 
 
 
 class BatchUpdate(BaseModel):
     name: str | None = Field(None, min_length=2, max_length=100)
     course:str | None = Field(None, min_length=2, max_length=100)
-    campus_id: UUID | None = None
+    campus_id:int
     is_active: bool | None = None   
      
 
 class BatchResponse(BaseModel):
-    id: UUID
+    batch_id: int
+    campus_id: int
     name: str
     course:str
-    campus_id: UUID
+    start_date:Optional[date]=None
+    end_time:Optional[date]=None
     is_active: bool
-    created_at: datetime
-    start_time:datetime
-    end_time:datetime
 
     model_config = {"from_attributes": True}  # ready for ORM in Phase 2    

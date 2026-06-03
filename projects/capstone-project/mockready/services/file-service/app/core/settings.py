@@ -1,13 +1,5 @@
-"""
-core/settings.py
-
-Single source of truth for all configuration.
-Reads from .env file. Pydantic validates types at startup —
-if PORT is missing or not a number, app crashes immediately
-with a clear error. No silent failures.
-"""
-
 from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic import model_validator
 from functools import lru_cache
 
 
@@ -21,6 +13,20 @@ class Settings(BaseSettings):
     # ── Server ───────────────────────────────────────────
     host: str = "0.0.0.0"
     port: int = 8001
+
+    # ── Database ─────────────────────────────────────────
+    database_user: str
+    database_password: str
+    database_url: str = ""                      # ✅ plain field, built by validator
+
+    @model_validator(mode="after")              # ✅ runs after all fields are loaded
+    def build_database_url(self):
+        self.database_url = (
+            f"postgresql+asyncpg://{self.database_user}:{self.database_password}"
+            "@ep-quiet-voice-aplrv8k0-pooler.c-7.us-east-1.aws.neon.tech/neondb"
+            "?ssl=require"
+        )
+        return self
 
     model_config = SettingsConfigDict(
         env_file=".env",

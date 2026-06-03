@@ -88,7 +88,8 @@ INSERT INTO file_metadata(
     stored_path,
     file_type,
     size_bytes,
-    uploaded_at
+    uploaded_at,
+    is_active
 )
 VALUES
 (1, 'Akshata', '/resume/akshata.pdf', 'pdf', 2048, CURRENT_DATE),
