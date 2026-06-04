@@ -73,9 +73,9 @@ async def update_batch(batch_id: int, data: BatchUpdate,db : AsyncSession = Depe
 @router.delete("/{batch_id}")
 async def delete_batch(batch_id: int,db : AsyncSession = Depends(get_db)):
     try:
-        batch = await BatchService(db).delete(batch_id)
+        is_deleted = await BatchService(db).delete(batch_id)
         return success(
-            data=batch.model_dump(),
+            data=is_deleted,
             message="Batch deleted successfully",
         )
     except NotFoundException as e:

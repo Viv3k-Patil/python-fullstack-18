@@ -1,61 +1,34 @@
-from uuid import UUID,uuid4
+from http.client import HTTPException
 
-from app.schemas.cabin import CreateCabin,CabinResponse,UpdateCabin
-from app.core.exceptions import NotFoundException,ConflictException
-
-_cabin: dict[UUID,dict]={}
+from app.schemas.cabin import CabinCreate, CabinResponse, CabinUpdate
+from app.repositories.CabinRepository import CabinRepository
+from sqlalchemy.ext.asyncio import AsyncSession
 
 class CabinService:
-    def create(self,data:CreateCabin)->CabinResponse:
-        #buissnes rule no duplicate cabin_id
-        for c in _cabin.values():
-            if c["cabin_number"] == data.cabin_number:
-                raise ConflictException(f"cabin number {data.cabin_number} is alreday exists")
-          
-        cabin= {
-                "id":uuid4(),
-                "campus_id":data.campus_id,
-                "cabin_number":data.cabin_number,
-                "is_active":True,
-            }     
-        
-        _cabin[cabin["id"]]=cabin   
-        return CabinResponse(**cabin)
+
+    def __init__(self, db : AsyncSession):
+       self.cabin_repo = CabinRepository(db)
+
+    async def create(self,data: CabinCreate)->CabinResponse:
+        cabin = await self.cabin_repo.create(data)
+        return CabinResponse.model_validate(cabin)
     
-    def get_all(self,page:int ,size:int)->tuple[list[CabinResponse],int]:
-        active  = [c for c in _cabin.values() if c["is_active"]]
-        total   = len(active)
-        start   = (page-1)*size
-        chunks  = active[start:start+size]
-        return[CabinResponse(**c) for c in chunks],total
-    
-    def get_by_id(self,cabin_id:UUID):
-        cabin=_cabin.get(cabin_id)
-        if not cabin or not cabin["is_active"]:
-            raise NotFoundException(f"cabin id {cabin_id} not found")
-        return CabinResponse(**cabin)
-    
-    def update(self,cabin_id:UUID,data:UpdateCabin)->CabinResponse:
-        cabin=_cabin.get(cabin_id)
-        if not cabin or not cabin["is_active"]:
-            raise NotFoundException(f"cabin id {cabin_id} not found")
-        
-        # only update fields the client actually sent
-        updates=data.model_dump(exclude_none=True)
-        cabin.update(updates)
-        _cabin["cabin_id"]=cabin
-        return CabinResponse(**cabin)
+    async def get_by_id(self,cabin_id: int)->CabinResponse:
+        cabin = await self.cabin_repo.get_by_id(cabin_id)
+        return CabinResponse.model_validate(cabin)
     
     
-    def delete(self, cabin_id: UUID):
-        cabin=_cabin.get(cabin_id)
-        if not cabin or not cabin["is_active"]:
-            raise NotFoundException(f"cabin id {cabin_id} not found")
-        
-        #always soft delete never remove in db 
-        cabin["is_active"]=False
-        return CabinResponse(**cabin)
     
-cabin_services=CabinService()    
-        
-        
+    async def get_all(self,page:int ,size:int)->tuple[list[CabinResponse],int]:
+        cabins,total = await self.cabin_repo.get_all(page,size)
+        return [CabinResponse.model_validate(c) for c in cabins],total
+    
+    async def update(self, cabin_id: int, data: CabinUpdate) -> Cabin:
+     cabin = await self.cabin_repo.get_by_id(cabin_id)  # fetch here
+     if not cabin:
+        raise HTTPException(status_code=404)
+     return await self.cabin_repo.update(cabin, data)
+
+
+    async def delete(self,cabin_id: int):
+        return await self.cabin_repo.soft_delete(cabin_id)

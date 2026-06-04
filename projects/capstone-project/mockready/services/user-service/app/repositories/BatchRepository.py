@@ -30,9 +30,9 @@ class BatchRepository:
        return result.scalar_one_or_none()
     
     
-    async def soft_delete(self, Batch_id: int) -> bool:
+    async def soft_delete(self, batch_id: int) -> bool:
         result = await self.db.execute(
-            select(Batch).where(Batch.Batch_id == Batch_id)
+            select(Batch).where(Batch.batch_id == batch_id)
         )
         batch = result.scalar_one_or_none()
         if not batch:

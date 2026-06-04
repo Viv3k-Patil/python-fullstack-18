@@ -12,6 +12,12 @@ class Batch(Base):
     primary_key=True,
     autoincrement=True
 )
+  
+  campus_id : Mapped[int] = mapped_column(
+        #oreignKey("campus.campus_id"),
+        Integer,
+        nullable=False
+    )
 
   name: Mapped[str] = mapped_column(String(100), nullable=False, unique=True)
   course:Mapped[str]= mapped_column(String(100),nullable=False,unique=True)

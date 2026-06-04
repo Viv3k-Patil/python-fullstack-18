@@ -97,6 +97,8 @@ class CampusService:
         campuses, total = await self.campus_repo.get_all(page, size)
         return [CampusResponse.model_validate(c) for c in campuses], total
     
+    
     async def delete(self, campus_id: int):
         return await self.campus_repo.soft_delete(campus_id)
     
+     
