@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # def exception_handling_method_level():
 #     # revise
 #     print("This is a revised version of the code.")
@@ -116,7 +116,7 @@
 
 
 
-=======
+
 
 
 
@@ -153,5 +153,5 @@ finally:
 # print("something")
 # print("something")
 # print("something")
-# print("something")
->>>>>>> 020cde27e2bd12c348bb2f3cb5096bdd5119c125
+
+

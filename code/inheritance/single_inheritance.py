@@ -1,4 +1,5 @@
-<<<<<<< HEAD
+
+
 class A():
     def __init__(self):
         self.a_attribute="a_attribute"
@@ -12,7 +13,7 @@ class B(A):
 
 B()   
 print("something") 
-=======
+
 class A:
     def __init__(self):
         self.a_attribute = "a_attribute"
@@ -39,5 +40,6 @@ class B(A,C):
 
 
 a = B()
+
 print(B.__mro__)
->>>>>>> 020cde27e2bd12c348bb2f3cb5096bdd5119c125
+

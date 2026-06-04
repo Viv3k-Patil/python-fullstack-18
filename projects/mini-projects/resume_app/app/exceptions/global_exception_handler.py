@@ -1,10 +1,14 @@
 from fastapi.responses import JSONResponse
 from fastapi import Request
 <<<<<<< HEAD
+<<<<<<< HEAD
 from app.exceptions.custom_exceptions import ResumeAppException
 =======
 from app.exceptions.custom_exception import ResumeAppException
 >>>>>>> 020cde27e2bd12c348bb2f3cb5096bdd5119c125
+=======
+from app.exceptions.custom_exception import ResumeAppException
+>>>>>>> 4aacc19637dc0ce44fffc32356a97238fbedee06
 
 
 def global_exception_handler(app):

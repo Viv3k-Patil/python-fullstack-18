@@ -21,11 +21,10 @@ wheels/
 *.egg
 
 # ── Virtual Environments ─────────────────────────────
-<<<<<<< HEAD
 filevenv/
-=======
+
 venv/
->>>>>>> 020cde27e2bd12c348bb2f3cb5096bdd5119c125
+
 env/
 ENV/
 env.bak/

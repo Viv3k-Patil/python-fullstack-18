@@ -1,5 +1,8 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 4aacc19637dc0ce44fffc32356a97238fbedee06
 from fastapi import FastAPI
 from fastapi.responses import  FileResponse
 from app.routers.resume_router import router as resume_router
@@ -20,7 +23,10 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 def show_frontend():
     return FileResponse("static/index.html")
 
+<<<<<<< HEAD
 >>>>>>> 020cde27e2bd12c348bb2f3cb5096bdd5119c125
+=======
+>>>>>>> 4aacc19637dc0ce44fffc32356a97238fbedee06
 """
 Resume Upload/Download Application
 Entry point for the FastAPI application.
@@ -29,6 +35,7 @@ Entry point for the FastAPI application.
 import logging
 import sys
 from contextlib import asynccontextmanager
+<<<<<<< HEAD
 <<<<<<< HEAD
 
 from fastapi import FastAPI, Request
@@ -39,12 +46,17 @@ from fastapi.staticfiles import StaticFiles
 
 from app.router import resume_router as router
 =======
+=======
+>>>>>>> 4aacc19637dc0ce44fffc32356a97238fbedee06
 from fastapi.middleware.cors import CORSMiddleware
 
 
 from app.middleware.logging_middleware import LoggingMiddleware
 from app.routers import resume_router
+<<<<<<< HEAD
 >>>>>>> 020cde27e2bd12c348bb2f3cb5096bdd5119c125
+=======
+>>>>>>> 4aacc19637dc0ce44fffc32356a97238fbedee06
 from app.exceptions.global_exception_handler import global_exception_handler
 
 # ---------------------------------------------------------------------------
@@ -94,19 +106,27 @@ app.add_middleware(
     allow_headers=["*"],
 )
 <<<<<<< HEAD
+<<<<<<< HEAD
 #app.add_middleware(LoggingMiddleware)
 =======
 app.add_middleware(LoggingMiddleware)
 >>>>>>> 020cde27e2bd12c348bb2f3cb5096bdd5119c125
+=======
+app.add_middleware(LoggingMiddleware)
+>>>>>>> 4aacc19637dc0ce44fffc32356a97238fbedee06
 
 # ---------------------------------------------------------------------------
 # Static files (frontend)
 # ---------------------------------------------------------------------------
 <<<<<<< HEAD
+<<<<<<< HEAD
 #app.mount("/static", StaticFiles(directory="static"), name="static")
 =======
 app.mount("/static", StaticFiles(directory="static"), name="static")
 >>>>>>> 020cde27e2bd12c348bb2f3cb5096bdd5119c125
+=======
+app.mount("/static", StaticFiles(directory="static"), name="static")
+>>>>>>> 4aacc19637dc0ce44fffc32356a97238fbedee06
 
 # ---------------------------------------------------------------------------
 # Global exception handler
@@ -118,10 +138,14 @@ global_exception_handler(app)
 # Routers
 # ---------------------------------------------------------------------------
 <<<<<<< HEAD
+<<<<<<< HEAD
 app.include_router(router.router, prefix="/api/resumes", tags=["Resumes"])
 =======
 app.include_router(resume_router.router, prefix="/api/resumes", tags=["Resumes"])
 >>>>>>> 020cde27e2bd12c348bb2f3cb5096bdd5119c125
+=======
+app.include_router(resume_router.router, prefix="/api/resumes", tags=["Resumes"])
+>>>>>>> 4aacc19637dc0ce44fffc32356a97238fbedee06
 
 
 # ---------------------------------------------------------------------------
@@ -142,8 +166,13 @@ from fastapi.responses import FileResponse  # noqa: E402
 @app.get("/", include_in_schema=False)
 async def serve_frontend():
 <<<<<<< HEAD
+<<<<<<< HEAD
     return FileResponse("static/index.html")
 =======
     return FileResponse("static/index.html")
 
 >>>>>>> 020cde27e2bd12c348bb2f3cb5096bdd5119c125
+=======
+    return FileResponse("static/index.html")
+
+>>>>>>> 4aacc19637dc0ce44fffc32356a97238fbedee06

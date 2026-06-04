@@ -1,5 +1,8 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 4aacc19637dc0ce44fffc32356a97238fbedee06
 from fastapi import UploadFile
 from app.exceptions.custom_exception import InvalidFileTypeException, FileTooLargeException
 import logging
@@ -50,7 +53,10 @@ async def validate_pdf_file(file: UploadFile) -> bytes:
         raise FileTooLargeException(5)
 
 
+<<<<<<< HEAD
 >>>>>>> 020cde27e2bd12c348bb2f3cb5096bdd5119c125
+=======
+>>>>>>> 4aacc19637dc0ce44fffc32356a97238fbedee06
 """
 Utility helpers for validating uploaded files.
 """
@@ -60,10 +66,14 @@ import logging
 from fastapi import UploadFile
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 from app.exceptions.custom_exceptions import FileTooLargeException, InvalidFileTypeException
 =======
 from app.exceptions.custom_exception import FileTooLargeException, InvalidFileTypeException
 >>>>>>> 020cde27e2bd12c348bb2f3cb5096bdd5119c125
+=======
+from app.exceptions.custom_exception import FileTooLargeException, InvalidFileTypeException
+>>>>>>> 4aacc19637dc0ce44fffc32356a97238fbedee06
 
 logger = logging.getLogger(__name__)
 
@@ -119,7 +129,11 @@ async def validate_pdf_file(file: UploadFile) -> bytes:
 
     logger.info("File validation passed | size=%d bytes", len(file_bytes))
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 >>>>>>> 020cde27e2bd12c348bb2f3cb5096bdd5119c125
+=======
+
+>>>>>>> 4aacc19637dc0ce44fffc32356a97238fbedee06
     return file_bytes

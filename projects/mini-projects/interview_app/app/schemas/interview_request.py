@@ -12,6 +12,10 @@ class InterviewUpdateRequest(BaseModel):
     interviewer_name: str
     time: datetime
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 >>>>>>> 020cde27e2bd12c348bb2f3cb5096bdd5119c125
+=======
+
+>>>>>>> 4aacc19637dc0ce44fffc32356a97238fbedee06

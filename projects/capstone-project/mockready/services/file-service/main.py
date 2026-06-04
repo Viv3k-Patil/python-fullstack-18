@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 from fastapi import FastAPI,UploadFile,File
 from app.routes.health import router as health_router
 
@@ -27,7 +27,7 @@ def check_health():
 #          "file":file
 #     }
 #     return resumes
-=======
+
 """
 main.py — file-service entry point
 
@@ -94,5 +94,6 @@ if __name__ == "__main__":
         port=settings.port,
         reload=settings.is_development,
         log_level="debug" if settings.debug else "info",
+
     )
->>>>>>> 020cde27e2bd12c348bb2f3cb5096bdd5119c125
+

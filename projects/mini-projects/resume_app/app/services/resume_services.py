@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 from fastapi import UploadFile
 from app.utils.file_utils import validate_pdf_file
 from app.schemas.resumes import ResumeUploadResponse,ResumeListResponse,ResumeSummary,DeleteResponse
@@ -38,6 +39,8 @@ class ResumeServices():
         return ResumeUploadResponse(
             id=record.id,
 =======
+=======
+>>>>>>> 4aacc19637dc0ce44fffc32356a97238fbedee06
 
 import logging
 from app.db.resume_db import db
@@ -151,11 +154,15 @@ class ResumeService:
         return ResumeUploadResponse(
             id=record.id,
 
+<<<<<<< HEAD
 >>>>>>> 020cde27e2bd12c348bb2f3cb5096bdd5119c125
+=======
+>>>>>>> 4aacc19637dc0ce44fffc32356a97238fbedee06
             student_name=record.student_name,
             email=record.email,
             original_filename=record.original_filename,
             file_size_bytes=record.file_size_bytes,
+<<<<<<< HEAD
 <<<<<<< HEAD
             uploaded_at=record.uploaded_at  
         )
@@ -168,6 +175,8 @@ class ResumeService:
             each_resume_summary=ResumeSummary(
                 id=record.id,
 =======
+=======
+>>>>>>> 4aacc19637dc0ce44fffc32356a97238fbedee06
             uploaded_at=record.uploaded_at
         )
     
@@ -177,13 +186,17 @@ class ResumeService:
         for record in records:
             each_resume_summary = ResumeSummary(
                 id= record.id,
+<<<<<<< HEAD
 >>>>>>> 020cde27e2bd12c348bb2f3cb5096bdd5119c125
+=======
+>>>>>>> 4aacc19637dc0ce44fffc32356a97238fbedee06
                 student_name=record.student_name,
                 email=record.email,
                 original_filename=record.original_filename,
                 file_size_bytes=record.file_size_bytes,
                 uploaded_at=record.uploaded_at
             )
+<<<<<<< HEAD
 <<<<<<< HEAD
             record_schema.append(each_resume_summary)
          
@@ -210,6 +223,8 @@ class ResumeService:
 
 resume_service=ResumeServices()
 =======
+=======
+>>>>>>> 4aacc19637dc0ce44fffc32356a97238fbedee06
             records_schema.append(each_resume_summary)
 
         return ResumeListResponse(
@@ -282,5 +297,9 @@ resume_service=ResumeServices()
 
 # Singleton
 
+<<<<<<< HEAD
 resume_service = ResumeService()
 >>>>>>> 020cde27e2bd12c348bb2f3cb5096bdd5119c125
+=======
+resume_service = ResumeService()
+>>>>>>> 4aacc19637dc0ce44fffc32356a97238fbedee06
