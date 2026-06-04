@@ -1,3 +1,56 @@
+<<<<<<< HEAD
+=======
+from fastapi import UploadFile
+from app.exceptions.custom_exception import InvalidFileTypeException, FileTooLargeException
+import logging
+
+logger = logging.getLogger(__name__)
+async def validate_pdf_file(file: UploadFile) -> bytes:
+    """
+    Read the file into memory and validates
+    checks added:
+        - Content-type is .pdf
+        - File extension is .pdf
+        - File starts with PDF byte checking
+        - File size
+
+    Returns the raw bytes on success; raise appropriate except
+    """
+    # TODO: add logging here
+    logger.info(
+        "validating upload | filename= "
+    )
+
+    #------------- content-type check ---------------------------
+
+    # check if file is pdf or not
+    if file.content_type != "application/pdf":
+        logger.warn()
+        raise InvalidFileTypeException()
+    
+    #------------- file extension check ---------------------------
+    # check if file extension is pdf or not
+    filename = file.filename or ""
+    if not filename.lower().endswith(".pdf"):
+        logger.warn()
+        raise InvalidFileTypeException()
+
+    file_bytes = await file.read()
+    
+    #------------- file extension check ---------------------------
+    # check if file is really a pdf
+    if not file_bytes.startwith(b"%PDF-"):
+        logger.warn()
+        raise InvalidFileTypeException()
+
+    #------------- file extension check ---------------------------
+    # check if bytes are over 5mb
+    if len(file_bytes) > 5*1024*1024:
+        logger.warn()
+        raise FileTooLargeException(5)
+
+
+>>>>>>> 020cde27e2bd12c348bb2f3cb5096bdd5119c125
 """
 Utility helpers for validating uploaded files.
 """
@@ -6,7 +59,11 @@ import logging
 
 from fastapi import UploadFile
 
+<<<<<<< HEAD
 from app.exceptions.custom_exceptions import FileTooLargeException, InvalidFileTypeException
+=======
+from app.exceptions.custom_exception import FileTooLargeException, InvalidFileTypeException
+>>>>>>> 020cde27e2bd12c348bb2f3cb5096bdd5119c125
 
 logger = logging.getLogger(__name__)
 
@@ -61,4 +118,8 @@ async def validate_pdf_file(file: UploadFile) -> bytes:
         raise InvalidFileTypeException()
 
     logger.info("File validation passed | size=%d bytes", len(file_bytes))
+<<<<<<< HEAD
+=======
+
+>>>>>>> 020cde27e2bd12c348bb2f3cb5096bdd5119c125
     return file_bytes

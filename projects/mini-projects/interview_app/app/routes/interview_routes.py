@@ -2,7 +2,11 @@ import datetime
 
 from fastapi import APIRouter
 from app.schemas.interview_request import InterviewCreateRequest, InterviewUpdateRequest
+<<<<<<< HEAD
 from app.services import interview_services
+=======
+from app.services import interview_service
+>>>>>>> 020cde27e2bd12c348bb2f3cb5096bdd5119c125
 from app.schemas.interview_response import InterviewResponse
 router = APIRouter(prefix="/interviews")
 
@@ -13,7 +17,11 @@ def create_interview(request: InterviewCreateRequest):
     # request is pJSON which deserializaed to python object
     # python object send to service
     # service returns python dict
+<<<<<<< HEAD
     data = interview_services.create_interview(request)
+=======
+    data = interview_service.create_interview(request)
+>>>>>>> 020cde27e2bd12c348bb2f3cb5096bdd5119c125
 
     # need to convert python dict to pydantic object of InterviewResponse
     response = InterviewResponse(**data)
@@ -23,7 +31,11 @@ def create_interview(request: InterviewCreateRequest):
 # get all interviews
 @router.get("/")
 def get_all_interviews():
+<<<<<<< HEAD
     interview_list = interview_services.get_all_interviews()
+=======
+    interview_list = interview_service.get_all_interviews()
+>>>>>>> 020cde27e2bd12c348bb2f3cb5096bdd5119c125
     response_list = []
     for interview_python_dict in interview_list:
         pydantic_obj = InterviewResponse(**interview_python_dict)
@@ -33,7 +45,11 @@ def get_all_interviews():
 # get interview by time ( start_time and end_time)
 @router.get("/by-time")
 def get_interview_by_time(start_time: datetime.datetime, end_time: datetime.datetime):
+<<<<<<< HEAD
     output_list = interview_services.get_interview_by_time(start_time,end_time)
+=======
+    output_list = interview_service.get_interview_by_time(start_time,end_time)
+>>>>>>> 020cde27e2bd12c348bb2f3cb5096bdd5119c125
     response_list = []
     for each_interview in output_list:
         py_obj = InterviewResponse(**each_interview)
@@ -43,7 +59,11 @@ def get_interview_by_time(start_time: datetime.datetime, end_time: datetime.date
 # get interview by id
 @router.get("/{interview_id}")
 def get_interview_by_id(interview_id: int):
+<<<<<<< HEAD
     ret_interview = interview_services.get_interview_by_id(interview_id)
+=======
+    ret_interview = interview_service.get_interview_by_id(interview_id)
+>>>>>>> 020cde27e2bd12c348bb2f3cb5096bdd5119c125
     response_obj = InterviewResponse(**ret_interview)
     return response_obj
 
@@ -51,7 +71,11 @@ def get_interview_by_id(interview_id: int):
 # update interview by id
 @router.put("/{interview_id}")
 def update_interview_by_id(interview_id: int, request: InterviewUpdateRequest):
+<<<<<<< HEAD
     updated_interview = interview_services.update_interview_by_id(interview_id, request)
+=======
+    updated_interview = interview_service.update_interview_by_id(interview_id, request)
+>>>>>>> 020cde27e2bd12c348bb2f3cb5096bdd5119c125
     response_obj = InterviewResponse(**updated_interview)
     return response_obj
 
@@ -59,8 +83,16 @@ def update_interview_by_id(interview_id: int, request: InterviewUpdateRequest):
 # delete interview by id
 @router.delete("/{interview_id}")
 def delete_interview_by_id(interview_id: int):
+<<<<<<< HEAD
     is_interview_deleted =  interview_services.delete_interview(interview_id)
+=======
+    is_interview_deleted =  interview_service.delete_interview(interview_id)
+>>>>>>> 020cde27e2bd12c348bb2f3cb5096bdd5119c125
     return {
         "status": f"Interview delete response: {is_interview_deleted}"
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 020cde27e2bd12c348bb2f3cb5096bdd5119c125

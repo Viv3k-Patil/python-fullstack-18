@@ -17,5 +17,9 @@ app.include_router(interview_router)
 
 @app.get("/health")
 def health_check():
+<<<<<<< HEAD
     return {"status": "ok"}
 
+=======
+    return {"status": "ok"}
+>>>>>>> 020cde27e2bd12c348bb2f3cb5096bdd5119c125

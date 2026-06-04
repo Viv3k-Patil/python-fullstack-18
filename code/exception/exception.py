@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # def exception_handling_method_level():
 #     # revise
 #     print("This is a revised version of the code.")
@@ -115,3 +116,42 @@
 
 
 
+=======
+
+
+
+print("something")
+print("something")
+print("something")
+
+
+# try:
+#     int("abc")
+# except ValueError as e:
+#     print(e)
+# else:
+#     print("code works!!")
+# finally:
+#     print("cleaning..")
+
+try:
+    int("abc")
+except ValueError as e:
+    print(e)
+else:
+    print("code works!!")
+finally:
+    print("cleaning..")
+
+
+
+# print("something")
+# print("something")
+# print("something")
+# print("something")
+# print("something")
+# print("something")
+# print("something")
+# print("something")
+# print("something")
+>>>>>>> 020cde27e2bd12c348bb2f3cb5096bdd5119c125
