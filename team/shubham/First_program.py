@@ -1,1 +1,0 @@
-print("First program in python")
