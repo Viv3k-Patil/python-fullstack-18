@@ -1,8 +1,6 @@
 
 # Create users table
 CREATE TABLE users(
-
-
   user_id Serial PRIMARY KEY ,
   NAME VARCHAR(50) not null,
   email VARCHAR(50) UNIQUE,
@@ -11,6 +9,7 @@ CREATE TABLE users(
   campus_id INTEGER,
   is_active BOOLEAN,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+  
 
   FOREIGN key (campus_id) REFERENCES campus(campus_id)
 );
@@ -24,7 +23,7 @@ CREATE TABLE campus(
       address VARCHAR(200),
       cabin_count INTEGER,
       is_active BOOLEAN,
-      created_at date 
+      created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP, 
 );
 
 # Create cabin table
@@ -33,6 +32,7 @@ CREATE TABLE cabin(
       campus_id INTEGER,
       cabin_number int not null,
       is_active BOOLEAN,
+      created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
   
    FOREIGN key (campus_id) REFERENCES campus(campus_id)
 );
@@ -46,7 +46,9 @@ CREATE TABLE batch(
       start_date date,
       end_date date, 
       is_active BOOLEAN,
+      created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
       FOREIGN key (campus_id) REFERENCES campus(campus_id)
+      
 );
 
 # Create student_profile table
@@ -55,7 +57,9 @@ CREATE TABLE student_profile (
       user_id INT REFERENCES users(user_id),
       batch_id INT REFERENCES batch(batch_id),
       enrollment_number VARCHAR(100),
-      skills VARCHAR(200)
+      skills VARCHAR(200),
+      is_active BOOLEAN,
+      created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
   );
 
 # Create trainer_profile table
@@ -66,6 +70,8 @@ CREATE TABLE student_profile (
       experience_years INT,
       rating DECIMAL(3, 2),
       total_sessions INT,
+      is_active BOOLEAN,
+      created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
     
       FOREIGN KEY (user_id) REFERENCES users(user_id) 
 );
@@ -78,6 +84,8 @@ CREATE TABLE trainer_availability (
       date DATE,
       start_time TIME,
       end_time TIME,
+      is_active BOOLEAN,
+      created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
     
       FOREIGN KEY (trainer_id) REFERENCES trainer_profile(trainer_id),
       FOREIGN key (campus_id) REFERENCES campus(campus_id)
@@ -94,6 +102,7 @@ CREATE TABLE file_metadata(
         size_bytes INT,
         uploaded_at DATE,
         is_active BOOLEAN,
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
         FOREIGN key (student_id) REFERENCES student_profile(student_id)
           
 );
@@ -107,7 +116,9 @@ CREATE TABLE notification (
         message TEXT,
         is_read BOOLEAN,
         metadata VARCHAR(200),
-        created_at date,
+        is_active BOOLEAN,
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+       
       
     FOREIGN key (user_id) REFERENCES users(user_id)
 );
@@ -123,7 +134,8 @@ CREATE TABLE booking (
         status VARCHAR(50),
         scheduled_at DATE,
         decline_count INT,
-        created_at DATE,
+        is_active BOOLEAN,
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
         
 
         -- Foreign Keys
@@ -141,6 +153,21 @@ CREATE TABLE booking_history (
         action_data VARCHAR(100),
         reason TEXT,
         actioned_at DATE,
+        is_active BOOLEAN,
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
         FOREIGN KEY (booking_id) REFERENCES booking(booking_id),
         FOREIGN KEY (trainer_id) REFERENCES trainer_profile(trainer_id)
+);
+
+
+CREATE Table trainer_campus(
+      trainer_campus_id serial PRIMARY KEY,
+      trainer_id INT NOT NULL,
+      campus_id INT NOT NULL,
+      is_active BOOLEAN,
+      created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+
+      Foreign Key (trainer_id) REFERENCES trainer_profile (trainer_id),
+      Foreign Key (campus_id) REFERENCES campus(campus_id)
+
 );
