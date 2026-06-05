@@ -1,0 +1,3 @@
+import my_custom_module
+
+print(my_custom_module.PI)

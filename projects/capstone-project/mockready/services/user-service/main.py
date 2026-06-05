@@ -7,8 +7,13 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.settings import get_settings
+<<<<<<< HEAD
 from app.routers import health, campus, batch, cabin, trainer_profile
 from app.routers import trainer_availability, student_profile
+=======
+from app.routers import health, campus, batch
+
+>>>>>>> 93280eaa (Batch Created)
 settings = get_settings()
 
 
@@ -45,10 +50,13 @@ app.add_middleware(
 app.include_router(health.router)
 app.include_router(campus.router, prefix="/api/v1")
 app.include_router(batch.router, prefix="/api/v1")
+<<<<<<< HEAD
 app.include_router(cabin.router, prefix="/api/v1")
 app.include_router(trainer_profile.router, prefix="/api/v1")
 app.include_router(trainer_availability.router, prefix="/api/v1")
 app.include_router(student_profile.router, prefix="/api/v1")
+=======
+>>>>>>> 93280eaa (Batch Created)
 @app.get("/", tags=["Root"])
 async def root():
     return {

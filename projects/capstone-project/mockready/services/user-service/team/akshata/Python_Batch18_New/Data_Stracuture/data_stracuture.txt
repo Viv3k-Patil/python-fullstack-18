@@ -1,0 +1,117 @@
+---------LIST--------
+#List : A built-in data type that store set of values.
+#  list is noted in squre braket [] and list data seperated in comma (,)
+# 1. list are mutable
+# 2. dublicate is allowed
+# 3. inseration orde is preserved 
+# 4. hetrogenous data allowed (string, int, float, etc)
+
+#type of list ---> <class 'list'>
+
+
+# #e.g = 
+# #a = ['Akshata', 26, 98.4 ,'Pune']
+
+
+# List Methodes :
+# eg.
+# # a = [1,2,3]
+# 1. append() = [added in last element]   a.append(4) --->[1,2,3,4]
+# 2. extend(list) = joint 2 list          a.extend(b)
+# 3. remove(value) =[Remove the given value]  a.remove(3) --->[1,2]
+# 4. replace() =replace specific value  a[2]=8--->[1,2,8]
+# 5. insert(index,value) = add specific value ]  a.insert(2,100) ---> [1,2,100,3]
+# 6. pop(index) = last element remove   a.pop()--->[1,2]
+# 7. sort() = sorted list(ascending order) a.sort() e.g ---> a=[4,3,1,2]--->a=[1,2,3,4]
+# 8. sort(reverse=True) = sorted list in descending order --->a=[4,3,2,1]
+# 9. copy() = copy of list 
+# 10. clear() = clear the list(delete list) --->a.clear()
+# 11. len(list) = measure length of list --->len(a)
+
+
+# #indexing and slicng
+
+# Indexing
+# +ve indexing
+# name= ['python','java','c','C++','ruby','rust']
+# print(name(0)) --->python
+# print(name(1)) --->java
+# print(name(2)) --->c
+
+# -ve indexing
+# print(name(-1)) --->rust
+# print(name(-2)) --->ruby
+# print(name(-3)) --->C++
+
+# Slicing
+# a[start(inclusive):end(exclusive)]
+# a[1:4] ---> index 1 to 3
+# a[:3]  --->start to 2
+# a[3:]  --->3 to end
+# a[::-1] --->reverse
+
+# a[start(inclusive):end(exclusive):step]
+# a[1:5:2] --->['java','c++]
+
+
+-----TUPLE--------
+#Tuple
+# Tuple is nothing but a immutable list
+# all the properties that are associated with list is applied for tuple except tuple is immutable.
+# 1. order is preserved
+# 2. duplicates are allowed
+# 3. hetrogenous data is allowed
+# 4. indexing and slicing is allowed
+
+
+# Methods :
+# 1. count(value) ----> counts total occurrence ---->a=(10,20,30,40) --->a.count(20)--->1
+# 2. index() ----> return index of first occurrence --->a.index(30)---->2
+# 3. a[0]=100 ---> is not allowed in tuple 
+
+
+-----Set--------
+
+#Set :  set is denoted in {} carly brses.
+#    set is the collection of unordered items.
+# 1. sets are mutable.
+# 2. duplicates are not allowed(due to hashing)
+# 3. inseration order is not preserved.
+# 4. indexing and slicing is not allowed
+
+# Set Methods:
+# 1. add()        ---> add one element.  --->a.add(5)
+# 2. update()     --->add multiple element or colletion of list.  ---->a.update([1,2],{4})
+# 3. remove()      --->Delete given list of element if element is not present they gave error --->a.remove(5)
+# 4. discard()    ---> Delete given list of element if element is not present they gave error   ---->a.discard(4)
+# 5. pop()        --->Remove random value
+# 6. clear()      --->Delete all list
+# 7. union()      --->Combination of two list in one set.----> a.union(b)
+# 8. intersection()  --->return common element in two list. --->a.intersection(b)-->common element
+# 9. difference()    --->Elements present in the first set but missing in the second set --->a.difference(b)-->
+# 10.symmetric_diffenrcee()   --->the elements that are non common in both sets.
+# 11. copy()   ------>copy set of list.
+# 12.  isdisjoint()  ----->check common elements are present or not --->Return True or False--->no-->True
+# 13.  issubset()  ---->Is one set completely inside the other set? --->Return True or False--->Present-->True
+# 14.  issuperset()  ----> Is this set a superset of the other set? --->Return True or False--->Present-->True
+
+
+
+-----Dictionary------
+#Dictionary : dictionary denotes Key: value , symbol {}
+#  We store data in key and value format.
+# 1.Duplicates key are not allowed
+# 2.dictioners are mutable
+# 3. from python 3.6 inseration order is guraneteed
+
+# Dictionary Methods :
+# 1. keys()     --->display only keys
+# 2. values()   --->display only values
+# 3. items()    --->display key and value pair
+# 4. pop(key)   --->remove key and display value
+# 5. popitems()  ---->delete last insert pair
+# 6. update()  ----> add new key and value
+# 7. get() ---->return only value
+# 8. setdefault()  _--->if value is not present in key they show none or zero
+# 9. fromkeys(keys,values) ---> it create dictionary  using list of key and value given them same value
+# 10. clear()  ---> delete dictionary
