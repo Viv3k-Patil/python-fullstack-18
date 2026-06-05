@@ -6,35 +6,85 @@
     <title>Bank Account Form</title>
 </head>
 <body>
-    <h2>Bank Account Opening Application</h2>
+    <h2>Bank Account Opening Form</h2>
     <hr>
-    <h4>PERSONAL ENIFORMATION</h4>
-        <lebel>First Name  :</lebel>
-        <input type = "text">
-        
-        <lebel>Birth Date  :</lebel>
-        <input type = "text">
-        <br><br>
-        <lebel>Last Name  :</lebel>
-        <input type = "text">
-    <h4>CONTACT INFORMATION</h4> 
-        <label>Phone  :</label>  
-        <input type :"text"> 
-        <label>Email  :</label>  
-        <input type :"text">
-    <h4>ADDRESS</h4> 
+    <fieldset>
+        <legend>PERSONAL INFORMATION</legend>
+            <label>Title :</label>
+            <select>
+                <option>Mr</option>
+                <option>Mrs</option>
+                <option>Miss</option>
+            </select>
+            <br></br>
+
+            <lebel>First Name*  :</lebel>
+            <input type="text" style="margin-right: 50px;">
+            
+            <lebel>Last Name*  :</lebel>
+            <input type = "text">
+            <br><br>
+
+            <label for="dob">Date of Birth</label><br>
+            <input type="date" id="dob" name="dob">
+            <br></br>
+
+            <label>Gender :</label><br></br>
+            <lable><input type="radio" name="gender" value="Male">Male</lable> 
+            <lable><input type="radio" name="gender" value="Female">Female</lable> 
+            <lable><input type="radio" name="gender" value="Other">Other</lable>
+            <br></br>
+    </fieldset>
+    <br>
+    <fieldset>
+        <legend>CONTACT INFORMATION</legend> 
+            <label>Phone*  :</label>  
+            <input type="text">
+            <br> </br>
+            <label>Alternative Phone  :</label>  
+            <input type="text">
+            <br> </br>
+            <label>Email  :</label>  
+            <input type :"text">
+
+    </fieldset>
+    <br>
+    <fieldset>
+    <legend>ADDRESS</legend> 
         <label>Street  :</label>
         <input type = "text">
         <br><br>
         <label>City  :</label>
-        <input type = "text">
+        <input type="text" style="margin-right: 50px;">
         <label>ZIP  :</label>
         <input type = "text">
         <br><br>
         <label>Region/State :</label>
-        <input type = "text">
+        <input type="text" style="margin-right: 50px;">
         <label>Country :</label>
         <input type = "text">
+    
+    </fieldset>
+    <br>
+    <fieldset>
+        <legend>ACCOUNT INFORMATION</legend>
+            <label>Account type* : </label>
+                <select style="width: 150px; height: 30px;">
+                    <option>Saving </option>
+                    <option>Current </option>
+                    <option>Salary </option>  
+                </select>
+            <label>Category : </label>
+            <input type="text" style="margin-right: 50px;">
+    </fieldset>
+    <br>
+    <label>
+       <input type="checkbox">
+        I agree to bank terms and conditions
+    </label>
+    <br></br>
+    <button type="submit">Submit Form</button>
+    <button type="reset">Clear</button>
 
 
 </body>

@@ -25,10 +25,15 @@ class Settings(BaseSettings):
 
     # ── Server ───────────────────────────────────────────
     host: str = "0.0.0.0"
+<<<<<<< HEAD
 
     port: int = 8000
 
 
+=======
+    port: int = 8000
+
+>>>>>>> f2524e327495094f501c0d5f9153b129834ad2cb
     # ── Database ───────────────────────────────────────────
     database_user: str = os.getenv("DATABASE_USER")
     database_password: str = os.getenv("DATABASE_PASSWORD")

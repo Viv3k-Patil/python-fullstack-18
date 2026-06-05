@@ -45,6 +45,13 @@ class Trainer_AvailabilityResponse(BaseModel):
         is_booked : bool
 
 
+<<<<<<< HEAD
 
         model_config = {"from_attributes": True}
 
+=======
+        model_config = {"from_attributes": True}
+
+
+
+>>>>>>> f2524e327495094f501c0d5f9153b129834ad2cb

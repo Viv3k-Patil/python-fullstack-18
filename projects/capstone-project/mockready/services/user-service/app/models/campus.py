@@ -7,6 +7,7 @@ from datetime import date
 class Campus(Base):
     __tablename__ = "campus"
 
+
     campus_id: Mapped[int] = mapped_column(
         Integer,
         primary_key=True,

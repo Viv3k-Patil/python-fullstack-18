@@ -1,3 +1,0 @@
-# in memory database
-
-teams = []

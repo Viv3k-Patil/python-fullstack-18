@@ -66,4 +66,7 @@ class BookingRepository:
             select(Booking).where(Booking.is_active == True)
         )
         total = len(count_result.scalars().all())
+
         return bookings , total
+
+

@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 """
 services/booking_service.py
@@ -114,6 +115,14 @@ class BookingService:
 
         return booking
 =======
+=======
+from app.schemas.booking_schemas import BookingCreate, BookingResponse, BookingUpdate
+from app.repositories.booking_repository  import BookingRepository
+from sqlalchemy.ext.asyncio import AsyncSession
+
+class BookingService:
+
+>>>>>>> f2524e327495094f501c0d5f9153b129834ad2cb
     def __init__(self, db: AsyncSession):
         self.booking_repo = BookingRepository(db)
     
@@ -145,4 +154,7 @@ class BookingService:
     async def delete(self, booking_id: int):
         return await self.booking_repo.soft_delete(booking_id)
     
+<<<<<<< HEAD
 >>>>>>> 274b12e4 (User service file added)
+=======
+>>>>>>> f2524e327495094f501c0d5f9153b129834ad2cb
