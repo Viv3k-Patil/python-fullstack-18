@@ -9,23 +9,32 @@ with a clear error. No silent failures.
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from functools import lru_cache
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
 
 class Settings(BaseSettings):
+
+
     # ── App ──────────────────────────────────────────────
     app_name: str = "booking-service"
     app_version: str = "0.1.0"
     app_env: str = "development"
     debug: bool = True
-    database_url : str
 
     # ── Server ───────────────────────────────────────────
     host: str = "0.0.0.0"
     port: int = 8001
 
     # ── Database ───────────────────────────────────────────
-    #database_url = "postgresql://neondb_owner:npg_W3cyKHnXL9dl@ep-quiet-voice-aplrv8k0-pooler.c-7.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
-    
+    database_user: str = os.getenv("DATABASE_USER")
+    database_password: str = os.getenv("DATABASE_PASSWORD")
+    database_url: str = (
+        f"postgresql+asyncpg://{database_user}:{database_password}"
+        "@ep-quiet-voice-aplrv8k0-pooler.c-7.us-east-1.aws.neon.tech/neondb"
+        "?ssl=require"
+    )
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",
