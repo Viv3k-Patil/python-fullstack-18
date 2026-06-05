@@ -1,6 +1,7 @@
 
 # Create users table
 CREATE TABLE users(
+
 	  user_id Serial PRIMARY KEY ,
     NAME VARCHAR(50) not null,
     email VARCHAR(50) UNIQUE,
@@ -9,6 +10,16 @@ CREATE TABLE users(
     campus_id INTEGER,
  	is_active BOOLEAN,
  	at_created BOOLEAN,
+
+  user_id Serial PRIMARY KEY ,
+  NAME VARCHAR(50) not null,
+  email VARCHAR(50) UNIQUE,
+  hashed_password VARCHAR(250) Not NULL,
+  ROLE TEXT not NULL,
+  campus_id INTEGER,
+  is_active BOOLEAN,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+
   
   FOREIGN key (campus_id) REFERENCES campus(campus_id)
 );
@@ -83,6 +94,7 @@ CREATE TABLE trainer_availability (
 
 # Create file_metadata table
 CREATE TABLE file_metadata(
+
           id serial PRIMARY KEY,
           student_id INT,
           student_name VARCHAR(100),
@@ -92,6 +104,17 @@ CREATE TABLE file_metadata(
           uploaded_at DATE,
         
          FOREIGN key (student_id) REFERENCES student_profile(student_id)
+
+        file_metadata_id serial PRIMARY KEY,
+        student_id INT,
+        student_name VARCHAR(100),
+        stored_path VARCHAR(100),
+        file_type VARCHAR(100),
+        size_bytes INT,
+        uploaded_at DATE,
+        is_active BOOLEAN,
+        FOREIGN key (student_id) REFERENCES student_profile(student_id)
+
           
 );
 

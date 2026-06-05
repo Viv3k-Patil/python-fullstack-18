@@ -75,7 +75,7 @@ class Booking(Base):
 
 
     scheduled_at : Mapped[datetime] = mapped_column(
-        DateTime,
+        DateTime(timezone=True),
         nullable=True
     )
 

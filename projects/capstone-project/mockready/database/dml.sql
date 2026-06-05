@@ -1,11 +1,11 @@
 # Insert users data
-INSERT INTO users(name, email, hashed_passward, role, campus_id, is_active, at_created)
+INSERT INTO users(name, email, hashed_password, role, campus_id, is_active, created_at)
 VALUES
-('Akshata', 'akshata@gmail.com', 123456, 'student', 1, true, true),
-('Rahul', 'rahul@gmail.com', 456789, 'trainer', 1, true, true),
-('Sneha', 'sneha@gmail.com', 789456, 'student', 2, true, true),
-('Amit', 'amit@gmail.com', 852369, 'trainer', 3, true, true),
-('Sameer', 'sameer@gmail.com', 963258, 'student', 1, true, true);
+('Akshata', 'akshata@gmail.com', '123456', 'student', 1, true,CURRENT_TIMESTAMP),
+('Rahul', 'rahul@gmail.com', '456789', 'trainer', 1, true,CURRENT_TIMESTAMP),
+('Sneha', 'sneha@gmail.com', '789456', 'student', 2, true,CURRENT_TIMESTAMP),
+('Amit', 'amit@gmail.com', '852369', 'trainer', 3, true,CURRENT_TIMESTAMP),
+('Sameer', 'sameer@gmail.com', '963258', 'student', 1, true,CURRENT_TIMESTAMP);
 select * from users;
 
 #--------------------------------------------------------------------------------------------------
