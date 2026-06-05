@@ -1,0 +1,7 @@
+p, li {
+    color: aqua;
+}
+
+section > p{
+    color: red;
+}
