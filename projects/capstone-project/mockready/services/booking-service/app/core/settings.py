@@ -17,11 +17,15 @@ class Settings(BaseSettings):
     app_version: str = "0.1.0"
     app_env: str = "development"
     debug: bool = True
+    database_url : str
 
     # ── Server ───────────────────────────────────────────
     host: str = "0.0.0.0"
     port: int = 8001
 
+    # ── Database ───────────────────────────────────────────
+    #database_url = "postgresql://neondb_owner:npg_W3cyKHnXL9dl@ep-quiet-voice-aplrv8k0-pooler.c-7.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+    
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",

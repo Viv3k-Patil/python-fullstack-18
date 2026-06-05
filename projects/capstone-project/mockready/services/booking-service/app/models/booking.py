@@ -7,15 +7,13 @@ Represents booking table
 inside PostgreSQL database.
 """
 
-from uuid import uuid4
+
 from sqlalchemy import (
     Column,
     String,
     Integer,
     DateTime
 )
-
-#from sqlalchemy.dialects.postgresql import UUID
 
 from datetime import datetime
 
