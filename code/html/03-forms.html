@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p>Learning html form</p>
+
+    <form method="POST">
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="user_name" required><br><br>
+        <!-- add inputs here -->
+    </form>
+
+    <form action="/submit" method="POST">
+        <input type="submit" name="scsdcs" value="Click me now" required>
+    </form>
+    <button>Click me now</button>
+
+    <form action="/submit-form" method="POST">
+  <!-- Name Field -->
+  <label for="name">Name:</label><br>
+  <input type="text" id="name" name="user_name" required><br><br>
+
+  <!-- Email Field -->
+  <label for="email">Email:</label><br>
+  <input type="email" id="email" name="user_email" required><br><br>
+
+  <!-- Message Field -->
+  <label for="message">Message:</label><br>
+  <textarea id="message" name="user_message"></textarea><br><br>
+
+    <input type="radio" id="check" name="something something">
+    <label for="check">temp lable</label>
+
+
+  <!-- Submit Button -->
+  <button type="submit">Send Message</button>
+</form>
+
+</body>
+</html>

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -167,10 +166,8 @@ __pycache__/
 # OS files
 .DS_Store
 Thumbs.db
-<<<<<<< HEAD
->>>>>>> 960a3398 (Updated .gitignore and removed unnecessary files)
-=======
 
 
 
->>>>>>> 6720e6ef (interview_app updated)
+
+

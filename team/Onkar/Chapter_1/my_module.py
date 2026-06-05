@@ -49,4 +49,27 @@ print("Email of user:", email)
 print("Phone number of user:", phone) 
  # Show the user's phone number
 print("Profession of user:", profession)  
+<<<<<<< HEAD
 # Show the user's profession
+=======
+
+
+
+#write a program the addition of two number from user
+
+num1 =int(input("Enter first number: "))
+num2 = int(input("Enter second number: "))
+
+sum = num1 + num2
+print("Addition of two numbers: ",sum)
+
+
+#Take name and age from user
+
+user_name = input("Please Enter Your Name : ")
+user_age = input("Please Enter Your Age: ")
+
+#print name and age 
+print("Hello "+ user_name + ", you are "+ user_age + " years old")
+
+>>>>>>> 858f3ace40ff27d25f96d0e29f05a442a15da6e3
