@@ -1,4 +1,0 @@
-
-PI = 3.14159265
-MAGIC_NUMBER = 42
-password = 126654684
