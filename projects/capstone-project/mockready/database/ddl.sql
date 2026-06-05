@@ -12,8 +12,6 @@ CREATE TABLE users(
   is_active BOOLEAN,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
 
-
-  
   FOREIGN key (campus_id) REFERENCES campus(campus_id)
 );
 
