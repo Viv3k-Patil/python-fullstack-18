@@ -159,3 +159,104 @@ function sayHello(){
 }
 
 heyy(sayHello);
+
+
+
+let nums = [3, 1, 4, 1, 5, 9, 2, 6];
+
+// Sort (careful — sorts as strings by default!)
+nums.sort((a, b) => a - b);  // [1, 1, 2, 3, 4, 5, 6, 9] ascending
+nums.sort((a, b) => b - a);  // [9, 6, 5, 4, 3, 2, 1, 1] descending
+
+// Find
+nums.find(n => n > 4);       // 5 — returns first match
+nums.findIndex(n => n > 4);  // returns index of first match
+
+// Check if any/all pass a test
+nums.some(n => n > 8);       // true — at least one is > 8
+nums.every(n => n > 0);      // true — all are > 0
+
+
+// pnject with functions
+let mummymovie = {
+    name: 'The Mummy',
+    year: 1999,
+    actors: [
+        'Brendan Fraser',
+        'Rachel Weisz'
+    ],
+    details:{
+        description: 'The 1999 action-adventure film The Mummy stars Brendan Fraser as dashing adventurer Rick OConnell and Rachel Weisz as the brilliant Egyptologist Evelyn Carnahan. Directed by Stephen Sommers, the cult classic features a memorable supporting ensemble of treasure hunters, Medjai warriors, and cursed villains.',
+        'Running time': '2h 4m'
+    },
+    getmoviedesc: function (){
+        return this.details;
+    }
+}
+
+
+console.log(mummymovie);
+
+
+let post2 = {
+    votes: 0,
+
+    upvote: function (){
+        this.votes+=1;
+    },
+
+    downvote: function(){
+        this.votes-=1;
+    }
+}
+
+post2.upvote();
+console.log(post2);
+
+let passward="";
+
+while(passward!=="Action@123"){
+    passward="Action@123";
+    console.log("checking passward...");
+};
+console.log("access granted !!");
+
+let count=0;
+
+do{
+    console.log(`count ${count}`);
+    count++;
+}while(4>count);
+
+
+for(i=0; i<5; i++){
+    if(i===3)break;
+    console.log(i)
+}
+
+for(i=0; i<6; i++){
+    if(i==3)continue;
+    console.log(i)
+}
+
+// let fruits=["mango","banana","apple","orange"]
+
+// console.log(fruits);
+// console.log(fruits.length);
+// console.log(fruits[0]);
+// console.log(fruits[2]);
+
+
+// console.log(list)
+// list.push("f");
+// console.log(list)
+// list.pop()
+// console.log(list)
+
+// list.unshift("z"); //add element to start
+// console.log(list); 
+// list.shift() //remove element to starting position
+
+
+
+

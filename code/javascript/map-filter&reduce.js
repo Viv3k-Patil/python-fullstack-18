@@ -1,7 +1,7 @@
 let nums = [3, 1, 4, 1, 5, 9, 2, 6];
 
 let mynums=nums.map((item)=>item>1)
-               .reduce((accu,curr)=>accu+curr,0);
+               .reduce((accu,curr)=>accu+curr);
 console.log(mynums)
 
 // Sort (careful — sorts as strings by default!)
@@ -16,3 +16,7 @@ nums.findIndex(n => n > 4);  // returns index of first match
 // Check if any/all pass a test
 nums.some(n => n > 8);       // true — at least one is > 8
 nums.every(n => n > 0);      // true — all are > 0
+
+for (let i=0;i<5;i+2){
+    console.log(`step ${i}`);
+};

@@ -1,0 +1,38 @@
+[
+  {
+    "title": "Storage Alert",
+    "subtitle": "System Warning",
+    "description": "Your cloud storage is at 95% capacity. Clean up files to free up space.",
+    "footer": "Action required"
+  },
+  {
+    "title": "Payment Received",
+    "subtitle": "Billing Update",
+    "description": "Invoice #2026-04 has been successfully paid via your linked card.",
+    "footer": "Receipt emailed"
+  },
+  {
+    "title": "New Device Detected",
+    "subtitle": "Security Alert",
+    "description": "A login attempt was made from a Chrome browser on a Linux device.",
+    "footer": "Location: London, UK"
+  },
+  {
+    "title": "Weekly Analytics",
+    "subtitle": "Performance Review",
+    "description": "Your profile traffic increased by 14% this week with 2,400 unique views.",
+    "footer": "Report generated Friday"
+  },
+  {
+    "title": "Maintenance Scheduled",
+    "subtitle": "Server Status",
+    "description": "The database will be offline for routine upgrades this Sunday at 2:00 AM UTC.",
+    "footer": "Duration: 45 mins"
+  },
+  {
+    "title": "Goal Achieved!",
+    "subtitle": "Fitness Tracker",
+    "description": "You reached your daily target of 10,000 steps. Keep up the momentum.",
+    "footer": "Streak: 5 days"
+  }
+]
