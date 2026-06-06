@@ -1,12 +1,67 @@
 import ReactIntro from './ReactIntro';
 import Introduction from './Introduction';
+
+
 function App() {
   return (
     <div>
-      <ReactIntro />
-      <Introduction 
-        name="vivek patil"
-      />
+        <div>
+          <ReactIntro />
+          <Introduction name="vivek patil" />
+        </div>
+        <section>
+          <ReactIntro />
+          <Introduction name="vivek patil" />
+        </section>
+        <section>
+          <ReactIntro />
+          <Introduction name="vivek patil" />
+        </section>
+        <section>
+          <ReactIntro />
+          <Introduction name="vivek patil" />
+        </section>
+        <section>
+          <ReactIntro />
+          <Introduction name="vivek patil" />
+        </section>
+        <section>
+          <ReactIntro />
+          <Introduction name="vivek patil" />
+        </section>
+        <section>
+          <ReactIntro />
+          <Introduction name="vivek patil" />
+        </section>
+        <section>
+          <ReactIntro />
+          <Introduction name="vivek patil" />
+          <section>
+          <ReactIntro />
+          <Introduction name="vivek patil" />
+        </section>
+        <section>
+          <ReactIntro />
+          <Introduction name="vivek patil" />
+        </section>
+        <section>
+          <ReactIntro />
+          <Introduction name="vivek patil" />
+        </section>
+        <section>
+          <ReactIntro />
+          <Introduction name="vivek patil" />
+        </section>
+        <section>
+          <ReactIntro />
+          <Introduction name="vivek patil" />
+        </section>
+        <section>
+          <ReactIntro />
+          <Introduction name="vivek patil" />
+        </section>
+
+        </section>
     </div>
   )
 }
