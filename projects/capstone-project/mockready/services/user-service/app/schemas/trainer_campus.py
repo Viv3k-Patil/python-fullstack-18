@@ -13,33 +13,30 @@ only what they want to change. model_dump(exclude_none=True)
 strips the rest in the service layer.
 """
 
-import uuid
+
 
 from pydantic import BaseModel, Field
-from uuid import UUID, uuid4    
 from datetime import datetime
 
 class TrainerCampusCreate(BaseModel):
-    campus_id: UUID
-    trainer_id: UUID
-    location: str = Field(..., min_length=2, max_length=100)
-    capacity: int = Field(..., ge=1)    
+    trainer_id: int = Field(..., ge=1)
+    campus_id: int = Field(..., ge=1, le=50)
+    is_active: bool = True
+    created_at: datetime = Field(default_factory=datetime.utcnow)  
 
 
-class TrainerCampusUpdate(BaseModel):
-    campus_id: UUID | None = None
-    trainer_id: UUID | None = None
-    location: str | None = Field(None, min_length=2, max_length=100)
-    capacity: int | None = Field(None, ge=1)    
+class TrainerCampusUpdate(BaseModel):    
+    trainer_id: int | None = Field(None, ge=1)
+    campus_id: int | None = Field(None, ge=1, le=50)
     is_active: bool | None = None   
+    created_at: datetime | None = None  # Optional, but usually not updated 
+
 
     
 class TrainerCampusResponse(BaseModel):
-    id: UUID
-    campus_id: UUID
-    trainer_id: UUID
-    location: str
-    capacity: int
+    trainer_campus_id: int
+    campus_id: int
+    trainer_id: int
     is_active: bool
     created_at: datetime
 

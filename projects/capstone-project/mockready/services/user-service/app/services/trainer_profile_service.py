@@ -8,74 +8,33 @@ When we switch to Postgres in Phase 2 — only this file
 changes. The router stays exactly the same.
 That is the entire point of this layer.
 """
-
-from uuid import UUID, uuid4
-from datetime import datetime, timezone
-
-from app.schemas.trainer_profile import TrainerCreate, TrainerUpdate, TrainerResponse
-from app.core.exceptions import NotFoundException, ConflictException
-
-# ── Temporary in-memory store ─────────────────────────────
-# Replaced 100% by TrainerRepository in Phase 2.
-# Do not add any logic that depends on this being a dict.
-_trainers: dict[UUID, dict] = {}
+from app.schemas.trainer_profile import TrainerProfileCreate, TrainerProfileUpdate, TrainerProfileResponse
+from app.repositories.TrainerProfileRepository import TrainerProfileRepository       
+from sqlalchemy.ext.asyncio import AsyncSession
 
 
-class TrainerService:
+class TrainerProfileService:
 
-    def create(self, data: TrainerCreate) -> TrainerResponse:
-        # business rule: no duplicate trainer names
-        for t in _trainers.values():
-            if t["name"].lower() == data.name.lower():
-                raise ConflictException(f"Trainer '{data.name}' already exists")
+    def __init__(self, db: AsyncSession):
+        self.trainer_profile_repo = TrainerProfileRepository(db)
 
-        trainer = {
-            "id": uuid4(),
-            "name": data.name,
-            "city": data.city,
-            "address": data.address,
-            "experience_years": data.experience_years,
-            "skills": data.skills,
-            "specialization": data.specialization,
-            "rating": data.rating,
-            "is_active": True,
-            "created_at": datetime.now(timezone.utc),
-        }
-        _trainers[trainer["id"]] = trainer
-        return TrainerResponse(**trainer)
+    async def create(self, data: TrainerProfileCreate) -> TrainerProfileResponse:
+        trainer_profile = await self.trainer_profile_repo.create(data)
+        return TrainerProfileResponse.model_validate(trainer_profile)
 
-    def get_all(self, page: int, size: int) -> tuple[list[TrainerResponse], int]:
-        active = [t for t in _trainers.values() if t["is_active"]]
-        total = len(active)
-        start = (page - 1) * size
-        chunk = active[start: start + size]
-        return [TrainerResponse(**t) for t in chunk], total
+    async def get_by_id(self, trainer_profile_id: int) -> TrainerProfileResponse:
+        trainer_profile = await self.trainer_profile_repo.get_by_id(trainer_profile_id)
+        return TrainerProfileResponse.model_validate(trainer_profile)
 
-    def get_by_id(self, trainer_id: UUID) -> TrainerResponse:
-        trainer = _trainers.get(trainer_id)
-        if not trainer or not trainer["is_active"]:
-            raise NotFoundException(f"Trainer {trainer_id} not found")
-        return TrainerResponse(**trainer)
-
-    def update(self, trainer_id: UUID, data: TrainerUpdate) -> TrainerResponse:
-        trainer = _trainers.get(trainer_id)
-        if not trainer or not trainer["is_active"]:
-            raise NotFoundException(f"Trainer {trainer_id} not found")
-
-        # only update fields the client actually sent
-        updates = data.model_dump(exclude_none=True)
-        trainer.update(updates)
-        _trainers[trainer_id] = trainer
-        return TrainerResponse(**trainer)
-
-    def delete(self, trainer_id: UUID) -> TrainerResponse:
-        trainer = _trainers.get(trainer_id)
-        if not trainer or not trainer["is_active"]:
-            raise NotFoundException(f"Trainer {trainer_id} not found")
-
-        # always soft delete — never remove from DB
-        trainer["is_active"] = False
-        return TrainerResponse(**trainer)
-
-
-trainer_service = TrainerService()
+    async def get_all(self, page: int, size: int) -> tuple[list[TrainerProfileResponse], int]:
+        trainer_profiles, total = await self.trainer_profile_repo.get_all(page, size)
+        return [TrainerProfileResponse.model_validate(tp) for tp in trainer_profiles    ], total
+    
+    
+    async def delete(self, trainer_profile_id: int):
+        return await self.trainer_profile_repo.soft_delete(trainer_profile_id)
+    
+    async def update(self, trainer_profile_id: int, data: TrainerProfileUpdate) -> TrainerProfileResponse:
+        trainer_profile = await self.trainer_profile_repo.update(trainer_profile_id, data)
+        return TrainerProfileResponse.model_validate(trainer_profile)
+    

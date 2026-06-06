@@ -12,89 +12,76 @@ This file's only jobs:
 If you find yourself writing if/else logic here
 that isn't about HTTP — move it to the service.
 """
-from uuid import UUID
-from fastapi import APIRouter, HTTPException, Query
+from sys import is_remote_debug_enabled
 
+from fastapi import APIRouter, HTTPException, Query
 from app.schemas.student_profile import StudentProfileCreate, StudentProfileUpdate
-from app.services.student_profile_service import Student_Profile_Service
+from app.services.student_profile_service import StudentProfileService  
 from app.core.responses import success, paginated
 from app.core.exceptions import NotFoundException, ConflictException
+from app.core.database import get_db
+from fastapi import Depends
+from sqlalchemy.ext.asyncio import AsyncSession
 
-
-router = APIRouter(
-    prefix="/student-profile",
-    tags=["Student Profile"]
-)
+router = APIRouter(prefix="/student_profiles", tags=["Student Profiles"])
 
 @router.post("", status_code=201)
-async def create_student_profile(data: StudentProfileCreate):
+async def create_student_profile(data: StudentProfileCreate, db: AsyncSession = Depends(get_db)):
     try:
-        profile = Student_Profile_Service().create(data)
-
+        student_profile = await StudentProfileService(db).create(data)
         return success(
-            data=profile.model_dump(),
+            data=student_profile,
             message="Student profile created successfully",
         )
-
     except ConflictException as e:
-        raise HTTPException(
-            status_code=409,
-            detail=e.message
-        )
+        raise HTTPException(status_code=409, detail=e.message)
 
 @router.get("")
 async def list_student_profiles(    
     page: int = Query(1, ge=1, description="Page number"),
     size: int = Query(20, ge=1, le=100, description="Items per page"),
+    db: AsyncSession = Depends(get_db)
 ):
-    service = Student_Profile_Service()
-    profiles, total = service.get_all(page=page, size=size)
+    student_profiles, total = await StudentProfileService(db).get_all(page=page, size=size)
     return paginated(
-        data=[p.model_dump() for p in profiles],
+        data=[sp.model_dump() for sp in student_profiles],
         total=total,
         page=page,
         size=size,
         message="Student profiles retrieved successfully",
     )
-    
-@router.get("/{student_id}")
-async def get_student_profile(student_id: UUID):
+
+@router.get("/{student_profile_id}")
+async def get_student_profile(student_profile_id: int, db: AsyncSession = Depends(get_db)):
     try:
-        profile = Student_Profile_Service().get_by_id(student_id)
+        student_profile = await StudentProfileService(db).get_by_id(student_profile_id)
         return success(
-            data=profile.model_dump(),
+            data=student_profile.model_dump(),
             message="Student profile retrieved successfully",
         )
     except NotFoundException as e:
-        raise HTTPException(
-            status_code=404,
-            detail=e.message
-        )
-    
-@router.put("/{student_id}")
-async def update_student_profile(student_id: UUID, data: StudentProfileUpdate):
+        raise HTTPException(status_code=404, detail=e.message) 
+
+
+@router.put("/{student_profile_id}")
+async def update_student_profile(student_profile_id: int, data: StudentProfileUpdate, db: AsyncSession = Depends(get_db)):
     try:
-        profile = Student_Profile_Service().update(student_id, data)
+        student_profile = await StudentProfileService(db).update(student_profile_id, data)
         return success(
-            data=profile.model_dump(),
+            data=student_profile,
             message="Student profile updated successfully",
         )
     except NotFoundException as e:
-        raise HTTPException(
-            status_code=404,
-            detail=e.message
-        )
+        raise HTTPException(status_code=404, detail=e.message)  
     
-@router.delete("/{student_id}")
-async def delete_student_profile(student_id: UUID):
+
+@router.delete("/{student_profile_id}", status_code=204)
+async def delete_student_profile(student_profile_id: int, db: AsyncSession = Depends(get_db)):
     try:
-        profile = Student_Profile_Service().delete(student_id)
-        return success(
-            data=profile.model_dump(),
-            message="Student profile deactivated successfully",
+       is_deleted = await StudentProfileService(db).delete(student_profile_id)
+       return success(
+            data={"is_deleted": is_deleted},
+            message="Student profile deleted successfully",
         )
     except NotFoundException as e:
-        raise HTTPException(
-            status_code=404,
-            detail=e.message
-        )   
+        raise HTTPException(status_code=404, detail=e.message)

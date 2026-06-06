@@ -12,75 +12,73 @@ If you find yourself writing if/else logic here
 that isn't about HTTP — move it to the service.
 """
 
-from uuid import UUID
 from fastapi import APIRouter, HTTPException, Query
-
-from app.schemas.trainer_profile import TrainerCreate, TrainerUpdate
-from app.services.trainer_profile_service import trainer_service
+from app.schemas.trainer_profile import TrainerProfileCreate, TrainerProfileUpdate, TrainerProfileResponse
+from app.services.trainer_profile_service import TrainerProfileService  
 from app.core.responses import success, paginated
-from app.core.exceptions import NotFoundException, ConflictException
+from app.core.exceptions import NotFoundException, ConflictException    
+from app.core.database import get_db
+from fastapi import Depends
+from sqlalchemy.ext.asyncio import AsyncSession
 
-router = APIRouter(prefix="/trainers", tags=["Trainers"])
+router = APIRouter(prefix="/trainer-profiles", tags=["Trainer Profiles"])
 
 
-@router.post("/", status_code=201)
-async def create_trainer(data: TrainerCreate):  
+@router.post("", status_code=201)
+async def create_trainer_profile(data: TrainerProfileCreate, db: AsyncSession = Depends(get_db)):
     try:
-        trainer = trainer_service.create(data)
+        trainer_profile = await TrainerProfileService(db).create(data)
         return success(
-            data=trainer.model_dump(),
-            message="Trainer created successfully",
+            data=trainer_profile.model_dump() ,
+            message="Trainer profile created successfully",
         )
     except ConflictException as e:
         raise HTTPException(status_code=409, detail=e.message)
+    
 
-
-@router.get("/")
-async def list_trainers(
+@router.get("")
+async def list_trainer_profiles(
     page: int = Query(1, ge=1, description="Page number"),
     size: int = Query(20, ge=1, le=100, description="Items per page"),
+    db: AsyncSession = Depends(get_db)
 ):
-    trainers, total = trainer_service.get_all(page=page, size=size)
+    trainer_profiles, total = await TrainerProfileService(db).get_all(page=page, size=size)
     return paginated(
-        data=[t.model_dump() for t in trainers],
+        data=[tp.model_dump() for tp in trainer_profiles],
         total=total,
         page=page,
         size=size,
-        message="Trainers retrieved successfully",
-    )
-
-
+        message="Trainer profiles retrieved successfully",
+    )      
 @router.get("/{trainer_id}")
-async def get_trainer(trainer_id: UUID):
+async def get_trainer_profile(trainer_id: int, db: AsyncSession = Depends(get_db)):
     try:
-        trainer = trainer_service.get_by_id(trainer_id)
+        trainer_profile = await TrainerProfileService(db).get_by_trainer_id(trainer_id)
         return success(
-            data=trainer.model_dump(),
-            message="Trainer retrieved successfully",
+            data=trainer_profile.model_dump(),
+            message="Trainer profile retrieved successfully",
         )
     except NotFoundException as e:
         raise HTTPException(status_code=404, detail=e.message)
-
-
+    
 @router.put("/{trainer_id}")
-async def update_trainer(trainer_id: UUID, data: TrainerUpdate):
+async def update_trainer_profile(trainer_id: int, data: TrainerProfileUpdate, db: AsyncSession = Depends(get_db)):
     try:
-        trainer = trainer_service.update(trainer_id, data)
+        trainer_profile = await TrainerProfileService(db).update(trainer_id, data)
         return success(
-            data=trainer.model_dump(),
-            message="Trainer updated successfully",
+            data=trainer_profile.model_dump(),
+            message="Trainer profile updated successfully",
         )
     except NotFoundException as e:
         raise HTTPException(status_code=404, detail=e.message)
 
-
-@router.delete("/{trainer_id}")
-async def delete_trainer(trainer_id: UUID):
+@router.delete("/{trainer_id}", status_code=204)
+async def delete_trainer_profile(trainer_id: int, db: AsyncSession = Depends(get_db)):
     try:
-        trainer = trainer_service.delete(trainer_id)
-        return success(
-            data=trainer.model_dump(),
-            message="Trainer deactivated successfully",
-        )
+      is_deleted = await TrainerProfileService(db).delete(trainer_id)    
+      return success(
+          data={"deleted": is_deleted},
+          message="Trainer profile deleted successfully",
+      )
     except NotFoundException as e:
         raise HTTPException(status_code=404, detail=e.message)

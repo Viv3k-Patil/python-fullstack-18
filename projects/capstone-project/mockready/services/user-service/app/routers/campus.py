@@ -13,7 +13,6 @@ that isn't about HTTP — move it to the service.
 """
 
 from fastapi import APIRouter, HTTPException, Query
-
 from app.schemas.campus import CampusCreate, CampusUpdate
 from app.services.campus_service import CampusService
 from app.core.responses import success, paginated
