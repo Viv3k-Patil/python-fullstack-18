@@ -5,6 +5,7 @@ export default function ReactIntro(){
         <div>
         <h3>React Introduction</h3>
         <p>A JavaScript library for building user interfaces</p>
+        <p>The library for web and native user interfaces</p>
         </div>
     )
 }
