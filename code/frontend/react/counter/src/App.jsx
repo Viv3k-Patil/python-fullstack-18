@@ -5,10 +5,12 @@ function App() {
 
   function handleAdd(){
     setCounter(counter+1);
+    console.log(handleAdd);
   }
 
   function handleSub(){
     setCounter(counter-1);
+    console.log(handleSub);
   }
 
   return (
