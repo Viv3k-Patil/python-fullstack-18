@@ -1,4 +1,5 @@
 # lists
+<<<<<<< HEAD
 nums = [1,2,3,4,5,6,7,8]
 
 result = []
@@ -14,6 +15,9 @@ nums2 = [10,20,60,34,55,38,89,71]
 nums2.sort()
 
 print("second largest nums:",nums2[-2])
+=======
+CRUDI
+>>>>>>> 34a4b420be5d30e78c807cbf1beedaf3506f6b6b
 
 # tuple
 data = (1,3,4,6,3,4,8,2)
