@@ -17,4 +17,5 @@ class TrainerAvailability(Base):
     start_time: Mapped[datetime] =mapped_column(DateTime(timezone=True), nullable=False)
     date: Mapped[date] = mapped_column(Date, nullable=False)
     end_time: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
-    #is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
+    is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=datetime.utcnow, nullable=False)

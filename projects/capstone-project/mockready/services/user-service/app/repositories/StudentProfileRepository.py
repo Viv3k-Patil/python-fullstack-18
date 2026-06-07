@@ -70,8 +70,8 @@ class StudentProfileRepository:
         return student_profiles,total
 
     async def update(self, student_profile: StudentProfile, data: StudentProfileUpdate) -> StudentProfile:
-        for key,value in data.model_dump().items():
-            setattr(student_profile,key,value)
+        for key, value in data.model_dump().items():
+            setattr(student_profile, key, value)
         await self.db.flush()
         await self.db.refresh(student_profile)
         return student_profile
@@ -79,8 +79,7 @@ class StudentProfileRepository:
     async def soft_delete(self, student_profile_id : int) -> bool:
         result = await self.db.execute(
             select(StudentProfile).where(StudentProfile.student_id == student_profile_id)
-
-        )
+ )
         student_profile = result.scalar_one_or_none()
         if not student_profile:
             return False

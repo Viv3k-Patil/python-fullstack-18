@@ -53,7 +53,7 @@ async def list_trainer_profiles(
 @router.get("/{trainer_id}")
 async def get_trainer_profile(trainer_id: int, db: AsyncSession = Depends(get_db)):
     try:
-        trainer_profile = await TrainerProfileService(db).get_by_trainer_id(trainer_id)
+        trainer_profile = await TrainerProfileService(db).get_by_id(trainer_id)
         return success(
             data=trainer_profile.model_dump(),
             message="Trainer profile retrieved successfully",

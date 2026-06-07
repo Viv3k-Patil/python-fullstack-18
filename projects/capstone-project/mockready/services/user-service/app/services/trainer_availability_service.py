@@ -9,6 +9,8 @@ changes. The router stays exactly the same.
 That is the entire point of this layer.
 """
 
+from http.client import HTTPException
+
 from app.schemas.trainer_availability import TrainerAvailabilityCreate, TrainerAvailabilityUpdate, TrainerAvailabilityResponse
 from app.repositories.TrainerAvailabilityRepository import TrainerAvailabilityRepository
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -31,9 +33,12 @@ class TrainerAvailabilityService:
         return [TrainerAvailabilityResponse.model_validate(t) for t in trainer_availabilities], total
 
     async def update(self, trainer_availability_id: int, data: TrainerAvailabilityUpdate) -> TrainerAvailabilityResponse:
-        trainer_availability = await self.trainer_availability_repo.update(trainer_availability_id, data)
-        return TrainerAvailabilityResponse.model_validate(trainer_availability)  
-       
+     trainer_availability = await self.trainer_availability_repo.get_by_id(trainer_availability_id)  # fetch first
+     if not trainer_availability:
+        raise HTTPException(status_code=404, detail="Trainer availability not found")
+     trainer_availability = await self.trainer_availability_repo.update(trainer_availability, data)  # pass object
+     return TrainerAvailabilityResponse.model_validate(trainer_availability)
+
     async def delete(self, trainer_availability_id: int):
         return await self.trainer_availability_repo.soft_delete(trainer_availability_id)
     

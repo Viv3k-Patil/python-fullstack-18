@@ -11,6 +11,7 @@ That is the entire point of this layer.
 from app.schemas.trainer_profile import TrainerProfileCreate, TrainerProfileUpdate, TrainerProfileResponse
 from app.repositories.TrainerProfileRepository import TrainerProfileRepository       
 from sqlalchemy.ext.asyncio import AsyncSession
+from fastapi import HTTPException
 
 
 class TrainerProfileService:
@@ -35,6 +36,8 @@ class TrainerProfileService:
         return await self.trainer_profile_repo.soft_delete(trainer_profile_id)
     
     async def update(self, trainer_profile_id: int, data: TrainerProfileUpdate) -> TrainerProfileResponse:
-        trainer_profile = await self.trainer_profile_repo.update(trainer_profile_id, data)
-        return TrainerProfileResponse.model_validate(trainer_profile)
-    
+     trainer_profile = await self.trainer_profile_repo.get_by_id(trainer_profile_id)  # fetch first
+     if not trainer_profile:
+        raise HTTPException(status_code=404, detail="Trainer profile not found")
+     trainer_profile = await self.trainer_profile_repo.update(trainer_profile, data)  # pass object
+     return TrainerProfileResponse.model_validate(trainer_profile)

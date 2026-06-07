@@ -23,11 +23,12 @@ class CabinService:
         cabins,total = await self.cabin_repo.get_all(page,size)
         return [CabinResponse.model_validate(c) for c in cabins],total
     
-    async def update(self, cabin_id: int, data: CabinUpdate) -> Cabin:
+    async def update(self, cabin_id: int, data: CabinUpdate) -> CabinResponse:
      cabin = await self.cabin_repo.get_by_id(cabin_id)  # fetch here
      if not cabin:
         raise HTTPException(status_code=404)
-     return await self.cabin_repo.update(cabin, data)
+     updated_cabin = await self.cabin_repo.update(cabin, data)
+     return CabinResponse.model_validate(updated_cabin)
 
 
     async def delete(self,cabin_id: int):

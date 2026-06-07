@@ -14,7 +14,7 @@ class TrainerProfile(Base):
         primary_key=True,
         autoincrement=True
     )
-    user_id: Mapped[int] = mapped_column(Integer, ForeignKey("user.user_id"), nullable=False)
+    user_id: Mapped[int] = mapped_column(Integer, nullable=False)
     experience_years: Mapped[int] = mapped_column(Integer, nullable=False)
     skills: Mapped[str] = mapped_column(Text, nullable=True)
     rating: Mapped[float] = mapped_column(Float, nullable=True)

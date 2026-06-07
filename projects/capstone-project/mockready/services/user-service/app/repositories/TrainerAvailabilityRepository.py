@@ -36,11 +36,11 @@ class TrainerAvailabilityRepository:
         return True
     
     async def update(self, trainer_availability: TrainerAvailability, data: TrainerAvailabilityUpdate) -> TrainerAvailability:
-        for key, value in data.model_dump().items():
-            setattr(trainer_availability, key, value)
+       for key, value in data.model_dump(exclude_unset=True).items():
+        setattr(trainer_availability, key, value)
         await self.db.flush()
-        await self.db.refresh(trainer_availability)
-        return trainer_availability
+       await self.db.refresh(trainer_availability)
+       return trainer_availability
         
     async def get_all(self, page: int, size: int) -> tuple[list[TrainerAvailability], int]:
         result = await self.db.execute(

@@ -12,7 +12,7 @@ class TrainerCampus(Base):
         primary_key=True,
         autoincrement=True
     )
-    trainer_id: Mapped[int] = mapped_column(Integer, ForeignKey("trainer.trainer_id"), nullable=False)
-    campus_id: Mapped[int] = mapped_column(Integer, ForeignKey("campus.campus_id"), nullable=False)
+    trainer_id: Mapped[int] = mapped_column(Integer, nullable=False)
+    campus_id: Mapped[int] = mapped_column(Integer, nullable=False)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
     created_at: Mapped[date] = mapped_column(Date, nullable=False)
