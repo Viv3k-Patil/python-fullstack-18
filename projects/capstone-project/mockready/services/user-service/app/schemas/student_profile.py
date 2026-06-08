@@ -31,7 +31,7 @@ class StudentProfileUpdate(BaseModel):
     is_active: bool | None = None
 
 class StudentProfileResponse(BaseModel):
-    student_profile_id: int
+    student_id: int
     user_id: int
     batch_id: int
     skills: str

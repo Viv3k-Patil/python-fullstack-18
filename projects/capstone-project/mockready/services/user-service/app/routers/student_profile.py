@@ -80,7 +80,7 @@ async def delete_student_profile(student_profile_id: int, db: AsyncSession = Dep
     try:
        is_deleted = await StudentProfileService(db).delete(student_profile_id)
        return success(
-            data={"is_deleted": is_deleted},
+            data= is_deleted,
             message="Student profile deleted successfully",
         )
     except NotFoundException as e:

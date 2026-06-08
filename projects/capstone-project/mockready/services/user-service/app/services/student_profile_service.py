@@ -1,3 +1,5 @@
+from http.client import HTTPException
+
 from app.schemas.student_profile import StudentProfileResponse, StudentProfileCreate
 from app.repositories.StudentProfileRepository import StudentProfileRepository
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -15,6 +17,16 @@ class StudentProfileService:
         student_profile = await self.student_profile_repo.get_by_id(student_profile_id)
         return StudentProfileResponse.model_validate(student_profile)
     
+    async def update(self, student_profile_id: int, data) -> StudentProfileResponse:
+     student_profile = await self.student_profile_repo.get_by_id(student_profile_id)  # fetch first
+     if not student_profile:
+        raise HTTPException(status_code=404, detail="Student profile not found")
+     student_profile = await self.student_profile_repo.update(student_profile, data)  # pass object
+     return StudentProfileResponse.model_validate(student_profile)
+
     async def get_all(self, page: int, size: int) -> tuple[list[StudentProfileResponse], int]:
         student_profiles, total = await self.student_profile_repo.get_all(page, size)
         return [StudentProfileResponse.model_validate(sp) for sp in student_profiles], total
+    
+    async def delete(self, student_profile_id: int) -> None:
+       return await self.student_profile_repo.soft_delete(student_profile_id)

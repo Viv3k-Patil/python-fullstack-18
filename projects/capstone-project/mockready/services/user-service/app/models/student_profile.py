@@ -11,8 +11,8 @@ class StudentProfile(Base):
         primary_key=True,
         autoincrement=True
     )
-    user_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.user_id"), nullable=False)
-    batch_id: Mapped[int] = mapped_column(Integer, ForeignKey("batch.batch_id"), nullable=False)
+    user_id: Mapped[int] = mapped_column(Integer, nullable=False)
+    batch_id: Mapped[int] = mapped_column(Integer, nullable=False)
     enrollment_number: Mapped[str] = mapped_column(String, nullable=False, unique=True)
     skills: Mapped[str] = mapped_column(String, nullable=True)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
