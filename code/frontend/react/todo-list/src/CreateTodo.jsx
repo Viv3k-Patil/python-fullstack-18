@@ -1,61 +1,63 @@
-import { useState } from "react";
+import React from 'react'
+import { useState } from 'react';
 
+function CreateTodo() {
+ //here state are defined
+  const [todoList,setTodoList]=useState([])
+  const [todoText,setTodoText]=useState('');
 
-function CreateTodo(){
-    const [todoList, setTodoList] = useState([])
-    const [todotext, setTodoText] = useState('');
-    
+   console.log("rendering createTodo component");
+     console.log(todoList);
 
-    // function handleAdd(){
-    //     setTodoList([...todolist, "new item"])
-    //     console.log(todolist)
-    // }
-    console.log(todoList);
-    console.log("rendering createtodo component!!");
+  function handleClick(){
+      setTodoList([...todoList,todoText]);
+      setTodoText('');
+   }
 
-    function handleClick(){
-        setTodoList([...todoList, todotext]);
-        setTodoText('');
-    }
+   function handleInputText(e){
+      //e.target.value
+      setTodoText(e.target.value);
+   }
 
-    function handleInputText(e){
-        // e.target.value
-        setTodoText(e.target.value);
-    }
-    
-    function handleDelete(t){
-      console.log("delete clicked", t)
-      // 
-      const filteredList = todoList.filter((item)=>{
-        return item != t;
-      });
-      setTodoList(filteredList);
-    }
+   function handleDeleteClick(t){
+    console.log("delete clicked",t)
 
-    return (
+    const filterList=todoList.filter((item)=>{
+      return item !==t;
+    });
+    setTodoList(filterList);
+   }
+
+  return (
         <>
             <input 
-                type="text"
-                placeholder="enter todo"
-                value={todotext}
-                onChange={handleInputText}
+              type="text" 
+              placeholder='enter todo here'
+              value={todoText}
+              onChange={handleInputText}
+              
             />
             <button onClick={handleClick}>click</button>
+
             <div>
-                {
-                    todoList.map((t)=>{
-                        return (
-                            <div>
-                                <input type="checkbox" />
-                                {t}
-                                <button onClick={()=> handleDelete(t)}>delete</button>
-                            </div>
-                        )
-                    })
-                }
+              {
+                todoList.map((t)=>{
+                  return(
+                    <div>
+                      <input type="checkbox" />
+                      {t}
+                      <button onClick={()=>handleDeleteClick(t)}>Delete</button> 
+                    </div>  
+                  )
+                })
+              }  
             </div>
+
         </>
-    )
+   
+  )
 }
 
 export default CreateTodo;
+
+

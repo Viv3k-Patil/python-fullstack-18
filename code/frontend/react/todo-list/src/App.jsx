@@ -1,33 +1,33 @@
-import "./App.css"
-import Todo from "./Todo";
-import data from "./data.json"
-import CreateTodo from "./CreateTodo";
+import React from 'react'
+import Todo from './Todo';
+import data from './data.json';
+import CreateTodo from './CreateTodo';
+///import "./App.css";
 
-function App(){
+ function App() {
 
-
-  const todos = data.map((todo)=>{
-    return (
-      <Todo 
-        text={todo.text}
-        owner={todo.owner}
-        is_completed={todo.is_completed}
-      />
+  const todos=data.map((todo)=>{
+      return(
+        <Todo
+          text={todo.text}
+          owner={todo.owner}
+          is_completed={todo.is_completed}
+        />
     )
   });
+        // console.log(todos);
 
   return (
     // <div>
-    //   <section>
-    //     <p>create new todo</p>
+    //   <section className='todolist-section'>
+    //     <div>
+    //        {todos}
+       
+    //     </div>
+    
     //   </section>
-
-    //   <section className="todolist-section">
-    //     {todos}
-    //   </section>
-
     // </div>
-    <CreateTodo />
+    <CreateTodo/>
   )
 }
 
