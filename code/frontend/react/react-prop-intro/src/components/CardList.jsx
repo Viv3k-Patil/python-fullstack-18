@@ -1,12 +1,11 @@
 import Card from "./Card"
 import data from "../data.json"
+import "./CardList.css"
 
 function CardList(){
-    console.log(data)
-
     return(
-        <div>
-            <Card />
+        <div className="card-list">
+           hi
         </div>
     )
 }

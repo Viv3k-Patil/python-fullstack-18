@@ -59,7 +59,11 @@ CREATE TABLE student_profile (
       enrollment_number VARCHAR(100),
       skills VARCHAR(200),
       is_active BOOLEAN,
-      created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+      created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+      
+      FOREIGN KEY (user_id) REFERENCES users(user_id) 
+      FOREIGN KEY (batch_id) REFERENCES batch(batch_id) 
+
   );
 
 # Create trainer_profile table
@@ -120,7 +124,7 @@ CREATE TABLE notification (
         created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
        
       
-    FOREIGN key (user_id) REFERENCES users(user_id)
+      FOREIGN key (user_id) REFERENCES users(user_id)
 );
 
 # Create booking table 
