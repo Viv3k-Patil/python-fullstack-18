@@ -26,10 +26,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(
     title="MockReady — AI Service",
-    description="Manages students, trainers, campuses and batches.",
-
     description="Provides AI-powered features and intelligent functionality.",
-
     version=settings.app_version,
     docs_url="/docs",
     redoc_url="/redoc",
