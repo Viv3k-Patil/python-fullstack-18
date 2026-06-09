@@ -1,0 +1,62 @@
+.line-loader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px; /* Thin, elegant profile */
+    background-color: rgba(255, 255, 255, 0.1); /* Subtle track */
+    overflow: hidden;
+  }
+
+  .line-loader::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 50%; /* Length of the moving line pulse */
+    background: linear-gradient(90deg, transparent, #05709d, transparent); /* Clean gradient beam */
+    animation: line-slide 1.2s infinite linear;
+  }
+
+  @keyframes line-slide {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(200%);
+    }
+  }
+
+  .marquee-container {
+  width: 100%;
+  overflow: hidden; /* Hides text outside the box */
+  background: #1e293b;
+  color: #f8fafc;
+  padding: 10px 0;
+  font-family: sans-serif;
+  white-space: nowrap; /* Forces text into a single line */
+  position: relative;
+}
+
+.marquee-content {
+  display: inline-block;
+  padding-left: 100%; /* Starts the text completely off-screen to the right */
+  animation: scroll-left 15s linear infinite;
+}
+
+/* Hardware-accelerated smooth scrolling animation */
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Optional Accessibility: Stops animation when user hovers or focuses */
+.marquee-container:hover .marquee-content,
+.marquee-container:focus-within .marquee-content {
+  animation-play-state: paused;
+}
