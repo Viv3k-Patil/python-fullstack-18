@@ -1,0 +1,166 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap');
+
+/* ── Variables ── */
+:root {
+  --bg:        #0a0f1e;
+  --surface:   #111827;
+  --border:    #1e2d45;
+  --accent:    #38bdf8;
+  --accent2:   #818cf8;
+  --text:      #e2e8f0;
+  --muted:     #64748b;
+  --error:     #f87171;
+  --radius:    12px;
+}
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Syne', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+/* ── App wrapper ── */
+.app {
+  width: 100%;
+  max-width: 860px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ── Title ── */
+.title {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.03em;
+}
+
+/* ── Loader ── */
+.loader-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.line-loader {
+  height: 3px;
+  width: 100%;
+  background: var(--border);
+  border-radius: 99px;
+  overflow: hidden;
+  position: relative;
+}
+
+.line-loader::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  animation: sweep 1.4s ease-in-out infinite;
+}
+
+@keyframes sweep {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.loader-text {
+  font-size: 0.8rem;
+  color: var(--muted);
+  font-family: 'Space Mono', monospace;
+  letter-spacing: 0.05em;
+}
+
+/* ── Error ── */
+.error-box {
+  background: rgba(248, 113, 113, 0.1);
+  border: 1px solid var(--error);
+  color: var(--error);
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  font-family: 'Space Mono', monospace;
+}
+
+/* ── Marquee ── */
+.marquee-container {
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.6rem 0;
+  position: relative;
+}
+
+.marquee-container::before,
+.marquee-container::after {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 60px;
+  z-index: 2;
+}
+.marquee-container::before { left: 0;  background: linear-gradient(90deg, var(--surface), transparent); }
+.marquee-container::after  { right: 0; background: linear-gradient(-90deg, var(--surface), transparent); }
+
+.marquee-content {
+  display: inline-block;
+  white-space: nowrap;
+  font-size: 0.85rem;
+  color: var(--accent);
+  font-family: 'Space Mono', monospace;
+  letter-spacing: 0.04em;
+  animation: marquee 18s linear infinite;
+  padding-left: 100%;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-100%); }
+}
+
+/* ── JSON data box ── */
+.data-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  overflow: auto;
+  max-height: 520px;
+  animation: fadeIn 0.4s ease;
+}
+
+.data-box pre {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.78rem;
+  line-height: 1.7;
+  color: var(--text);
+  white-space: pre;
+}
+
+/* subtle JSON syntax colouring via cascade — no JS needed */
+.data-box pre {
+  color: #94a3b8;
+}
+
+/* ── Fade in ── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Scrollbar ── */
+.data-box::-webkit-scrollbar { width: 6px; height: 6px; }
+.data-box::-webkit-scrollbar-track { background: transparent; }
+.data-box::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
