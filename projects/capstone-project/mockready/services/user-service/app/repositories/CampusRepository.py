@@ -67,3 +67,4 @@ class CampusRepository:
         )
         total = len(count_result.scalars().all())
         return campuses, total
+    

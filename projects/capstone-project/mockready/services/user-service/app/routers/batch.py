@@ -11,18 +11,21 @@ This file's only jobs:
 If you find yourself writing if/else logic here
 that isn't about HTTP — move it to the service.
 """
-from uuid import UUID
 from fastapi import APIRouter, HTTPException, Query     
 from app.schemas.batch import BatchCreate, BatchUpdate
-from app.services.batch_service import batch_service
+from app.services.batch_service import BatchService
 from app.core.responses import success, paginated
 from app.core.exceptions import NotFoundException, ConflictException
+from app.core.database import get_db
+from fastapi import Depends
+from sqlalchemy.ext.asyncio import AsyncSession
+
 router = APIRouter(prefix="/batches", tags=["Batches"])
 
 @router.post("", status_code=201)
-async def create_batch(data: BatchCreate):
+async def create_batch(data: BatchCreate ,db: AsyncSession = Depends(get_db)):
     try:
-        batch = batch_service.create(data)
+        batch = await BatchService(db).create(data)
         return success(
             data=batch.model_dump(),
             message="Batch created successfully",
@@ -34,8 +37,9 @@ async def create_batch(data: BatchCreate):
 async def list_batches(
     page: int = Query(1, ge=1, description="Page number"),
     size: int = Query(20, ge=1, le=100, description="Items per page"),
+    db: AsyncSession = Depends(get_db)
 ):
-    batches, total = batch_service.get_all(page=page, size=size)
+    batches, total = await BatchService(db).get_all(page=page, size=size)
     return paginated(
         data=[b.model_dump() for b in batches],
         total=total,
@@ -44,9 +48,9 @@ async def list_batches(
         message="Batches retrieved successfully",
     )
 @router.get("/{batch_id}")
-async def get_batch(batch_id: UUID):
+async def get_batch(batch_id: int,db : AsyncSession = Depends(get_db)):
     try:
-        batch = batch_service.get_by_id(batch_id)
+        batch = await BatchService(db).get_by_id(batch_id)
         return success(
             data=batch.model_dump(),
             message="Batch retrieved successfully",
@@ -55,9 +59,9 @@ async def get_batch(batch_id: UUID):
         raise HTTPException(status_code=404, detail=e.message)
 
 @router.put("/{batch_id}")
-async def update_batch(batch_id: UUID, data: BatchUpdate):
+async def update_batch(batch_id: int, data: BatchUpdate,db : AsyncSession = Depends(get_db)):
     try:
-        batch = batch_service.update(batch_id, data)
+        batch = await BatchService(db).update(batch_id, data)
         return success(
             data=batch.model_dump(),
             message="Batch updated successfully",
@@ -67,11 +71,11 @@ async def update_batch(batch_id: UUID, data: BatchUpdate):
 
 
 @router.delete("/{batch_id}")
-async def delete_batch(batch_id: UUID):
+async def delete_batch(batch_id: int,db : AsyncSession = Depends(get_db)):
     try:
-        batch = batch_service.delete(batch_id)
+        is_deleted = await BatchService(db).delete(batch_id)
         return success(
-            data=batch.model_dump(),
+            data=is_deleted,
             message="Batch deleted successfully",
         )
     except NotFoundException as e:

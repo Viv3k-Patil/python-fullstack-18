@@ -14,41 +14,34 @@ strips the rest in the service layer.
 """
 
 from pydantic import BaseModel, Field
-from uuid import UUID, uuid4
 from datetime import datetime
 
 
-class TrainerCreate(BaseModel):
-    name: str = Field(..., min_length=2, max_length=100)
-    city: str = Field(..., min_length=2, max_length=100)
-    address: str = Field(..., min_length=5, max_length=255)
+class TrainerProfileCreate(BaseModel):
+    user_id: int = Field(..., ge=1)
     experience_years: int = 1
-    skills: list[str] = Field(default_factory=list)
-    specialization: str | None = None
+    skills: str = Field(..., max_length=200)
     rating: float | None = Field(None, ge=1, le=5)
+    total_sessions: int = 0
+    created_at: datetime = Field(default_factory=datetime.utcnow)
 
-
-class TrainerUpdate(BaseModel):
-    name: str | None = Field(None, min_length=2, max_length=100)
-    city: str | None = Field(None, min_length=2, max_length=100)
-    address: str | None = Field(None, min_length=5, max_length=255)
+class TrainerProfileUpdate(BaseModel):
+    user_id: int | None = Field(None, ge=1)
     experience_years: int | None = Field(None, ge=1, le=50)
-    skills: list[str] = Field(default_factory=list)
-    specialization: str | None = None
+    skills: str | None = Field(None, max_length=200)
     rating: float | None = Field(None, ge=1, le=5)
+    total_sessions: int | None = Field(None, ge=0)  
     is_active: bool | None = None
 
 
-class TrainerResponse(BaseModel):
-    id: UUID
-    name: str
-    city: str
-    address: str
+class TrainerProfileResponse(BaseModel):
+    trainer_id: int
+    user_id: int
     experience_years: int = 1
-    skills: list[str]
-    specialization: str | None
+    skills: str
     rating: float | None
     is_active: bool
+    total_sessions: int
     created_at: datetime
 
     model_config = {"from_attributes": True}  # ready for ORM in Phase 2

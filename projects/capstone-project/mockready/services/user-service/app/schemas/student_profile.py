@@ -14,41 +14,31 @@ strips the rest in the service layer.
 """
 
 from pydantic import BaseModel, Field
-from uuid import UUID, uuid4    
 from datetime import datetime
-from typing import Optional
-
 
 class StudentProfileCreate(BaseModel):
-    user_id: UUID = Field(...)
-    batch_id: UUID = Field(...)
-    skills: list[str] = Field(default_factory=list)
+    user_id: int = Field(...)
+    batch_id: int = Field(...)
+    skills: str= Field(..., min_length=5, max_length=255)
     enrollment_number: str = Field(...)
-    name: str = Field(...)
-    city: str = Field(...)
-    address: str = Field(...)
-    interests: list[str] = Field(default_factory=list)
+    created_at: datetime = Field(default_factory=datetime.utcnow)
 
 class StudentProfileUpdate(BaseModel):
-    name: Optional[str] = None
-    city: Optional[str] = None
-    address: Optional[str] = None
-    interests: Optional[list[str]] = None
-    skills: Optional[list[str]] = None
-    is_active: Optional[bool] = None
+    user_id: int | None = Field(None, ge=1)
+    batch_id: int | None = Field(None, ge=1)
+    skills: str | None = Field(None, min_length=5, max_length=255)
+    enrollment_number: str | None = Field(None)
+    is_active: bool | None = None
 
 class StudentProfileResponse(BaseModel):
-    id: UUID
-    user_id: UUID
-    batch_id: UUID
-    enrollment_number: str  
-    name: str
-    city: str
-    address: str
-    interests: list[str]
-    skills: list[str]   
+    student_id: int
+    user_id: int
+    batch_id: int
+    skills: str
+    enrollment_number: str
     is_active: bool
     created_at: datetime
+    
 
     model_config = {"from_attributes": True}
 
