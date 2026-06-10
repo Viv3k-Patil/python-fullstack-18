@@ -38,8 +38,8 @@ class FileResponse(BaseModel):
     stored_path: str
     file_type: str
     size_bytes: int
-    uploaded_at: date |None=None
-    # is_active:bool=True
+    uploaded_at: date | None=None
+    is_active:bool
 
 
     model_config = {

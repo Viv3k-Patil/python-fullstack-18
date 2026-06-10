@@ -38,4 +38,4 @@ class FileMetadata(Base):
     file_type:    Mapped[str]  = mapped_column(String(100), nullable=False)
     size_bytes:   Mapped[int]  = mapped_column(Integer, nullable=False)
     uploaded_at:  Mapped[date] = mapped_column(Date, nullable=True)   
-    # is_active:    Mapped[bool] = mapped_column(Boolean,default=True,nullable=False)  
+    is_active:    Mapped[bool] = mapped_column(Boolean,default=True,nullable=False)  

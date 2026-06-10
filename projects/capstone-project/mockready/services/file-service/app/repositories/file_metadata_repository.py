@@ -33,7 +33,7 @@ class MetaDataRepository:
             file_type=fileupload.content_type,
             size_bytes=len(content),
             uploaded_at=date.today(),
-            # is_active=data.is_active
+            is_active=True
 
         )
 

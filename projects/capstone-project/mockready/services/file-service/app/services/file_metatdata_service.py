@@ -98,7 +98,7 @@ class FileMetadataService:
     
     async def get_by_id(self,id:int)->FileResponse:
         file=await self.async_repo.get_by_id(id)
-        return FileResponse.model_validate(file)
+        return FileResponse.model_validate(file)      
     
     async def get_by_name(self,student_name:str)->list[FileResponse]:
        file= await self.async_repo.get_by_name(student_name)

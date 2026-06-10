@@ -46,7 +46,7 @@ async def create_metadata(
 
 @router.get("/")
 async def list_file(                                                     # ✅ async added
-    page: int = Query(2, ge=1, description="page number"),
+    page: int = Query(1, ge=1, description="page number"),
     size: int = Query(20, ge=1, le=100, description="Items per page"),   # ✅ le= not ls=
     db: AsyncSession = Depends(get_db)                               # ✅ inject db session
 ):
