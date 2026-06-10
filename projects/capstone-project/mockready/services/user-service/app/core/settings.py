@@ -28,6 +28,7 @@ class Settings(BaseSettings):
     port: int = 8001
 
     # ── Database ───────────────────────────────────────────
+
     database_user: str = os.getenv("DATABASE_USER")
     database_password: str = os.getenv("DATABASE_PASSWORD")
     database_url: str = (
@@ -35,6 +36,7 @@ class Settings(BaseSettings):
         "@ep-quiet-voice-aplrv8k0-pooler.c-7.us-east-1.aws.neon.tech/neondb"
         "?ssl=require"
     )
+
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",

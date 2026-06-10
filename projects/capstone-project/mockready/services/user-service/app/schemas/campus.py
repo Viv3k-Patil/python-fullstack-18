@@ -14,7 +14,6 @@ strips the rest in the service layer.
 """
 
 from pydantic import BaseModel, Field
-from uuid import UUID, uuid4
 from datetime import datetime
 
 

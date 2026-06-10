@@ -9,10 +9,14 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.core.settings import get_settings
 <<<<<<< HEAD
+<<<<<<< HEAD
 from app.routes import health
 =======
 from app.routers import health
 >>>>>>> 1f68b2b4fcb50f3e1492c1817592d35670c583e5
+=======
+from app.routers import health,file_metadata
+>>>>>>> origin/main
 
 settings = get_settings()
 
@@ -53,9 +57,13 @@ app.add_middleware(
 
 # ── Routers ──────────────────────────────────────────────
 app.include_router(health.router)
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 =======
+=======
+app.include_router(file_metadata.router)
+>>>>>>> origin/main
 
 >>>>>>> 1f68b2b4fcb50f3e1492c1817592d35670c583e5
 @app.get("/", tags=["Root"])

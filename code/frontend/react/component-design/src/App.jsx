@@ -1,15 +1,15 @@
-import React from 'react'
-import Liked from './liked';
-import TodoContainer from './component/todoContainer';
 
-function App() {
+import TodoContainer from "./components/TodoContainer"
+import LikeButton from "./Like"
+
+
+function App(){
   return (
-    <div>
-      {/* <Liked/> */}
-      <TodoContainer/>
-    </div>
+    <>
+      <TodoContainer />
+    </>
   )
 }
 
-export default App;
+export default App
 

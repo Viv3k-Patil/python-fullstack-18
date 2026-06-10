@@ -10,20 +10,22 @@ CabinUpdate uses all Optional fields — client sends
 only what they want to change. model_dump(exclude_none=True)
 strips the rest in the service layer.
 """
-from pydantic import BaseModel
-from uuid import UUID
-class CreateCabin(BaseModel):
-    campus_id:UUID
-    cabin_number:int
-    is_active:bool
+from pydantic import BaseModel,Field
+class CabinCreate(BaseModel):
+    campus_id:int = Field(...,ge=1,le=50)
+    cabin_number:int = Field(...,ge=1,le=50)
     
-class UpdateCabin(BaseModel):    
+    
+class CabinUpdate(BaseModel):    
     cabin_number:int | None=None
     is_active:bool | None=None
     
 class CabinResponse(BaseModel):
-    id:UUID
-    campus_id:UUID
+    cabin_id:int
+    campus_id:int
     cabin_number:int
     is_active:bool        
+
+
+model_config = {"from_attributes": True} 
 
