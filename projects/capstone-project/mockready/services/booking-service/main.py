@@ -6,9 +6,8 @@ main.py — booking-service entry point
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
 from app.core.settings import get_settings
-from app.routers import health
+from app.routers import health, booking, booking_history
 
 settings = get_settings()
 
@@ -44,6 +43,8 @@ app.add_middleware(
 
 # ── Routers ──────────────────────────────────────────────
 app.include_router(health.router)
+app.include_router(booking.router)
+app.include_router(booking_history.router)
 
 
 @app.get("/", tags=["Root"])
