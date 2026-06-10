@@ -1,0 +1,23 @@
+.button-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.counter-button {
+  padding: 8px 14px;
+  font-size: 18px;
+  border: 1px solid #333;
+  background: #fff;
+  cursor: pointer;
+}
+
+.counter-button:hover {
+  background: #f0f0f0;
+}
+
+.counter-value {
+  font-size: 18px;
+  min-width: 30px;
+  text-align: center;
+}

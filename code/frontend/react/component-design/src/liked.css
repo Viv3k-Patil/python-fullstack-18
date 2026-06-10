@@ -1,0 +1,58 @@
+/* Container styling */
+.card-action-container {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-color: transparent;
+}
+
+/* Base button styling */
+.like-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.1s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Active press state scaling */
+.like-button:active {
+  transform: scale(0.9);
+}
+
+/* Default unliked heart icon */
+.heart-icon {
+  fill: transparent;
+  stroke: #262626; /* Dark gray outline matching Instagram */
+  stroke-width: 2;
+  transition: fill 0.2s ease, stroke 0.2s ease;
+}
+
+/* Liked state modifications */
+.like-button.is-liked .heart-icon {
+  fill: #ed4956; /* Instagram red/pink */
+  stroke: #ed4956;
+}
+
+/* Pop animation keyframes */
+@keyframes heartPop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Pop animation class triggered on state change */
+.like-button.animate-pop {
+  animation: heartPop 0.3s ease-in-out;
+}
