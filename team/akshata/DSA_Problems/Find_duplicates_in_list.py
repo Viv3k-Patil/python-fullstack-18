@@ -64,13 +64,50 @@ duplicate = []
 #print(duplicate)
 
 
-l = [1,1,2,9,5,4]
-m = [2,3,3,5,4,8,9,9]
+# l = [1,1,2,9,5,4]
+# m = [2,3,3,5,4,8,9,9]
 
-result =list(set(l + m))
-print(result)
+# result =list(set(l + m))
+# print(result)
     
     
-l.extend(m)  
-print(list(set(l)))
+# l.extend(m)  
+# print(list(set(l)))
     
+
+# a= [2,5,5,8,6,3,4,67,2]
+# # arr = a[::-1]
+# # print(arr)
+# a.sort()
+# print(len(a))
+# print(a[0])
+
+
+
+a = "samask"
+b=a[::-1]
+print(b)
+if( a == b):
+    {
+        print("it is palidrom")
+    }
+else:
+    print("it is not")
+
+
+ar = [2,3,4,5,3,4,2,2]
+seen = []
+duplicate = []
+
+for num in ar:
+    if num in seen:
+        duplicate.append(num)
+    seen.append(num)
+
+print(duplicate)
+
+arr= [10,20,30,40,70,50,80,90]
+vis=sorted(arr)
+const=(len(arr))/2
+print(const)
+print(vis[3])

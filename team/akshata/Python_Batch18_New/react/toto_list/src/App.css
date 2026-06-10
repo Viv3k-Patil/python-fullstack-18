@@ -1,0 +1,79 @@
+
+/* Global body setup to center and look clean */
+body {
+  background-color: #f1f5f9;
+  margin: 0;
+  padding: 40px 20px;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+/* Container styling for the list section */
+.todolist-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 480px;
+  margin: 20px auto 0 auto;
+}
+
+/* Base style for every mapped to-do container */
+.todo-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s ease;
+}
+
+/* Hover effects for interactive feel */
+.todo-container:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.06);
+}
+
+/* Selects the first paragraph (todo.text) */
+.todo-container p:nth-child(1) {
+  margin: 0;
+  font-size: 15px;
+  color: #1e293b;
+  font-weight: 500;
+  flex: 1;
+}
+
+/* Selects the second paragraph (todo.owner) */
+.todo-container p:nth-child(2) {
+  margin: 0 12px 0 0;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 4px 8px;
+  background-color: #e0f2fe;
+  color: #0369a1;
+  border-radius: 6px;
+}
+
+/* Selects the third paragraph (todo.is_completed state text) */
+.todo-container p:nth-child(3) {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: capitalize;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background-color: #f1f5f9;
+  color: #64748b;
+}
+
+/* Bonus styling for the creation section text */
+section p:only-child {
+  max-width: 480px;
+  margin: 0 auto;
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+}

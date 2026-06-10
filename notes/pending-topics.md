@@ -1,6 +1,8 @@
 
 -- python
 1. multithreading
+2. Regular Expression
+3. Emcoding and Encryption
 
 
 -- fastapi
@@ -14,6 +16,7 @@ Tools :
 1. Postman
 2. radis
 3. Docker
+
 
 
 Project :

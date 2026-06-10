@@ -1,0 +1,39 @@
+
+[
+    {
+      "todo_id": 1,
+      "text": "pick up eggs",
+      "is_completed": true,
+      "owner": "Sameer"
+    },
+    {
+      "todo_id": 2,
+      "text": "Schedule dentist appointment",
+      "is_completed": false,
+      "owner": "Sameer"
+    },
+    {
+      "todo_id": 3,
+      "text": "Renew car insurance",
+      "is_completed": false,
+      "owner": "Sameer"
+    },
+    {
+      "todo_id": 4,
+      "text": "Finish presentation slides",
+      "is_completed": true,
+      "owner": "Sameer"
+    },
+    {
+      "todo_id": 5,
+      "text": "Water the backyard plants",
+      "is_completed": false,
+      "owner": "Sameer"
+    },
+    {
+      "todo_id": 6,
+      "text": "Buy birthday card for Mom",
+      "is_completed": true,
+      "owner": "Sameer"
+    }
+  ]
