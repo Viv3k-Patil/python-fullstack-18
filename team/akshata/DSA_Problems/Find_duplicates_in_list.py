@@ -111,3 +111,6 @@ vis=sorted(arr)
 const=(len(arr))/2
 print(const)
 print(vis[3])
+if vis[3] <= 80:
+    {
+    }
