@@ -23,9 +23,9 @@ class CabinUpdate(BaseModel):
 class CabinResponse(BaseModel):
     cabin_id:int
     campus_id:int
-    cabin_number:int
     is_active:bool        
+    cabin_number:int
 
 
-model_config = {"from_attributes": True} 
+    model_config = {"from_attributes": True} 
 
