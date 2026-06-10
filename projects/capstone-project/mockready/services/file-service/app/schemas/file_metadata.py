@@ -39,7 +39,7 @@ class FileResponse(BaseModel):
     file_type: str
     size_bytes: int
     uploaded_at: date |None=None
-    is_active:bool
+    # is_active:bool=True
 
 
     model_config = {
