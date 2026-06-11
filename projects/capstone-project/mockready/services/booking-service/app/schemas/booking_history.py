@@ -1,39 +1,31 @@
+"""
+schemas/booking_history.py
+"""
+
 from pydantic import BaseModel, Field
-from uuid import UUID,uuid4
-from datetime import datetime
-from enum import Enum
-
-
-class BookingAction(str, Enum):
-    CREATED = "CREATED"
-    ASSIGNED = "ASSIGNED"
-    ACCEPTED = "ACCEPTED"
-    REJECTED = "REJECTED"
-    CANCELLED = "CANCELLED"
-    COMPLETED = "COMPLETED"
-    RESCHEDULED = "RESCHEDULED"
+from datetime import date
 
 
 class BookingHistoryCreate(BaseModel):
-    booking_id: UUID
-    trainer_id: UUID
-    action: BookingAction
-    reason: str | None = None
+    booking_id: int
+    trainer_id: int
+    action_data: str = Field(..., max_length=100)
+    reason: str
+    actioned_at: date
 
 
 class BookingHistoryUpdate(BaseModel):
-    booking_id: UUID | None = None
-    trainer_id: UUID | None = None
-    action: BookingAction | None = None
+    action_data: str | None = Field(None, max_length=100)
     reason: str | None = None
+    actioned_at: date | None = None
 
 
 class BookingHistoryResponse(BaseModel):
-    booking_history_id: UUID
-    booking_id: UUID
-    trainer_id: UUID
-    action: BookingAction
-    reason: str | None
-    actioned_at: datetime
+    booking_history_id: int
+    booking_id: int
+    trainer_id: int
+    action_data: str
+    reason: str
+    actioned_at: date
 
-    model_config = {"from_attributes": True}
+    model_config = {"from_attributes": True} 
