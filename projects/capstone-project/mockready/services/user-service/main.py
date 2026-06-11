@@ -51,7 +51,6 @@ app.include_router(cabin.router, prefix="/api/v1")
 app.include_router(trainer_profile.router, prefix="/api/v1")
 app.include_router(trainer_availability.router, prefix="/api/v1")
 app.include_router(student_profile.router, prefix="/api/v1")
-
 @app.get("/", tags=["Root"])
 async def root():
     return {

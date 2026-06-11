@@ -1,8 +1,13 @@
 import { useState } from "react";
 
+// component
 function App() {
-  const [counter, setCounter] = useState(0);  // state management for counter
+  console.log("component is rendered!");
 
+  // state
+  const [counter, setCounter] = useState(0);
+
+  // helper functions
   function handleAdd(){
     setCounter(counter+1);
   }
@@ -11,6 +16,7 @@ function App() {
     setCounter(counter-1);
   }
 
+  // returning jsx
   return (
     <div>
       <div>{counter}</div>
