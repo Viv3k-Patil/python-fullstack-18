@@ -7,3 +7,4 @@ def decorator(func):
         print("After")
     return wrapper
 
+decorator()
