@@ -9,7 +9,7 @@ changes. The router stays exactly the same.
 That is the entire point of this layer.
 """
 
-from app.schemas.users import UserCreate, UserResponse,UserUpdate
+from app.schemas.user import UserCreate, UserResponse,UserUpdate
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.repositories.UserRepository import UserRepository
 from app.core.exceptions import NotFoundException

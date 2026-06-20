@@ -24,4 +24,4 @@ class Batch(Base):
   start_date:Mapped[date]= mapped_column(Date,nullable=False)
   end_date:Mapped[date]= mapped_column(Date,nullable=False)
   is_active:Mapped[bool] = mapped_column(Boolean,default = True)
-  #created_at:Mapped[date] = mapped_column(Date,nullable=False)
+  created_at:Mapped[date] = mapped_column(Date,nullable=False)

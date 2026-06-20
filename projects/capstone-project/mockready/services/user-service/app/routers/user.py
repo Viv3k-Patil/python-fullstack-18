@@ -13,7 +13,7 @@ that isn't about HTTP — move it to the service.
 """
 
 from fastapi import APIRouter, HTTPException, Query
-from app.schemas.users import UserCreate, UserUpdate
+from app.schemas.user import UserCreate, UserUpdate
 from app.services.user_service import UserService
 from app.core.responses import success, paginated
 from app.core.exceptions import ConflictException, NotFoundException
