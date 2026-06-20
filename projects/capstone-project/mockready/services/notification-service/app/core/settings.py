@@ -22,6 +22,10 @@ class Settings(BaseSettings):
     host: str = "0.0.0.0"
     port: int = 8001
 
+    # ── MongoDB (Atlas) ──────────────────────────────────────
+    mongodb_url: str
+    mongodb_db_name: str = "mockready_notifications"
+
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",
