@@ -28,7 +28,7 @@ class Settings(BaseSettings):
     port: int = 8001
 
     # ── Database ───────────────────────────────────────────
-
+    redis_url: str = os.getenv("REDIS_URL")
     database_user: str = os.getenv("DATABASE_USER")
     database_password: str = os.getenv("DATABASE_PASSWORD")
     database_url: str = (

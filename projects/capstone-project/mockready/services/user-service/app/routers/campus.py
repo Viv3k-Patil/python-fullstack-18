@@ -18,6 +18,8 @@ from app.services.campus_service import CampusService
 from app.core.responses import success, paginated
 from app.core.exceptions import NotFoundException, ConflictException
 from app.core.database import get_db
+from app.core.cache import get_redis
+import redis.asyncio as redis
 from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 router = APIRouter(prefix="/campuses", tags=["Campuses"])
@@ -52,9 +54,13 @@ async def list_campuses(
 
 
 @router.get("/{campus_id}")
-async def get_campus(campus_id: int, db: AsyncSession = Depends(get_db)):
+async def get_campus(
+    campus_id: int,
+    db: AsyncSession = Depends(get_db),
+    redis: redis.Redis = Depends(get_redis)
+):
     try:
-        campus = await CampusService(db).get_by_id(campus_id)
+        campus = await CampusService(db, redis).get_by_id(campus_id)
         return success(
             data=campus.model_dump(),
             message="Campus retrieved successfully",

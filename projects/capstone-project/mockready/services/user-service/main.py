@@ -4,11 +4,14 @@ main.py — user-service entry point
 """
 
 from contextlib import asynccontextmanager
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.settings import get_settings
 from app.routers import health, campus, batch, cabin, trainer_profile
 from app.routers import trainer_availability, student_profile, trainer_campus, user
+from app.core.cache import connect_redis, close_redis, get_redis
+import redis.asyncio as redis
+from app.core.token_blacklist import blacklist_token, is_blacklisted
 settings = get_settings()
 
 
@@ -16,10 +19,11 @@ settings = get_settings()
 async def lifespan(app: FastAPI):
     # ── Startup ──────────────────────────────────────────
     print(f"🚀 Starting {settings.app_name} v{settings.app_version} [{settings.app_env}]")
-
+    await connect_redis()
     yield
 
     # ── Shutdown ─────────────────────────────────────────
+    await close_redis()
     print(f"🛑 Shutting down {settings.app_name}")
 
 
@@ -60,6 +64,34 @@ async def root():
         "health": "/health",
     }
 
+@app.get("/blacklist-test")
+async def test_blacklist(redis: redis.Redis = Depends(get_redis)):
+    jti = "test-token"
+
+    # blacklist for 60 seconds
+    await blacklist_token(redis, jti, 60)
+
+    is_blocked = await is_blacklisted(redis, jti)
+
+    return {
+        "blacklisted": is_blocked
+    }
+
+@app.get("/cache-test")
+async def cache_test(redis: redis.Redis = Depends(get_redis)):
+    from app.core.cache_helpers import get_cached, set_cached
+
+    key = "cache:test"
+
+    cached = await get_cached(redis, key)
+    if cached:
+        return {"source": "cache", "data": cached}
+
+    data = {"name": "vivek"}
+
+    await set_cached(redis, key, data, 30)
+
+    return {"source": "db", "data": data}
 
 if __name__ == "__main__":
     import uvicorn

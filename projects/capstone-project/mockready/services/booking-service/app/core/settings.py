@@ -27,6 +27,9 @@ class Settings(BaseSettings):
     host: str = "0.0.0.0"
     port: int = 8001
 
+    # ── redis ───────────────────────────────────────────
+    redis_url: str = os.getenv("REDIS_URL")
+
     # ── Database ───────────────────────────────────────────
 
     database_user: str = os.getenv("DATABASE_USER")

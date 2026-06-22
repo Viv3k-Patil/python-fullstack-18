@@ -4,10 +4,14 @@ main.py — booking-service entry point
 """
 
 from contextlib import asynccontextmanager
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.settings import get_settings
 from app.routers import health, booking, booking_history
+from app.core.cache import connect_redis, close_redis, get_redis
+import redis.asyncio as redis
+from app.core.locks import booking_lock
+import asyncio
 
 settings = get_settings()
 
@@ -16,10 +20,11 @@ settings = get_settings()
 async def lifespan(app: FastAPI):
     # ── Startup ──────────────────────────────────────────
     print(f"🚀 Starting {settings.app_name} v{settings.app_version} [{settings.app_env}]")
-
+    await connect_redis()
     yield
 
     # ── Shutdown ─────────────────────────────────────────
+    await close_redis()
     print(f"🛑 Shutting down {settings.app_name}")
 
 
@@ -46,6 +51,17 @@ app.include_router(health.router)
 app.include_router(booking.router, prefix="/api/v1")
 app.include_router(booking_history.router, prefix="/api/v1")
 
+@app.get("/lock-test")
+async def lock_test(redis: redis.Redis = Depends(get_redis)):
+
+    async with booking_lock(redis, "test-resource"):
+        print("🔒 LOCK ACQUIRED")
+
+        await asyncio.sleep(5)   # simulate long operation
+
+        print("✅ WORK DONE")
+
+    return {"status": "done"}
 
 @app.get("/", tags=["Root"])
 async def root():

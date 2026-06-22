@@ -79,19 +79,45 @@
 from app.schemas.campus import CampusResponse, CampusCreate
 from app.repositories.CampusRepository import CampusRepository
 from sqlalchemy.ext.asyncio import AsyncSession
+from app.core.cache_helpers import get_cached, set_cached, invalidate
 
 class CampusService:
 
-    def __init__(self, db: AsyncSession):
-        self.campus_repo = CampusRepository(db)
+    def __init__(self, db, redis):
+        self.repo = CampusRepository(db)
+        self.redis = redis
     
     async def create(self, data: CampusCreate) -> CampusResponse:
         campus = await self.campus_repo.create(data)
         return CampusResponse.model_validate(campus)
     
-    async def get_by_id(self, campus_id: int)-> CampusResponse:
-        campus = await self.campus_repo.get_by_id(campus_id)
-        return CampusResponse.model_validate(campus)
+    async def get_by_id(self, campus_id: int):
+        cache_key = f"cache:campus:{campus_id}"
+
+        # ✅ 1. Check cache
+        cached = await get_cached(self.redis, cache_key)
+        if cached:
+            print("✅ CACHE HIT")
+            return CampusResponse(**cached)
+
+        # ❌ 2. Cache miss → DB
+        print("❌ DB HIT")
+        campus = await self.repo.get_by_id(campus_id)
+
+        if not campus:
+            raise Exception("Campus not found")
+
+        response = CampusResponse.model_validate(campus)
+
+        # ✅ 3. Store in cache
+        await set_cached(
+            self.redis,
+            cache_key,
+            response.model_dump(),
+            ttl_seconds=300   # 5 min
+        )
+
+        return response
     
     async def get_all(self, page: int, size: int) -> tuple[list[CampusResponse], int]:
         campuses, total = await self.campus_repo.get_all(page, size)
@@ -100,5 +126,17 @@ class CampusService:
     
     async def delete(self, campus_id: int):
         return await self.campus_repo.soft_delete(campus_id)
+    
+    async def update(self, campus_id: int, data):
+        campus = await self.repo.get_by_id(campus_id)
+        if not campus:
+            raise Exception("Campus not found")
+
+        campus = await self.repo.update(campus, data)
+
+        # 🔥 Invalidate cache
+        await invalidate(self.redis, f"cache:campus:{campus_id}")
+
+        return CampusResponse.model_validate(campus)
     
      

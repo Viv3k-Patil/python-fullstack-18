@@ -20,20 +20,20 @@ from app.core.responses import success, paginated
 from app.core.exceptions import NotFoundException, ConflictException
 from app.core.database import get_db
 from fastapi import Depends
+from app.core.cache import get_redis
+import redis.asyncio as redis
 from sqlalchemy.ext.asyncio import AsyncSession
 router = APIRouter(prefix="/bookings", tags=["Bookings"])
 
 
 @router.post("", status_code=201)
-async def create_booking(data: BookingCreate, db: AsyncSession = Depends(get_db)):
-    try:
-        booking = await BookingService(db).create(data)
-        return success(
-            data=booking,
-            message="Booking created successfully",
-        )
-    except ConflictException as e:
-        raise HTTPException(status_code=409, detail=e.message)
+async def create_booking(
+    data: BookingCreate,
+    db: AsyncSession = Depends(get_db),
+    redis: redis.Redis = Depends(get_redis),
+):
+    service = BookingService(db, redis)
+    return await service.create_booking(data)
 
 
 @router.get("")
