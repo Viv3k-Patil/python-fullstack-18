@@ -68,25 +68,3 @@ class BookingRepository:
         total = len(count_result.scalars().all())
 
         return bookings , total
-
-
-    async def get_all_available_cabins(self,start_time:datetime, end_time:datetime, ) ->list[Cabin]:
-        result = await self.db.execute(
-            select(Booking).where(
-                Booking.is_active == True,
-                Booking.start_time >= start_time,
-                Booking.end_time <= end_time
-            ).offset((page-1)*size).limit(size)
-        )
-        bookings = result.scalars().all()
-
-        count_result = await self.db.execute(
-            select(Booking).where(
-                Booking.is_active == True,
-                Booking.start_time >= start_time,
-                Booking.end_time <= end_time
-            )
-        )
-        total = len(count_result.scalars().all())
-
-        return bookings , total

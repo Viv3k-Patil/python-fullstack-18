@@ -7,10 +7,10 @@ main.py — notification-service entry point
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
+from app.core.mongo import connect_mongo, close_mongo, get_database
 from app.core.settings import get_settings
-from app.routers import health
-
+from app.routers import health, notification
+from app.repositories.notification_repository import NotificationRepository
 settings = get_settings()
 
 
@@ -18,10 +18,11 @@ settings = get_settings()
 async def lifespan(app: FastAPI):
     # ── Startup ──────────────────────────────────────────
     print(f"🚀 Starting {settings.app_name} v{settings.app_version} [{settings.app_env}]")
-
+    await connect_mongo()  
+    await NotificationRepository(get_database()).ensure_indexes()
     yield
-
     # ── Shutdown ─────────────────────────────────────────
+    await close_mongo() 
     print(f"🛑 Shutting down {settings.app_name}")
 
 
@@ -45,6 +46,7 @@ app.add_middleware(
 
 # ── Routers ──────────────────────────────────────────────
 app.include_router(health.router)
+app.include_router(notification.router, prefix="/api/v1")
 
 @app.get("/", tags=["Root"])
 async def root():

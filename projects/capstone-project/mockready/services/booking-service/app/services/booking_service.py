@@ -1,15 +1,31 @@
 from app.schemas.booking import BookingCreate, BookingResponse, BookingUpdate
 from app.repositories.BookingRepository import BookingRepository
 from sqlalchemy.ext.asyncio import AsyncSession
+from app.core.locks import booking_lock
 
 class BookingService:
 
-    def __init__(self, db: AsyncSession):
-        self.booking_repo = BookingRepository(db)
-    
-    async def create(self, data: BookingCreate) -> BookingResponse:
-        booking = await self.booking_repo.create(data)
-        return BookingResponse.model_validate(booking)
+    def __init__(self, db, redis):
+        self.repo = BookingRepository(db)
+        self.redis = redis
+
+    async def create_booking(self, data):
+
+        # unique resource (VERY IMPORTANT)
+        resource_id = f"{data.cabin_id}:{data.date}:{data.start_time}"
+
+        async with booking_lock(self.redis, resource_id):
+
+            # # 🔥 CRITICAL SECTION
+            # cabin = await self.check_cabin_available(data)
+
+            # if not cabin:
+            #     raise Exception("Cabin not available")
+
+            booking = await self.repo.create(data)
+
+            return booking
+
     
     async def get_by_id(self, booking_id: int)-> BookingResponse:
         booking = await self.booking_repo.get_by_id(booking_id)
