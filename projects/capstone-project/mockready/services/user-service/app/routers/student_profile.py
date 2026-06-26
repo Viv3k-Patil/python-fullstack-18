@@ -12,7 +12,7 @@ This file's only jobs:
 If you find yourself writing if/else logic here
 that isn't about HTTP — move it to the service.
 """
-from sys import is_remote_debug_enabled
+#from sys import is_remote_debug_enabled
 
 from fastapi import APIRouter, HTTPException, Query
 from app.schemas.student_profile import StudentProfileCreate, StudentProfileUpdate
